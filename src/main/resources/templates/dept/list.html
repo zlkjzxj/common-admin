@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>用户列表--layui后台管理模板 2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="/static/css/public.css" media="all"/>
+</head>
+<body class="childrenBody">
+<form class="layui-form">
+    <blockquote class="layui-elem-quote quoteBox">
+        <form class="layui-form">
+            <shiro:hasPermission name="dept:add">
+                <div class="layui-inline">
+                    <a class="layui-btn layui-btn-normal add_btn">添加部门</a>
+                </div>
+            </shiro:hasPermission>
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn" id="del" lay-event="del">删除选中部门</a>
+            </div>
+        </form>
+    </blockquote>
+    <table id="depList" lay-filter="depList"></table>
+
+
+</body>
+<!--添加div-->
+<!--<div class="layui-col-md10" style="display: none;" id="editDiv">-->
+
+<!--&lt;!&ndash;编辑div&ndash;&gt;
+<div class="layui-col-md10" style="display: none;" id="editDiv">
+    <form class="layui-form" id="editForm">
+        <div class="layui-form-item">
+            <div class="magb15 layui-col-md11 ">
+                <label class="layui-form-label">部门名称</label>
+                <div class="layui-input-block">
+                    <input type="text" id="bmmc" name="bmmc" class="layui-input userName"
+                           lay-verify="required"
+                           placeholder="请输入部门名称">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="magb15 layui-col-md11 ">
+                <label class="layui-form-label">上级部门</label>
+                <div class="layui-input-block">
+                    <select name="sjbm">
+                        <option value="0">总经理</option>
+                        <option value="1">副总经理</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="magb15 layui-col-md11 ">
+                <label class="layui-form-label">主管</label>
+                <div class="layui-input-block">
+                    <select name="manager">
+                        <option value="0">张三</option>
+                        <option value="1">李四</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="magb15 layui-col-md11 ">
+                <label class="layui-form-label">隐藏本部门</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="isEnabled" lay-skin="switch" lay-text="开启|关闭">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>-->
+
+<script type="text/javascript" src="/static/layui/layui.js"></script>
+<script type="text/javascript" src="/static/js/dept/list.js"></script>
+</html>

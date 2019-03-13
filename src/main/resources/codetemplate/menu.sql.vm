@@ -1,0 +1,104 @@
+-- 初始化SQL
+set @id := (select MAX(id) from sys_permission)+1;
+set @parentId := 请填写菜单父ID; -- 此处手动填写
+set @parentIds := CONCAT((select parent_ids from sys_permission where id = @parentId),'/',@parentId);
+
+-- 菜单SQL
+INSERT INTO sys_permission (
+	id,
+	available,
+	permission_name,
+	parent_id,
+	parent_ids,
+	permission_code,
+	resource_type,
+	url,
+	update_time,
+	create_time
+)
+VALUES
+	(
+		@id,
+		'1',
+		'${comments}',
+		@parentId,
+		@parentIds,
+		'${classname}:view',
+		'menu',
+		'/${classname}/list',
+		NOW(),
+		NOW()
+	);
+
+-- 菜单对应按钮SQL
+INSERT INTO sys_permission (
+	available,
+	permission_name,
+	parent_id,
+	parent_ids,
+	permission_code,
+	resource_type,
+	url,
+	update_time,
+	create_time
+)
+VALUES
+	(
+		'1',
+		'添加',
+		@id,
+		CONCAT(@parentIds,'/',@id),
+		'${classname}:add',
+		'button',
+		'',
+		NOW(),
+		NOW()
+	);
+
+INSERT INTO sys_permission (
+	available,
+	permission_name,
+	parent_id,
+	parent_ids,
+	permission_code,
+	resource_type,
+	url,
+	update_time,
+	create_time
+)
+VALUES
+	(
+		'1',
+		'编辑',
+		@id,
+		CONCAT(@parentIds,'/',@id),
+		'${classname}:edit',
+		'button',
+		'',
+		NOW(),
+		NOW()
+	);
+
+INSERT INTO sys_permission (
+	available,
+	permission_name,
+	parent_id,
+	parent_ids,
+	permission_code,
+	resource_type,
+	url,
+	update_time,
+	create_time
+)
+VALUES
+	(
+		'1',
+		'删除',
+		@id,
+		CONCAT(@parentIds,'/',@id),
+		'${classname}:del',
+		'button',
+		'',
+		NOW(),
+		NOW()
+	);

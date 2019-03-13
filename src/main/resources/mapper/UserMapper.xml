@@ -1,0 +1,58 @@
+<?Mapper version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xieke.admin.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xieke.admin.entity.User">
+        <id column="id" property="id" />
+        <result column="role_id" property="roleId" />
+        <result column="name" property="name" />
+        <result column="user_name" property="userName" />
+        <result column="pass_word" property="passWord" />
+        <result column="salt" property="salt" />
+        <result column="state" property="state" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+    
+    <resultMap id="userInfoResultMap" type="com.xieke.admin.dto.UserInfo" extends="BaseResultMap">
+        <!-- 用户基本信息继承而来 -->
+        <!-- 角色信息 一个用户对应一个角色 -->
+        <association property="roleInfo" javaType="com.xieke.admin.dto.RoleInfo">
+            <id column="rid" property="id" />
+            <result column="permission_ids" property="permissionIds" />
+            <result column="available" property="available" />
+            <result column="role_name" property="roleName" />
+            <result column="role_code" property="roleCode" />
+            <result column="update_time" property="updateTime" />
+            <result column="create_time" property="createTime" />
+            <!-- 权限信息 一个角色对应多个权限 -->
+            <collection property="permissions" ofType="com.xieke.admin.entity.Permission">
+                <id column="pid" property="id" />
+                <result column="available" property="available" />
+                <result column="permission_name" property="permissionName" />
+                <result column="parent_id" property="parentId" />
+                <result column="parent_ids" property="parentIds" />
+                <result column="permission_code" property="permissionCode" />
+                <result column="resource_type" property="resourceType" />
+                <result column="url" property="url" />
+                <result column="update_time" property="updateTime" />
+                <result column="create_time" property="createTime" />
+            </collection>
+        </association>
+    </resultMap>
+
+    <select id="findUserInfo" resultMap="userInfoResultMap" parameterType="java.lang.String">
+		SELECT
+            u.*, r.id as rid, r.*, p.id as pid, p.*
+        FROM
+            sys_user u
+        LEFT JOIN sys_role r ON (u.role_id = r.id AND r.available=1)
+        LEFT JOIN sys_permission p ON (locate(
+            concat(',',p.id,','),
+            r.permission_ids
+        ) > 0 AND p.available=1)
+        WHERE u.user_name = #{userName}
+	</select>
+
+</mapper>

@@ -1,0 +1,39 @@
+2019-03-13 10:15:27,780 - Log4JLogChute initialized using file 'velocity.log'
+2019-03-13 10:15:27,781 - Initializing Velocity, Calling init()...
+2019-03-13 10:15:27,781 - Starting Apache Velocity v1.7 (compiled: 2010-11-19 12:14:37)
+2019-03-13 10:15:27,781 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2019-03-13 10:15:27,781 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2019-03-13 10:15:27,781 - Target log system for org.apache.velocity.runtime.log.AvalonLogChute is not available (java.lang.NoClassDefFoundError: org/apache/log/Priority).  Falling back to next log system...
+2019-03-13 10:15:27,781 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2019-03-13 10:15:27,781 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2019-03-13 10:15:27,785 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2019-03-13 10:15:27,792 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl) with class java.util.Collections$SynchronizedMap cache map.
+2019-03-13 10:15:27,795 - Loaded System Directive: org.apache.velocity.runtime.directive.Stop
+2019-03-13 10:15:27,796 - Loaded System Directive: org.apache.velocity.runtime.directive.Define
+2019-03-13 10:15:27,796 - Loaded System Directive: org.apache.velocity.runtime.directive.Break
+2019-03-13 10:15:27,797 - Loaded System Directive: org.apache.velocity.runtime.directive.Evaluate
+2019-03-13 10:15:27,798 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2019-03-13 10:15:27,798 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2019-03-13 10:15:27,800 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2019-03-13 10:15:27,801 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2019-03-13 10:15:27,801 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2019-03-13 10:15:27,828 - Created '20' parsers.
+2019-03-13 10:15:27,830 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2019-03-13 10:15:27,831 - Could not load resource 'VM_global_library.vm' from ResourceLoader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader: ClasspathResourceLoader Error: cannot find resource VM_global_library.vm
+2019-03-13 10:15:27,831 - Velocimacro : Default library not found.
+2019-03-13 10:15:27,831 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2019-03-13 10:15:27,831 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2019-03-13 10:15:27,831 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2019-03-13 10:15:27,831 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2019-03-13 10:15:27,858 - ResourceManager : found codetemplate/Entity.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2019-03-13 10:15:27,894 - ResourceManager : found codetemplate/Mapper.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2019-03-13 10:15:27,896 - ResourceManager : found codetemplate/Mapper.xml.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2019-03-13 10:15:27,897 - ResourceManager : found codetemplate/Service.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2019-03-13 10:15:27,898 - ResourceManager : found codetemplate/ServiceImpl.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2019-03-13 10:15:27,900 - Null reference [template 'codetemplate/ServiceImpl.java.vm', line 1, column 20] : ${moduleName} cannot be resolved.
+2019-03-13 10:15:27,902 - ResourceManager : found codetemplate/Controller.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2019-03-13 10:15:27,904 - ResourceManager : found codetemplate/list.html.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2019-03-13 10:15:27,908 - ResourceManager : found codetemplate/list.js.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2019-03-13 10:15:27,923 - ResourceManager : found codetemplate/info.html.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2019-03-13 10:15:27,924 - ResourceManager : found codetemplate/info.js.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2019-03-13 10:15:27,925 - ResourceManager : found codetemplate/menu.sql.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader

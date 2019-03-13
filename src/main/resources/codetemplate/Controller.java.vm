@@ -1,0 +1,67 @@
+package ${package}.web;
+
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.xieke.admin.dto.ResultInfo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import java.util.*;
+import javax.annotation.Resource;
+import org.springframework.stereotype.Controller;
+
+import ${package}.entity.${className}Entity;
+import ${package}.service.I${className}Service;
+
+/**
+ * ${comments} 前端控制器
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Controller
+@RequestMapping("/${classname}")
+public class ${className}Controller {
+    @Resource
+    private I${className}Service i${className}Service;
+
+    @RequestMapping("/*")
+    public void toHtml(){
+
+    }
+
+    @RequestMapping("/listData")
+    @RequiresPermissions("${classname}:view")
+    public @ResponseBody
+    ResultInfo<List<${className}>> listData(${className} ${classname}, Integer page, Integer limit){
+        EntityWrapper<${className}> wrapper = new EntityWrapper<>(${classname});
+        Page<${className}> pageObj = i${className}Service.selectPage(new Page<>(page,limit), wrapper);
+        return new ResultInfo<>(pageObj.getRecords(), pageObj.getTotal());
+    }
+
+    @RequestMapping("/add")
+    @RequiresPermissions("${classname}:add")
+    public @ResponseBody
+    ResultInfo<Boolean> add(${className} ${classname}){
+        boolean b = i${className}Service.insert(${classname});
+        return new ResultInfo<>(b);
+    }
+
+    @RequestMapping("/delBatch")
+    @RequiresPermissions("${classname}:del")
+    public @ResponseBody
+    ResultInfo<Boolean> delBatch(Integer[] idArr){
+        boolean b = i${className}Service.deleteBatchIds(Arrays.asList(idArr));
+        return new ResultInfo<>(b);
+    }
+
+    @RequestMapping("/edit")
+    @RequiresPermissions("${classname}:edit")
+    public @ResponseBody
+    ResultInfo<Boolean> edit(${className} ${classname}){
+        boolean b = i${className}Service.updateById(${classname});
+        return new ResultInfo<>(b);
+    }
+
+}

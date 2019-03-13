@@ -1,0 +1,90 @@
+<?Mapper version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xieke.admin.mapper.PermissionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xieke.admin.entity.Permission">
+        <id column="id" property="id" />
+        <result column="available" property="available" />
+        <result column="permission_name" property="permissionName" />
+        <result column="parent_id" property="parentId" />
+        <result column="parent_ids" property="parentIds" />
+        <result column="permission_code" property="permissionCode" />
+        <result column="resource_type" property="resourceType" />
+        <result column="url" property="url" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <resultMap id="permissionInfoResultMap" type="com.xieke.admin.dto.PermissionInfo">
+        <id column="t_id" property="value" />
+        <result column="t_permission_name" property="title" />
+        <result column="t_disabled" property="disabled" />
+        <collection property="data" ofType="com.xieke.admin.dto.PermissionInfo">
+            <id column="d_id" property="value" />
+            <result column="d_permission_name" property="title" />
+            <result column="d_disabled" property="disabled" />
+            <collection property="data" ofType="com.xieke.admin.dto.PermissionInfo">
+                <id column="m_id" property="value" />
+                <result column="m_permission_name" property="title" />
+                <result column="m_disabled" property="disabled" />
+                <collection property="data" ofType="com.xieke.admin.dto.PermissionInfo">
+                    <id column="b_id" property="value" />
+                    <result column="b_permission_name" property="title" />
+                    <result column="b_disabled" property="disabled" />
+                </collection>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="allPermissionInfo" resultMap="permissionInfoResultMap">
+        SELECT
+            t.id as t_id, t.permission_name as t_permission_name, ABS(t.available-1) as t_disabled,
+            d.id as d_id, d.permission_name as d_permission_name, ABS(d.available-1) as d_disabled,
+            m.id AS m_id, m.permission_name as m_permission_name, ABS(m.available-1) as m_disabled,
+            b.id AS b_id, b.permission_name as b_permission_name, ABS(b.available-1) as b_disabled
+        FROM
+            (
+                SELECT
+                    *
+                FROM
+                    sys_permission
+                WHERE
+                    resource_type = 'top_directory'
+            ) t
+        LEFT JOIN (
+            SELECT
+                *
+            FROM
+                sys_permission
+            WHERE
+                resource_type in('directory','menu')
+                and substring_index(parent_ids, '/', 2)=parent_ids
+        ) d ON t.id = d.parent_id
+        LEFT JOIN (
+            SELECT
+                *
+            FROM
+                sys_permission
+            WHERE
+                resource_type = 'menu'
+                and substring_index(parent_ids, '/', 2)&lt;&gt;parent_ids
+            UNION ALL
+            SELECT
+                *
+            FROM
+                sys_permission
+            WHERE
+                resource_type = 'button'
+        ) m ON d.id = m.parent_id
+        LEFT JOIN (
+            SELECT
+                *
+            FROM
+                sys_permission
+            WHERE
+                resource_type = 'button'
+        ) b ON m.id = b.parent_id
+    </select>
+
+</mapper>
