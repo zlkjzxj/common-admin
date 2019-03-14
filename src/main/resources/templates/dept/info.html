@@ -14,6 +14,9 @@
 </head>
 <body class="childrenBody">
 <form class="layui-form linksAdd">
+    <input type="hidden" value="" id="id" name="id">
+    <input type="hidden" value="" id="pid" name="pid">
+    <input type="hidden" value="" id="managerId">
     <div class="layui-form-item">
         <label class="layui-form-label">部门名称</label>
         <div class="layui-input-block">
@@ -25,23 +28,18 @@
     <div class="layui-form-item">
         <label class="layui-form-label">上级部门</label>
         <div class="layui-input-block">
-            <select name="sjbm" id="sjbm">
-                <option value="0">总经理</option>
-                <option value="1">副总经理</option>
-            </select>
+            <input type="text" id="pTree" lay-filter="pTree" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">部门主管</label>
         <div class="layui-input-block">
             <select name="manager" id="manager">
-                <option value="0">张三</option>
-                <option value="1">李思思</option>
             </select>
         </div>
     </div>
     <div class="layui-form-item">
-        <button class="layui-btn" lay-filter="addDept" lay-submit>保存</button>
+        <button class="layui-btn layui-block" lay-filter="addDept" lay-submit style="margin-top: 50px;">保存</button>
     </div>
 </form>
 <script type="text/javascript" src="/static/layui/layui.js"></script>

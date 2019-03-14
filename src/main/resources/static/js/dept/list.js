@@ -19,14 +19,15 @@ layui.config({
         elem: '#depList',
         url: '/dept/listData',
         page: false,
+        id: "deptListTable",
         cols: [[
             {type: 'checkbox', fixed: 'left'},
-            {field: 'bmmc', width: 200, title: '部门名称'},
+            {field: 'bmmc', width: 300, title: '部门名称'},
             {field: 'isshow', width: 100, title: '是否显示'},
             // {field: 'bmjb', width: 150, title: '主管'},
             {
                 title: '操作', width: 200, align: "center", templet: function () {
-                    return '<span class="layui-badge layui-bg-blue" lay-event="edit">编辑</span>';
+                    return '<span class="layui-badge layui-bg-blue edit_btn" lay-event="edit">编辑</span>';
                 }
             }
         ]],
@@ -38,10 +39,10 @@ layui.config({
 
     //添加部门
     function addDept(edit) {
-        var h = "300px";
+        var h = "330px";
         var title = "添加部门";
         if (edit) {
-            h = "280px";
+            h = "330px";
             title = "编辑用户";
         }
         layui.layer.open({
@@ -52,12 +53,12 @@ layui.config({
             success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
                 if (edit) {
-                    body.find("#une").remove();
-                    body.find("#pwd1").remove();
+                    // body.find("#une").remove();
+                    // body.find("#pwd1").remove();
                     body.find("#id").val(edit.id);
-                    body.find("#name").val(edit.name);
-                    body.find("#roleId").val(edit.roleId);
-                    body.find("#stateSelect").val(edit.state);
+                    body.find("#bmmc").val(edit.bmmc);
+                    body.find("#pid").val(edit.pid);
+                    // body.find("#isshow").val(edit.state);
                     form.render();
                 }
                 setTimeout(function () {
@@ -69,23 +70,24 @@ layui.config({
         })
     }
 
+
     $(".add_btn").click(function () {
         addDept();
     });
 
-    $(".edit_btn").click(function () {
-        var checkStatus = table.checkStatus('userListTable'),
-            data = checkStatus.data;
-        if (data.length > 0) {
-            addUser(data[0]);
-        } else {
-            layer.msg("请选择需要修改的用户");
-        }
-    });
+    // $(".edit_btn").click(function () {
+    //     var checkStatus = table.checkStatus('deptListTable'),
+    //         data = checkStatus.data;
+    //     if (data.length > 0) {
+    //         addDept(data[0]);
+    //     } else {
+    //         layer.msg("请选择需要修改的部门");
+    //     }
+    // });
 
     //批量删除
     $(".delAll_btn").click(function () {
-        var checkStatus = table.checkStatus('userListTable'),
+        var checkStatus = table.checkStatus('deptListTable'),
             data = checkStatus.data,
             idArr = [];
         if (data.length > 0) {
@@ -123,7 +125,7 @@ layui.config({
             data = obj.data;
         console.log("data", data);
         if (layEvent === 'edit') { //编辑
-
+            addDept(data);
         }
     });
 });

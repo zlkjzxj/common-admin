@@ -32,22 +32,22 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/user")
-public class UserController extends BaseController{
+public class UserController extends BaseController {
 
     @Resource
     private IUserService iUserService;
 
     @RequestMapping("/*")
-    public void toHtml(){
+    public void toHtml() {
 
     }
 
     @RequestMapping("/unlock")
     @ResponseBody
-    public ResultInfo<Boolean> unlock(@RequestParam("password") String password){
+    public ResultInfo<Boolean> unlock(@RequestParam("password") String password) {
         UserInfo userInfo = this.getUserInfo();
         SimpleHash simpleHash = new SimpleHash("md5", password, userInfo.getCredentialsSalt(), 2);
-        if (simpleHash.toString().equals(userInfo.getPassWord())){
+        if (simpleHash.toString().equals(userInfo.getPassWord())) {
             return new ResultInfo<>(true);
         }
         return new ResultInfo<>(false);
@@ -56,25 +56,42 @@ public class UserController extends BaseController{
     @RequestMapping("/listData")
     @RequiresPermissions("user:view")
     public @ResponseBody
-    ResultInfo<List<User>> listData(User user, Integer page, Integer limit){
+    ResultInfo<List<User>> listData(User user, Integer page, Integer limit) {
         EntityWrapper<User> wrapper = new EntityWrapper<>(user);
-        if(user!=null&&user.getUserName()!=null){
+        if (user != null && user.getUserName() != null) {
             wrapper.like("user_name", user.getUserName());
             user.setUserName(null);
         }
-        if(user!=null&&user.getName()!=null){
-            wrapper.like("name",user.getName());
+        if (user != null && user.getName() != null) {
+            wrapper.like("name", user.getName());
             user.setName(null);
         }
-        Page<User> pageObj = iUserService.selectPage(new Page<>(page,limit), wrapper);
+        if (user != null && user.getGlbm() != null) {
+            wrapper.and("glbm", user.getGlbm());
+            user.setId(null);
+        }
+        Page<User> pageObj = iUserService.selectPage(new Page<>(page, limit), wrapper);
         return new ResultInfo<>(pageObj.getRecords(), pageObj.getTotal());
+    }
+
+    @RequestMapping("/listDataSelect")
+    @RequiresPermissions("user:view")
+    public @ResponseBody
+    ResultInfo<List<User>> listDataSelect(User user) {
+        EntityWrapper<User> wrapper = new EntityWrapper<>(user);
+        if (user != null && user.getGlbm() != null) {
+            wrapper.and("glbm", user.getGlbm());
+            user.setGlbm(null);
+        }
+        List<User> userList = iUserService.selectList(wrapper);
+        return new ResultInfo<>(userList);
     }
 
     @SysLog("添加用户操作")
     @RequestMapping("/add")
     @RequiresPermissions("user:add")
     public @ResponseBody
-    ResultInfo<Boolean> add(User user){
+    ResultInfo<Boolean> add(User user) {
         Map<String, String> map = PasswordEncoder.enCodePassWord(user.getUserName(), user.getPassWord());
         user.setSalt(map.get(PasswordEncoder.SALT));
         user.setPassWord(map.get(PasswordEncoder.PASSWORD));
@@ -86,7 +103,7 @@ public class UserController extends BaseController{
     @RequestMapping("/delBatch")
     @RequiresPermissions("user:del")
     public @ResponseBody
-    ResultInfo<Boolean> delBatch(Integer[] idArr){
+    ResultInfo<Boolean> delBatch(Integer[] idArr) {
         boolean b = iUserService.deleteBatchIds(Arrays.asList(idArr));
         return new ResultInfo<>(b);
     }
@@ -95,7 +112,7 @@ public class UserController extends BaseController{
     @RequestMapping("/edit")
     @RequiresPermissions("user:edit")
     public @ResponseBody
-    ResultInfo<Boolean> edit(User user){
+    ResultInfo<Boolean> edit(User user) {
         User us = iUserService.selectById(user.getId());
         us.setName(user.getName());
         us.setRoleId(user.getRoleId());
@@ -107,14 +124,14 @@ public class UserController extends BaseController{
     @SysLog("本人修改用户操作")
     @RequestMapping("/userEdit")
     public @ResponseBody
-    ResultInfo<Boolean> userEdit(User user){
+    ResultInfo<Boolean> userEdit(User user) {
         UserInfo userInfo = this.getUserInfo();
         User us = iUserService.selectById(userInfo.getId());
-        if(!StringUtils.isEmpty(user.getName())){
+        if (!StringUtils.isEmpty(user.getName())) {
             us.setName(user.getName());
         }
-        if(!StringUtils.isEmpty(user.getPassWord())){
-            Map<String, String> map = PasswordEncoder.enCodePassWord(us.getUserName(),user.getPassWord());
+        if (!StringUtils.isEmpty(user.getPassWord())) {
+            Map<String, String> map = PasswordEncoder.enCodePassWord(us.getUserName(), user.getPassWord());
             us.setSalt(map.get(PasswordEncoder.SALT));
             us.setPassWord(map.get(PasswordEncoder.PASSWORD));
         }
@@ -124,15 +141,15 @@ public class UserController extends BaseController{
 
     @RequestMapping("/centerDate")
     public @ResponseBody
-    ResultInfo<UserInfo> centerDate(){
+    ResultInfo<UserInfo> centerDate() {
         UserInfo userInfo = this.getUserInfo();
-        BeanUtils.copyProperties(iUserService.selectById(userInfo.getId()),userInfo);
+        BeanUtils.copyProperties(iUserService.selectById(userInfo.getId()), userInfo);
         return new ResultInfo<>(userInfo);
     }
 
     @RequestMapping("/count")
     public @ResponseBody
-    ResultInfo<Integer> count(){
+    ResultInfo<Integer> count() {
         return new ResultInfo<>(iUserService.selectCount(new EntityWrapper<>()));
     }
 

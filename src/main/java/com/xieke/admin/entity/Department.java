@@ -45,7 +45,12 @@ public class Department extends Model<Department> {
      * 父ID
      */
     @TableField("pid")
-    private String pid;
+    private Integer pid;
+    /**
+     * 父ID
+     */
+    @TableField("manager")
+    private Integer manager;
 
     /**
      * 修改时间
@@ -63,5 +68,13 @@ public class Department extends Model<Department> {
     @Override
     protected Serializable pkVal() {
         return this.id;
+    }
+
+    public Department(Integer id, String bmmc, Integer isshow, Integer pid, Integer manager) {
+        this.id = id;
+        this.bmmc = bmmc;
+        this.isshow = isshow;
+        this.pid = pid;
+        this.manager = manager;
     }
 }

@@ -1,20 +1,55 @@
-layui.use(['form', 'layer'], function () {
+layui.config({
+    base: '/static/layui/'
+}).extend({
+    treeSelect: 'treeSelect'
+}).use(['form', 'layer', 'tree', "treeSelect"], function () {
     var form = layui.form
     layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery;
 
-    $.post("/role/selectListData", {
+    //生成主管select
+    $.post("/user/listDataSelect", {
         available: 1
     }, function (data) {
-        var roleList = data.data;
-        roleList.forEach(function (e) {
-            $("#roleSelect").append("<option value='" + e.id + "'>" + e.roleName + "</option>");
+        var userList = data.data;
+        userList.forEach(function (e) {
+            $("#manager").append("<option value='" + e.id + "'>" + e.name + "</option>");
         });
-        $("#roleSelect").val($("#roleId").val());//默认选中
+        $("#manager").val($("#managerId").val());//默认选中
         form.render('select');//刷新select选择框渲染
     });
+    layui.treeSelect.render({
+        // 选择器
+        elem: '#pTree',
+        // 数据
+        data: '/dept/listDataTreeWithoutCode',
+        // 异步加载方式：get/post，默认get
+        type: 'get',
+        // 占位符
+        placeholder: '修改默认提示信息',
+        // 是否开启搜索功能：true/false，默认false
+        search: true,
+        // 点击回调
+        click: function (d) {
+            $("#pid").val(d.current.id);
+        },
+        // 加载完成后的回调函数
+        success: function (d) {
+            console.log(d);
+//                选中节点，根据id筛选
+//                treeSelect.checkNode('tree', 3);
 
-    //添加验证规则
+//                获取zTree对象，可以调用zTree方法
+//                var treeObj = treeSelect.zTree('tree');
+//                console.log(treeObj);
+
+//                刷新树结构
+//                treeSelect.refresh();
+        }
+    });
+
+
+//添加验证规则
     form.verify({
         newPwd: function (value, item) {
             if (value.length < 6) {
@@ -44,7 +79,7 @@ layui.use(['form', 'layer'], function () {
                 }
             })
         } else {
-            $.post("/user/edit", data.field, function (res) {
+            $.post("/dept/edit", data.field, function (res) {
                 if (res.data) {
                     layer.close(index);
                     layer.msg("修改成功！");
