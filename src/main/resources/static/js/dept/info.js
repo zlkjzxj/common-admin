@@ -26,9 +26,9 @@ layui.config({
         // 异步加载方式：get/post，默认get
         type: 'get',
         // 占位符
-        placeholder: '修改默认提示信息',
+        placeholder: '请选择上级部门',
         // 是否开启搜索功能：true/false，默认false
-        search: true,
+        search: false,
         // 点击回调
         click: function (d) {
             $("#pid").val(d.current.id);

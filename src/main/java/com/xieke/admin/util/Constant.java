@@ -1,7 +1,7 @@
 package com.xieke.admin.util;
 
-import com.xieke.admin.business.entity.Project;
 import com.xieke.admin.entity.Department;
+import com.xieke.admin.entity.Project;
 
 import java.util.ArrayList;
 import java.util.List;

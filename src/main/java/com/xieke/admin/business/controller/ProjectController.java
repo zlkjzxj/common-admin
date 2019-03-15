@@ -3,28 +3,28 @@ package com.xieke.admin.business.controller;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.xieke.admin.annotation.SysLog;
-import com.xieke.admin.business.entity.Project;
 import com.xieke.admin.business.service.IProjectService;
 import com.xieke.admin.dto.ResultInfo;
-import com.xieke.admin.dto.UserInfo;
+import com.xieke.admin.entity.Department;
+import com.xieke.admin.entity.Project;
 import com.xieke.admin.entity.User;
-import com.xieke.admin.service.IUserService;
-import com.xieke.admin.util.Constant;
-import com.xieke.admin.util.PasswordEncoder;
-import com.xieke.admin.util.StringUtils;
 import com.xieke.admin.web.BaseController;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.crypto.hash.SimpleHash;
-import org.springframework.beans.BeanUtils;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -38,28 +38,41 @@ import java.util.Map;
 @RequestMapping("/project")
 public class ProjectController extends BaseController {
 
-//    @Resource
-//    private IProjectService projectService;
+    @Resource
+    private IProjectService iProjectService;
 
     @RequestMapping("/*")
     public void toHtml() {
     }
 
     @RequestMapping("/listData")
-//    @RequiresPermissions("user:view")
+    @RequiresPermissions("project:view")
     public @ResponseBody
     ResultInfo<List<Project>> listData(Project project, Integer page, Integer limit) {
-//        EntityWrapper<Project> wrapper = new EntityWrapper<>(project);
-//        if (project != null && project.getManager() != null) {
-//            wrapper.like("name", project.getName());
-//            project.setManager(null);
-//        }
-//        Page<Project> pageObj = projectService.selectPage(new Page<>(page, limit), wrapper);
-        Project project1 = new Project("2018-03-20", "111", "张三", "研发项目", "ZL123456");
-        Constant.PROJECT_LIST.add(project1);
+        EntityWrapper<Project> wrapper = new EntityWrapper<>(project);
+        if (project != null && project.getDepartment() != null) {
+            wrapper.and("department", project.getDepartment());
+            project.setDepartment(null);
+        }
+        Page<Project> pageObj = iProjectService.selectPage(new Page<>(page, limit), wrapper);
 
-//        return new ResultInfo<>(pageObj.getRecords(), pageObj.getTotal());
-        return new ResultInfo<>(Constant.PROJECT_LIST, Constant.PROJECT_LIST.size());
+        return new ResultInfo<>(pageObj.getRecords(), pageObj.getTotal());
+    }
+
+    @SysLog("添加项目")
+    @RequestMapping("/add")
+    @RequiresPermissions("project:add")
+    public @ResponseBody
+    ResultInfo<Boolean> add(Project project) {
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        project.setLrr(user.getId());
+        return new ResultInfo<>(iProjectService.insert(project));
+    }
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
 }

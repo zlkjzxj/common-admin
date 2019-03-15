@@ -41,9 +41,11 @@ layui.config({
     function addDept(edit) {
         var h = "330px";
         var title = "添加部门";
+        $("#managerDiv").hide();
         if (edit) {
             h = "330px";
             title = "编辑用户";
+            $("#managerDiv").show();
         }
         layui.layer.open({
             title: title,

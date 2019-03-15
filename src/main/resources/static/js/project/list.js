@@ -13,14 +13,14 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
         cellMinWidth: 95,
         page: true,
         height: "full-125",
-        limit: 20,
+        limit: 10,
         limits: [10, 15, 20, 25],
         id: "newsListTable",
         cols: [[
             {type: "checkbox", fixed: "left", width: 50},
             {field: 'name', title: '项目名称', width: 300, align: "center"},
             {field: 'number', title: '项目编号', width: 300},
-            {field: 'createTime', title: '创建时间', align: 'center'},
+            {field: 'lxsj', title: '立项时间', align: 'center'},
             {field: 'department', title: '部门', align: 'center'},
             {field: 'manager', title: '项目经理', align: 'center'}
             // {
@@ -105,7 +105,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
         // })
     }
 
-    $(".addNews_btn").click(function () {
+    $(".add_btn").click(function () {
         addNews();
     })
 

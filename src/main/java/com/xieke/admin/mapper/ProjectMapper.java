@@ -1,9 +1,8 @@
-package com.xieke.admin.business.mapper;
+package com.xieke.admin.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.xieke.admin.business.entity.Project;
-import com.xieke.admin.dto.UserInfo;
-import com.xieke.admin.entity.User;
+import com.xieke.admin.entity.Project;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -13,8 +12,8 @@ import com.xieke.admin.entity.User;
  * @author Auto Generator
  * @since 2018-07-16
  */
+@Mapper
 public interface ProjectMapper extends BaseMapper<Project> {
 
-    Project findProject(String name);
 
 }

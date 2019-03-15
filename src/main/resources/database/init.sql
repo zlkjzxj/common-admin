@@ -317,3 +317,76 @@ CREATE TABLE sys_department (
   AUTO_INCREMENT = 3
   DEFAULT CHARSET = utf8
   COMMENT ='部门';
+
+
+-- ----------------------------
+-- Table structure for sys_role
+-- ----------------------------
+DROP TABLE IF EXISTS biz_project;
+CREATE TABLE biz_project (
+  id          INT(10)      NOT NULL       AUTO_INCREMENT
+  COMMENT '主键ID',
+  `name`        VARCHAR(255) NOT NULL
+  COMMENT 'xian',
+  number      VARCHAR(20)   NOT NULL       DEFAULT 0
+  COMMENT '是否显示',
+  lxsj         DATE      NOT NULL
+  COMMENT '立项时间',
+  department     INT(10)
+  COMMENT '部门',
+  `manager`        INT(10) NOT NULL
+  COMMENT '部门经理',
+  `rjkfjd`        INT(10) NOT NULL
+  COMMENT '软件开发进度',
+  `fawcqk`        TINYINT(1) NOT NULL
+  COMMENT '方案完成情况',
+  `cpxxwcqk`        TINYINT(1) NOT NULL
+  COMMENT '产品选型完成情况',
+  `zbzzwcqk`        TINYINT(1) NOT NULL
+  COMMENT '招标组织完成情况',
+  `yzjhbqd`        TINYINT(1) NOT NULL
+  COMMENT '用资计划表确定',
+  `htqd`        TINYINT(1) NOT NULL
+  COMMENT '合同签订',
+  `yjcg`        TINYINT(1) NOT NULL
+  COMMENT '硬件采购',
+  `sgqr`        TINYINT(1) NOT NULL
+  COMMENT '施工确认',
+  `jcjd`        TINYINT(1) NOT NULL
+  COMMENT '集成进度',
+  `htje`        DECIMAL
+  COMMENT '合同金额',
+  `hkqk`        VARCHAR(255)
+  COMMENT '回款情况',
+  `whje`        DECIMAL
+  COMMENT '未回金额',
+  `whsx`        DATE
+  COMMENT '未回时限',
+  `hktz`        VARCHAR(255)
+  COMMENT '回款通知',
+  `ml`        DECIMAL
+  COMMENT '毛利',
+  `zbj`        DECIMAL
+  COMMENT '质保金',
+  `zbjthqk`    VARCHAR(255)
+  COMMENT '质保金退换情况',
+  `xmjx`        TINYINT(1)
+  COMMENT '项目结项',
+  `lrr`        INT(10) NOT NULL
+  COMMENT '录入人',
+  update_time DATETIME
+  COMMENT '修改时间',
+  create_time DATETIME
+  COMMENT '创建时间',
+  `byzd1`        VARCHAR(255)
+  COMMENT '备用字段1',
+  `byzd2`        VARCHAR(255)
+  COMMENT '备用字段2',
+  `byzd3`        VARCHAR(255)
+  COMMENT '备用字段3',
+  PRIMARY KEY (id)
+)
+  ENGINE = INNODB
+  AUTO_INCREMENT = 3
+  DEFAULT CHARSET = utf8
+  COMMENT ='项目表';
