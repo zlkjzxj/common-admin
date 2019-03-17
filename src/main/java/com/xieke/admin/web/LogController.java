@@ -48,7 +48,7 @@ public class LogController extends BaseController {
         }
         wrapper.orderBy("create_time",false);
         Page<Log> pageObj = ilogService.selectPage(new Page<>(page,limit), wrapper);
-        return new ResultInfo<>(pageObj.getRecords(), pageObj.getTotal());
+        return new ResultInfo<>(pageObj.getRecords(), pageObj.getSize());
     }
 
 }

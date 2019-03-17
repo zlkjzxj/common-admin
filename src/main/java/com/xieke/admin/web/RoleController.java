@@ -62,7 +62,7 @@ public class RoleController extends BaseController {
             role.setRoleName(null);
         }
         Page<Role> pageObj = iRoleService.selectPage(new Page<>(page, limit), wrapper);
-        return new ResultInfo<>(pageObj.getRecords(), pageObj.getTotal());
+        return new ResultInfo<>(pageObj.getRecords(), pageObj.getSize());
     }
 
     @SysLog("保存角色操作")

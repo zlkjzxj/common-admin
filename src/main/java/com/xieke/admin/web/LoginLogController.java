@@ -48,7 +48,7 @@ public class LoginLogController extends BaseController {
         }
         wrapper.orderBy("create_time",false);
         Page<LoginLog> pageObj = iloginLogService.selectPage(new Page<>(page,limit), wrapper);
-        return new ResultInfo<>(pageObj.getRecords(), pageObj.getTotal());
+        return new ResultInfo<>(pageObj.getRecords(), pageObj.getSize());
     }
 
 }

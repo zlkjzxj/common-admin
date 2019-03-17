@@ -36,7 +36,7 @@ layui.use(['form','layer'],function(){
                 if (res.data){
                     layer.close(index);
                     layer.msg("添加成功！");
-                    layer.closeAll("iframe");
+                    // layer.closeAll("iframe");
                     //刷新父页面
                     parent.location.reload();
                 } else {

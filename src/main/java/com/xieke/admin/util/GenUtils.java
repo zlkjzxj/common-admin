@@ -3,9 +3,9 @@ package com.xieke.admin.util;
 import com.xieke.admin.entity.Column;
 import com.xieke.admin.entity.Table;
 import com.xieke.admin.ex.BusinessException;
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.configuration2.Configuration;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
@@ -153,13 +153,15 @@ public class GenUtils {
 		}
 		return columnToJava(tableName);
 	}
-	
+
 	/**
 	 * 获取配置信息
 	 */
 	public static Configuration getConfig(){
+
+		Configurations configs = new Configurations();
 		try {
-			return new PropertiesConfiguration("generator.properties");
+			return configs.properties(new File("generator.properties"));
 		} catch (ConfigurationException e) {
 			throw new BusinessException(Constant.YES_ERROR, "获取配置文件失败:"+ e.getMessage());
 		}

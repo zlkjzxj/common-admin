@@ -71,7 +71,7 @@ public class UserController extends BaseController {
             user.setId(null);
         }
         Page<User> pageObj = iUserService.selectPage(new Page<>(page, limit), wrapper);
-        return new ResultInfo<>(pageObj.getRecords(), pageObj.getTotal());
+        return new ResultInfo<>(pageObj.getRecords(),pageObj.getSize());
     }
 
     @RequestMapping("/listDataSelect")

@@ -1,6 +1,5 @@
 package com.xieke.admin.config;
 
-import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -165,9 +164,9 @@ public class ShiroConfig {
 	 * shiro 方言配置
 	 * @return
 	 */
-	@Bean
-	public ShiroDialect shiroDialect() {
-		return new ShiroDialect();
-	}
+//	@Bean
+//	public ShiroDialect shiroDialect() {
+//		return new ShiroDialect();
+//	}
 
 }

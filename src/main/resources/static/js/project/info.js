@@ -68,7 +68,7 @@ layui.config({
 //     return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
 // });
 
-    form.on("submit(addNews)", function (data) {
+    form.on("submit(addProject)", function (data) {
         console.log("formdata", data.field);
         //截取文章内容中的一部分文字放入文章摘要
         // var abstract = layedit.getText(editIndex).substring(0, 50);
@@ -79,11 +79,19 @@ layui.config({
             method: 'POST',
             data: data.field,
             dataType: 'json',
-            success: function (data) {
-                console.log(data);
+            success: function (res) {
+                if (res.data){
+                    layer.close(index);
+                    layer.msg("添加成功！");
+                    // layer.closeAll("iframe");
+                    //刷新父页面
+                    parent.location.reload();
+                } else {
+                    layer.msg(data.msg);
+                }
             },
             error: function (e) {
-                console.error(e);
+                layer.msg(e.msg);
             }
         })
         return false;

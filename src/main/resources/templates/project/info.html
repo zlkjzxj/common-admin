@@ -21,7 +21,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">项目名称</label>
             <div class="layui-input-block">
-                <input type="text" name="name" class="layui-input" lay-verify="name" lay-verify="required"
+                <input type="text" name="name" class="layui-input"  lay-verify="required"
                        placeholder="请输入文章标题">
             </div>
         </div>
@@ -29,7 +29,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">项目编号</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="number" class="layui-input" lay-verify="number" lay-verify="required"
+                    <input type="text" name="number" class="layui-input"
                            lay-verify="required"
                            placeholder="请输入项目编号">
                 </div>
@@ -46,7 +46,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">部门</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="dTree" lay-filter="dTree">
+                    <input type="text" id="dTree" lay-filter="dTree" lay-verify="required">
                 </div>
             </div>
             <div class="layui-inline ">
@@ -202,7 +202,7 @@
     </div>
     <hr class="layui-bg-gray" style="height: 1px;margin-top: 50px;"/>
     <div class="layui-center">
-        <a class="layui-btn layui-btn-lg" lay-filter="addNews" lay-submit><i
+        <a class="layui-btn layui-btn-lg" lay-filter="addProject" lay-submit><i
                 class="layui-icon">&#xe609;</i>保存</a>
         <!--<a class="layui-btn layui-btn-primary layui-btn-sm" lay-filter="look" lay-submit>预览</a>-->
     </div>

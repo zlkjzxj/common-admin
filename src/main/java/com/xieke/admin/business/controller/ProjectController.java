@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.xieke.admin.annotation.SysLog;
 import com.xieke.admin.business.service.IProjectService;
 import com.xieke.admin.dto.ResultInfo;
-import com.xieke.admin.entity.Department;
 import com.xieke.admin.entity.Project;
 import com.xieke.admin.entity.User;
 import com.xieke.admin.web.BaseController;
@@ -13,16 +12,13 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -56,7 +52,7 @@ public class ProjectController extends BaseController {
         }
         Page<Project> pageObj = iProjectService.selectPage(new Page<>(page, limit), wrapper);
 
-        return new ResultInfo<>(pageObj.getRecords(), pageObj.getTotal());
+        return new ResultInfo<>(pageObj.getRecords(), pageObj.getSize());
     }
 
     @SysLog("添加项目")

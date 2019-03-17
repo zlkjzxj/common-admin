@@ -5,8 +5,18 @@ import com.xieke.admin.entity.User;
 import java.io.Serializable;
 
 public class UserInfo extends User implements Serializable {
-
+    private Integer id;
     private RoleInfo roleInfo;
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public RoleInfo getRoleInfo() {
         return roleInfo;
