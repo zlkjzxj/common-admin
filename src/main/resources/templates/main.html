@@ -131,7 +131,7 @@
         var paper = new joint.dia.Paper({
             el: $('#paper'),
             width: 1200,
-            height: 600,
+            height: 800,
             gridSize: 1,
             model: graph,
             elementView: ElementView,
@@ -212,21 +212,39 @@
 
 
         //创建元素
-        var start = state(500,100,"ellipse","#00FFFF", "怡园中林项目管理软件");
-        var state1 = state(500,200,"rect","#f7a07b", "项目编号：Zl123456");
-        var state2 = state(400,300,"rect","#f7a07b", "立项时间：2019-03-15");
-        var state3 = state(600,300,"rect","#f7a07b", joint.util.breakText("部门：系统集成部",{width:80}));
-        var state4 = state(400,400,"rect","#f7a07b", "项目经理：张三");
-        var state5 = state(600,400,"rect","#f7a07b", "软件工作进度：开发中");
-        var state6 = state(750,400,"rect","#f7a07b", "方案完成情况：未完成");
+        var start = state(100,300,"ellipse","#00FFFF", "怡园中林项目管理软件");
+        var state1 = state(300,200,"ellipse","#00FFFF", "项目基本资料");
+        var state11 = state(500,200,"rect","#f7a07b", "项目编号：Zl123456");
+        var state12 = state(500,250,"rect","#f7a07b", "立项时间：2019-03-15");
+        var state13 = state(500,300,"rect","#f7a07b", joint.util.breakText("部门：系统集成部",{width:80}));
+        var state14 = state(500,350,"rect","#f7a07b", "项目经理：张三");
+
+        var state2 = state(800,300,"ellipse","#00FFFF", "前期准备情况");
+//        var state21 = state(600,400,"rect","#f7a07b", "软件工作进度：开发中");
+        var state21 = state(750,450,"rect","#f7a07b", "方案完成情况：未完成");
+        var state22 = state(750,500,"rect","#f7a07b", "产品选型完成情况：未完成");
+        var state23 = state(750,550,"rect","#f7a07b", "招标组织完成情况：未完成");
+        var state24 = state(750,600,"rect","#f7a07b", "用资计划表确定：未完成");
+        var state25 = state(750,650,"rect","#f7a07b", "合同签订：未完成");
 
         //创建连线
         link(start, state1, "");
-        link(state1, state2, "");
-        link(state1, state3, "");
-        link(state2, state4, "");
-        link(state3, state5, "");
-        link(state3, state6, "");
+        link(state1, state11, "");
+        link(state1, state12, "");
+        link(state1, state13, "");
+        link(state1, state14, "");
+
+        link(state11, state2, "");
+        link(state12, state2, "");
+        link(state13, state2, "");
+        link(state14, state2, "");
+
+//        link(start, state2, "");
+//        link(state2, state21, "");
+//        link(state2, state22, "");
+//        link(state2, state23, "");
+//        link(state2, state24, "");
+//        link(state2, state25, "");
 
         //给所有元素添加点击事件
         paper.on('cell:click', function (e) {
