@@ -13,9 +13,15 @@
 	<link rel="stylesheet" href="/static/layui/css/layui.css" media="all" />
 	<link rel="stylesheet" href="/static/css/public.css" media="all" />
 </head>
+
 <body class="loginBody">
+<video class="video-player" preload="auto" autoplay="autoplay" loop="loop" data-height="1080" data-width="1920"
+       height="1080" width="1920">
+    <source th:src="@{/static/video/login.mp4}" type="video/mp4">
+    <!-- 此视频文件为支付宝所有，在此仅供样式参考，如用到商业用途，请自行更换为其他视频或图片，否则造成的任何问题使用者本人承担，谢谢 -->
+</video>
 	<form class="layui-form">
-		<div class="login_face"><img src="/static/images/face.jpg" class="userAvatar"></div>
+		<div class="login_face"><img src="/static/images/logo.png" class="userAvatar"></div>
 		<div class="layui-form-item input-item">
 			<label for="username">用户名</label>
 			<input type="text" placeholder="请输入用户名" autocomplete="off" id="username" name="username" class="layui-input" lay-verify="required">
