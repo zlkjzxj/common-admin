@@ -1,459 +1,534 @@
 <!DOCTYPE html>
 <html xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-	<meta charset="utf-8">
-	<title>首页--layui后台管理模板 2.0</title>
-	<meta name="renderer" content="webkit">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="format-detection" content="telephone=no">
-	<link rel="stylesheet" href="/static/layui/css/layui.css" media="all" />
-	<link rel="stylesheet" href="/static/css/public.css" media="all" />
-	<link rel="stylesheet" href="/static/jointjs/css/joint.css" media="all" />
+    <meta charset="utf-8">
+    <title>首页--layui后台管理模板 2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="/static/css/public.css" media="all"/>
+    <link rel="stylesheet" href="/static/jointjs/css/joint.css" media="all"/>
 </head>
 <body class="childrenBody">
-	<blockquote class="layui-elem-quote layui-bg-green">
-		<div id="nowTime"><shiro:principal property="userName" /></div>
-	</blockquote>
-	<body>
-	<div id="paper" class="paper"></div>
+<blockquote class="layui-elem-quote layui-bg-green">
+    <div id="nowTime">
+        <shiro:principal property="userName"/>
+    </div>
+</blockquote>
+<body>
+<div id="paper" class="paper"></div>
 
-	<div class="modal fade searchpanel" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="modalTitle">详细信息</h4>
-				</div>
-				<div class="modal-body">
+<div class="modal fade searchpanel" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <!--<div class="modal-dialog" role="document">-->
+    <!--<div class="modal-content">-->
+    <!--<div class="modal-header">-->
+    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>-->
+    <!--</button>-->
+    <!--<h4 class="modal-title" id="modalTitle">详细信息</h4>-->
+    <!--</div>-->
+    <!--<div class="modal-body">-->
 
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--<div id="paper" style="display: inline-block; border: 1px solid gray"></div>
-	<div id="tree-paper" style="display: inline-block; border: 1px solid gray"></div>-->
+    <!--</div>-->
+    <!--<div class="modal-footer">-->
+    <!--<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+</div>
+<!--<div id="paper" style="display: inline-block; border: 1px solid gray"></div>
+<div id="tree-paper" style="display: inline-block; border: 1px solid gray"></div>-->
 
-	<!--<div class="layui-row layui-col-space10 panel_box" shiro:hasRole="admin">-->
-		<!--<div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">-->
-			<!--<a href="javascript:;" data-url="https://fly.layui.com/case/u/23248176" target="_blank">-->
-				<!--<div class="panel_icon layui-bg-green">-->
-					<!--<i class="layui-anim seraph icon-good"></i>-->
-				<!--</div>-->
-				<!--<div class="panel_word">-->
-					<!--<span>为我点赞</span>-->
-					<!--<cite>点赞地址</cite>-->
-				<!--</div>-->
-			<!--</a>-->
-		<!--</div>-->
-		<!--<div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">-->
-			<!--<a href="javascript:;" data-url="https://gitee.com/xieke90/common-admin" target="_blank">-->
-				<!--<div class="panel_icon layui-bg-red">-->
-					<!--<i class="layui-anim seraph icon-oschina"></i>-->
-				<!--</div>-->
-				<!--<div class="panel_word">-->
-					<!--<span>码云</span>-->
-					<!--<cite>源码下载</cite>-->
-				<!--</div>-->
-			<!--</a>-->
-		<!--</div>-->
-		<!--<div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">-->
-			<!--<a href="javascript:;" data-url="/user/list.html">-->
-				<!--<div class="panel_icon layui-bg-orange">-->
-					<!--<i class="layui-anim seraph icon-icon10"></i>-->
-				<!--</div>-->
-				<!--<div class="panel_word userAll">-->
-					<!--<span></span>-->
-					<!--<em>用户总数</em>-->
-					<!--<cite class="layui-hide">用户中心</cite>-->
-				<!--</div>-->
-			<!--</a>-->
-		<!--</div>-->
-		<!--<div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">-->
-			<!--<a href="javascript:;" data-url="/icon/icons.html">-->
-				<!--<div class="panel_icon layui-bg-cyan">-->
-					<!--<i class="layui-anim layui-icon">&#xe857;</i>-->
-				<!--</div>-->
-				<!--<div class="panel_word outIcons">-->
-					<!--<span></span>-->
-					<!--<em>外部图标</em>-->
-					<!--<cite class="layui-hide">图标管理</cite>-->
-				<!--</div>-->
-			<!--</a>-->
-		<!--</div>-->
-	<!--</div>-->
-	<!--<blockquote class="layui-elem-quote main_btn">-->
-	<!--<p>本系统模板采用layuiCMS2.0，基于Layui2.*实现，支持除LayIM外所有的Layui组件。<a href="http://layim.layui.com/#getAuth" target="_blank" class="layui-btn layui-btn-xs">获取LayIM授权</a>　layui开发文档地址：<a class="layui-btn layui-btn-xs layui-btn-danger" target="_blank" href="http://www.layui.com/doc">layui文档</a> 技术交流QQ群：<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=f6c427d727e544360daa26d49e90aeac6b010109a766c530a1cff10c30f1a158"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="Java技术社区" title="Java技术社区"></a></p>-->
-	<!--<p class="layui-red">郑重提示：本系统模版来源于互联网，仅供学习交流使用，如需用作商业用途，请联系原作者购买！</p>-->
-	<!--<p>注：应广大朋友要求，现整理出一个精简版，去掉了分布式部署（ zookeeper、dubbo），基于springboot、mybatisplus、shiro、log4j、layuicms2.0、mysql5.6、redis、jdk1.8开发而成，具备完整的权限管理功能，代码简洁，容易入门，方便您进行二次开发，节省开发时间，快速构建企业级的web应用系统。</p>-->
-	<!--<p class="layui-blue">PS：本人技术有限，有问题的地方请指正，谢谢大家！同时诚邀志同道合的朋友加入一道为开源做贡献！开源开发QQ群：<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=4503c22b19d787af5f6e11f5d04904c833829cbb993667fa3ef9c9a266954046"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="专注开源开发" title="专注开源开发"></a></p>-->
-	<!--</blockquote>-->
-	<!--<script type="text/javascript" src="/static/layui/layui.js"></script>-->
-	<!--<script type="text/javascript" src="/static/js/main.js"></script>-->
-	<script type="text/javascript" src="/static/jointjs/jquery-3.3.1.js"></script>
-	<script type="text/javascript" src="/static/jointjs/lodash.js"></script>
-	<script type="text/javascript" src="/static/jointjs/backbone.js"></script>
-	<script type="text/javascript" src="/static/jointjs/joint.js"></script>
-	<!-- code -->
-	<script type="text/javascript">
-        var graph = new joint.dia.Graph();
+<!--<div class="layui-row layui-col-space10 panel_box" shiro:hasRole="admin">-->
+<!--<div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">-->
+<!--<a href="javascript:;" data-url="https://fly.layui.com/case/u/23248176" target="_blank">-->
+<!--<div class="panel_icon layui-bg-green">-->
+<!--<i class="layui-anim seraph icon-good"></i>-->
+<!--</div>-->
+<!--<div class="panel_word">-->
+<!--<span>为我点赞</span>-->
+<!--<cite>点赞地址</cite>-->
+<!--</div>-->
+<!--</a>-->
+<!--</div>-->
+<!--<div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">-->
+<!--<a href="javascript:;" data-url="https://gitee.com/xieke90/common-admin" target="_blank">-->
+<!--<div class="panel_icon layui-bg-red">-->
+<!--<i class="layui-anim seraph icon-oschina"></i>-->
+<!--</div>-->
+<!--<div class="panel_word">-->
+<!--<span>码云</span>-->
+<!--<cite>源码下载</cite>-->
+<!--</div>-->
+<!--</a>-->
+<!--</div>-->
+<!--<div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">-->
+<!--<a href="javascript:;" data-url="/user/list.html">-->
+<!--<div class="panel_icon layui-bg-orange">-->
+<!--<i class="layui-anim seraph icon-icon10"></i>-->
+<!--</div>-->
+<!--<div class="panel_word userAll">-->
+<!--<span></span>-->
+<!--<em>用户总数</em>-->
+<!--<cite class="layui-hide">用户中心</cite>-->
+<!--</div>-->
+<!--</a>-->
+<!--</div>-->
+<!--<div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">-->
+<!--<a href="javascript:;" data-url="/icon/icons.html">-->
+<!--<div class="panel_icon layui-bg-cyan">-->
+<!--<i class="layui-anim layui-icon">&#xe857;</i>-->
+<!--</div>-->
+<!--<div class="panel_word outIcons">-->
+<!--<span></span>-->
+<!--<em>外部图标</em>-->
+<!--<cite class="layui-hide">图标管理</cite>-->
+<!--</div>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--<blockquote class="layui-elem-quote main_btn">-->
+<!--<p>本系统模板采用layuiCMS2.0，基于Layui2.*实现，支持除LayIM外所有的Layui组件。<a href="http://layim.layui.com/#getAuth" target="_blank" class="layui-btn layui-btn-xs">获取LayIM授权</a>　layui开发文档地址：<a class="layui-btn layui-btn-xs layui-btn-danger" target="_blank" href="http://www.layui.com/doc">layui文档</a> 技术交流QQ群：<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=f6c427d727e544360daa26d49e90aeac6b010109a766c530a1cff10c30f1a158"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="Java技术社区" title="Java技术社区"></a></p>-->
+<!--<p class="layui-red">郑重提示：本系统模版来源于互联网，仅供学习交流使用，如需用作商业用途，请联系原作者购买！</p>-->
+<!--<p>注：应广大朋友要求，现整理出一个精简版，去掉了分布式部署（ zookeeper、dubbo），基于springboot、mybatisplus、shiro、log4j、layuicms2.0、mysql5.6、redis、jdk1.8开发而成，具备完整的权限管理功能，代码简洁，容易入门，方便您进行二次开发，节省开发时间，快速构建企业级的web应用系统。</p>-->
+<!--<p class="layui-blue">PS：本人技术有限，有问题的地方请指正，谢谢大家！同时诚邀志同道合的朋友加入一道为开源做贡献！开源开发QQ群：<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=4503c22b19d787af5f6e11f5d04904c833829cbb993667fa3ef9c9a266954046"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="专注开源开发" title="专注开源开发"></a></p>-->
+<!--</blockquote>-->
+<!--<script type="text/javascript" src="/static/layui/layui.js"></script>-->
+<!--<script type="text/javascript" src="/static/js/main.js"></script>-->
+<script type="text/javascript" src="/static/jointjs/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/static/jointjs/lodash.js"></script>
+<script type="text/javascript" src="/static/jointjs/backbone.js"></script>
+<script type="text/javascript" src="/static/jointjs/joint.js"></script>
+<!-- code -->
+<!--<script type="text/javascript">-->
+    <!--var graph = new joint.dia.Graph();-->
 
-        var ElementView = joint.dia.ElementView.extend({
-            pointerdown: function () {
-                this._click = true;
-                joint.dia.ElementView.prototype.pointerdown.apply(this, arguments);
-            },
-            pointermove: function(evt, x, y) {
-                this._click = false;
-                joint.dia.ElementView.prototype.pointermove.apply(this, arguments);
-            },
-            pointerup: function (evt, x, y) {
-                if (this._click) {
-                    // triggers an event on the paper and the element itself
-                    this.notify('cell:click', evt, x, y);
-                } else {
-                    joint.dia.ElementView.prototype.pointerup.apply(this, arguments);
+    <!--var ElementView = joint.dia.ElementView.extend({-->
+        <!--pointerdown: function () {-->
+            <!--this._click = true;-->
+            <!--joint.dia.ElementView.prototype.pointerdown.apply(this, arguments);-->
+        <!--},-->
+        <!--pointermove: function (evt, x, y) {-->
+            <!--this._click = false;-->
+            <!--joint.dia.ElementView.prototype.pointermove.apply(this, arguments);-->
+        <!--},-->
+        <!--pointerup: function (evt, x, y) {-->
+            <!--if (this._click) {-->
+                <!--// triggers an event on the paper and the element itself-->
+                <!--this.notify('cell:click', evt, x, y);-->
+            <!--} else {-->
+                <!--joint.dia.ElementView.prototype.pointerup.apply(this, arguments);-->
+            <!--}-->
+        <!--}-->
+    <!--});-->
+    <!--var LinkView = joint.dia.LinkView.extend({-->
+        <!--addVertex: function (evt, x, y) {-->
+        <!--},-->
+        <!--removeVertex: function (endType) {-->
+        <!--},-->
+        <!--pointerdown: function (evt, x, y) {-->
+        <!--}-->
+    <!--});-->
+
+    <!--//定义画布-->
+    <!--var paper = new joint.dia.Paper({-->
+        <!--el: $('#paper'),-->
+        <!--width: 1800,-->
+        <!--height: 800,-->
+        <!--gridSize: 1,-->
+        <!--model: graph,-->
+        <!--elementView: ElementView,-->
+        <!--linkView: LinkView-->
+    <!--});-->
+    <!--//paper.$el.css('pointer-events', 'none')//去除默认样式，使所有事件不可用-->
+
+
+    <!--//定义形状-->
+    <!--var state = function (x, y, shape, background, text) {-->
+        <!--var cell;-->
+        <!--if (shape === "rect") {-->
+            <!--cell = new joint.shapes.basic.Rect({-->
+                <!--position: {x: x, y: y},//坐标-->
+                <!--size: {width: 140, height: 40},//宽高-->
+                <!--attrs: {-->
+                    <!--rect: {-->
+                        <!--fill: {-->
+                            <!--type: 'linearGradient',-->
+                            <!--stops: [-->
+                                <!--{offset: '0%', color: background},//渐变开始-->
+                                <!--// {offset: '100%', color: '#fe8550'}//渐变结束-->
+                                <!--{offset: '100%', color: background}//渐变结束-->
+                            <!--],-->
+                            <!--attrs: {x1: '0%', y1: '0%', x2: '0%', y2: '100%'}-->
+                        <!--},-->
+                        <!--stroke: background,//边框颜色-->
+                        <!--'stroke-width': 1//边框大小-->
+                    <!--},-->
+                    <!--text: {text: text} //显示文字-->
+                <!--}-->
+            <!--});-->
+        <!--} else if (shape === "ellipse") {-->
+            <!--cell = new joint.shapes.basic.Ellipse({-->
+                <!--position: {x: x, y: y},//坐标-->
+                <!--size: {width: 140, height: 40},//宽高-->
+                <!--attrs: {-->
+                    <!--ellipse: {-->
+                        <!--fill: {-->
+                            <!--type: 'linearGradient',-->
+                            <!--stops: [-->
+                                <!--{offset: '0%', color: background},//渐变开始-->
+                                <!--{offset: '100%', color: '#FFFFFF'}//渐变结束-->
+                            <!--],-->
+                            <!--attrs: {x1: '0%', y1: '0%', x2: '0%', y2: '100%'}-->
+                        <!--},-->
+                        <!--stroke: background,//边框颜色-->
+                        <!--'stroke-width': 1//边框大小-->
+                    <!--},-->
+                    <!--text: {text: text} //显示文字-->
+                <!--}-->
+            <!--});-->
+        <!--}-->
+        <!--graph.addCell(cell);-->
+        <!--return cell;-->
+    <!--};-->
+
+    <!--//定义连线-->
+    <!--function link(source, target, label) {-->
+        <!--var cell = new joint.dia.Link({-->
+            <!--source: {id: source.id},-->
+            <!--target: {id: target.id},-->
+            <!--labels: [{position: 0.5, attrs: {text: {text: label || '', 'font-weight': 'bold'}}}],-->
+            <!--router: {name: 'manhattan'},//设置连线弯曲样式 manhattan直角-->
+            <!--attrs: {-->
+                <!--'.connection': {-->
+                    <!--stroke: '#333333',//连线颜色-->
+                    <!--'stroke-width': 2//连线粗细-->
+                <!--},-->
+                <!--'.marker-target': {-->
+                    <!--fill: '#333333',//箭头颜色-->
+                    <!--d: 'M 10 0 L 0 5 L 10 10 z'//箭头样式-->
+                <!--}-->
+            <!--}-->
+        <!--});-->
+        <!--graph.addCell(cell);-->
+        <!--return cell;-->
+    <!--}-->
+
+
+    <!--//创建元素-->
+    <!--var start = state(100, 300, "ellipse", "#00FFFF", "怡园中林项目管理软件");-->
+    <!--var state1 = state(300, 100, "ellipse", "#00FFFF", "项目基本资料");-->
+    <!--var state11 = state(500, 50, "rect", "#f7a07b", "项目编号：Zl123456");-->
+    <!--var state12 = state(500, 100, "rect", "#f7a07b", "立项时间：2019-03-15");-->
+    <!--var state13 = state(500, 150, "rect", "#f7a07b", "部门：系统集成部");-->
+    <!--// var state13 = state(500, 150, "rect", "#f7a07b", joint.util.breakText("部门：系统集成部", {width: 80}));-->
+    <!--var state14 = state(500, 200, "rect", "#f7a07b", "项目经理：张三");-->
+
+    <!--var state2 = state(300, 400, "ellipse", "#00FFFF", "前期准备情况");-->
+
+    <!--var fa = 0-->
+    <!--var state21 = state(500, 300, "rect", fa === 1 ? "#f7a07b" : "red", "方案完成情况：未完成");-->
+    <!--var state22 = state(500, 350, "rect", "#f7a07b", "产品选型完成情况：未完成");-->
+    <!--var state23 = state(500, 400, "rect", "#f7a07b", "招标组织完成情况：未完成");-->
+    <!--var state24 = state(500, 450, "rect", "#f7a07b", "用资计划表确定：未完成");-->
+    <!--var state25 = state(500, 500, "rect", "#f7a07b", "合同签订：未完成");-->
+
+    <!--var state3 = state(300, 600, "ellipse", "#00FFFF", "软件开发进度");-->
+    <!--var state31 = state(500, 600, "rect", "#f7a07b", "软件工作进度：开发中");-->
+
+    <!--var state4 = state(750, 300, "ellipse", "#00FFFF", "集成部署");-->
+    <!--var state41 = state(900, 200, "rect", "#f7a07b", "硬件采购：未开始");-->
+    <!--var state42 = state(900, 300, "rect", "#f7a07b", "继承工作进度：到场");-->
+    <!--var state43 = state(900, 400, "rect", "#f7a07b", "施工队确认：未完成");-->
+
+    <!--var state5 = state(1100, 300, "ellipse", "#00FFFF", "回款状况");-->
+    <!--var state51 = state(1300, 100, "rect", "#f7a07b", "合同金额：", {width: 80});-->
+    <!--var state52 = state(1300, 150, "rect", "#f7a07b", "回款情况：", {width: 80});-->
+    <!--var state53 = state(1300, 200, "rect", "#f7a07b", "未回金额：", {width: 80});-->
+    <!--var state54 = state(1300, 250, "rect", "#f7a07b", "未回时限：", {width: 80});-->
+    <!--var state55 = state(1300, 300, "rect", "#f7a07b", "回款通知：", {width: 80});-->
+    <!--var state56 = state(1300, 350, "rect", "#f7a07b", "毛利：", {width: 80});-->
+    <!--var state57 = state(1300, 400, "rect", "#f7a07b", "质保金：", {width: 80});-->
+    <!--var state58 = state(1300, 450, "rect", "#f7a07b", "质保金退换情况：", {width: 80});-->
+
+    <!--var state6 = state(1500, 300, "ellipse", "#00FFFF", "项目结项：未结项");-->
+
+
+    <!--//创建连线-->
+
+    <!--link(start, state1, "");-->
+    <!--link(start, state2, "");-->
+    <!--link(start, state3, "");-->
+
+    <!--link(state1, state11, "");-->
+    <!--link(state1, state12, "");-->
+    <!--link(state1, state13, "");-->
+    <!--link(state1, state14, "");-->
+    <!--//-->
+    <!--// link(state11, state2, "");-->
+    <!--// link(state12, state2, "");-->
+    <!--// link(state13, state2, "");-->
+    <!--// link(state14, state2, "");-->
+
+    <!--//        link(start, state2, "");-->
+    <!--link(state2, state21, "");-->
+    <!--link(state2, state22, "");-->
+    <!--link(state2, state23, "");-->
+    <!--link(state2, state24, "");-->
+    <!--link(state2, state25, "");-->
+
+    <!--link(state3, state31, "");-->
+
+
+    <!--link(state11, state4, "");-->
+    <!--link(state12, state4, "");-->
+    <!--link(state13, state4, "");-->
+    <!--link(state14, state4, "");-->
+    <!--link(state21, state4, "");-->
+    <!--link(state22, state4, "");-->
+    <!--link(state23, state4, "");-->
+    <!--link(state24, state4, "");-->
+    <!--link(state25, state4, "");-->
+    <!--link(state31, state4, "");-->
+
+    <!--link(state4, state41, "");-->
+    <!--link(state4, state42, "");-->
+    <!--link(state4, state43, "");-->
+
+    <!--link(state41, state5, "");-->
+    <!--link(state42, state5, "");-->
+    <!--link(state43, state5, "");-->
+
+    <!--link(state5, state51, "");-->
+    <!--link(state5, state52, "");-->
+    <!--link(state5, state53, "");-->
+    <!--link(state5, state54, "");-->
+    <!--link(state5, state55, "");-->
+    <!--link(state5, state56, "");-->
+    <!--link(state5, state57, "");-->
+    <!--link(state5, state58, "");-->
+
+    <!--link(state51, state6, "");-->
+    <!--link(state52, state6, "");-->
+    <!--link(state53, state6, "");-->
+    <!--link(state54, state6, "");-->
+    <!--link(state55, state6, "");-->
+    <!--link(state56, state6, "");-->
+    <!--link(state57, state6, "");-->
+    <!--link(state58, state6, "");-->
+
+
+    <!--//给所有元素添加点击事件-->
+    <!--paper.on('cell:click', function (e) {-->
+        <!--$("#detailModal .modal-body").html("");-->
+        <!--var arr = $("#" + e.id + " tspan");-->
+        <!--if (arr.length === 1) {-->
+            <!--$("#detailModal .modal-body").append($(arr).html());-->
+            <!--$("#detailModal").modal();-->
+        <!--} else {-->
+            <!--var tmp = "";-->
+            <!--$.each(arr, function (k, v) {-->
+                <!--tmp += $(v).html();-->
+            <!--});-->
+            <!--$("#detailModal .modal-body").append(tmp);-->
+            <!--$("#detailModal").modal();-->
+        <!--}-->
+
+    <!--});-->
+
+<!--</script>-->
+<!--<script type="text/javascript">
+    var $info = $('<pre>').css({
+        position: 'fixed',
+        top: 50,
+        right: 100
+    });
+    $(document.body).append($info);
+
+    function pluck(array, attribute) {
+        return array.map(function(item) { return item[attribute]; });
+    }
+
+    function clear() {
+        $info.text('');
+    }
+
+    function info(view) {
+
+        var cell = view.model;
+        var graph = view.paper.model;
+
+        if (!cell.isLink()) {
+
+            var inboundNeighbors = graph.getNeighbors(cell, { inbound: true });
+            var outboundNeighbors = graph.getNeighbors(cell, { outbound: true });
+            var successors = graph.getSuccessors(cell);
+            var predecessors = graph.getPredecessors(cell);
+            var predecessorsBreadthFirst = graph.getPredecessors(cell, { breadthFirst: true });
+            var deepSuccessors = graph.getSuccessors(cell, { deep: true });
+            var successorsBreadthFirst = graph.getSuccessors(cell, { breadthFirst: true });
+            var outboundLinks = graph.getConnectedLinks(cell, { outbound: true });
+            var inboundLinks = graph.getConnectedLinks(cell, { inbound: true });
+            var bfsDistance = {};
+
+            graph.bfs(cell, function(element, distance) { bfsDistance[element.id] = distance; }, { outbound: true });
+
+            var i = {
+                id: cell.id,
+                graphSources: pluck(graph.getSources(), 'id'),
+                graphSinks: pluck(graph.getSinks(), 'id'),
+                inboundNeighbors: pluck(inboundNeighbors, 'id'),
+                outboundNeighbors: pluck(outboundNeighbors, 'id'),
+                'successors (DFS)': pluck(successors, 'id'),
+                'successors (BFS)': pluck(successorsBreadthFirst, 'id'),
+                'predecessors (DFS)': pluck(predecessors, 'id'),
+                'predecessors (BFS)': pluck(predecessorsBreadthFirst, 'id'),
+                deepSuccessors: pluck(deepSuccessors, 'id'),
+                outboundLinks: pluck(outboundLinks, 'id'),
+                inboundLinks: pluck(inboundLinks, 'id'),
+                bfsDistance: bfsDistance
+            };
+
+            $info.text(JSON.stringify(i, '\t', 4));
+        }
+    }
+
+
+    // make element
+    function me(g, id, x, y, s) {
+        console.log("sfddsfdsf",new joint)
+        var e = new joint.shapes.standard.Circle({
+            id: id,
+            position: { x: x, y: y },
+            size: { width: s || 50, height: s || 50 },
+            attrs: {
+                label: {
+                    text: id,
+                    fontWeight: 'bold'
                 }
             }
         });
-        var LinkView = joint.dia.LinkView.extend({
-            addVertex: function(evt, x, y) {},
-            removeVertex: function(endType) {},
-            pointerdown:function(evt, x, y) {}
-        });
+        e.addTo(g);
+        return e;
+    }
 
-        //定义画布
-        var paper = new joint.dia.Paper({
-            el: $('#paper'),
-            width: 1200,
-            height: 800,
-            gridSize: 1,
-            model: graph,
-            elementView: ElementView,
-            linkView:LinkView
-        });
-        //paper.$el.css('pointer-events', 'none')//去除默认样式，使所有事件不可用
-
-
-        //定义形状
-        var state = function(x, y, shape, background, text){
-            var cell;
-            if(shape==="rect"){
-                cell = new joint.shapes.basic.Rect({
-                    position: { x: x, y: y },//坐标
-                    size: { width: 140, height: 40 },//宽高
-                    attrs: {
-                        rect: {
-                            fill: {
-                                type: 'linearGradient',
-                                stops: [
-                                    { offset: '0%', color: background },//渐变开始
-                                    { offset: '100%', color: '#fe8550' }//渐变结束
-                                ],
-                                attrs: { x1: '0%', y1: '0%', x2: '0%', y2: '100%' }
-                            },
-                            stroke: background,//边框颜色
-                            'stroke-width': 1//边框大小
-                        },
-                        text: { text: text } //显示文字
-                    }
-                });
-            } else if(shape==="ellipse"){
-                cell = new joint.shapes.basic.Ellipse({
-                    position: { x: x, y: y },//坐标
-                    size: { width: 140, height: 40 },//宽高
-                    attrs: {
-                        ellipse: {
-                            fill: {
-                                type: 'linearGradient',
-                                stops: [
-                                    { offset: '0%', color: background },//渐变开始
-                                    { offset: '100%', color: '#FFFFFF' }//渐变结束
-                                ],
-                                attrs: { x1: '0%', y1: '0%', x2: '0%', y2: '100%' }
-                            },
-                            stroke: background,//边框颜色
-                            'stroke-width': 1//边框大小
-                        },
-                        text: { text: text } //显示文字
-                    }
-                });
-            }
-            graph.addCell(cell);
-            return cell;
-        };
-
-        //定义连线
-        function link(source, target, label){
-            var cell = new joint.dia.Link({
-                source: { id: source.id },
-                target: { id: target.id },
-                labels: [{ position: 0.5, attrs: { text: { text: label || '', 'font-weight': 'bold' } } }],
-                router: { name: 'manhattan' },//设置连线弯曲样式 manhattan直角
+    // make link
+    function ml(g, id, a, b, v) {
+        var l = new joint.shapes.standard.Link({
+            id: id,
+            source: (typeof a === 'string') ? { id: a } : a,
+            target: (typeof b === 'string') ? { id: b } : b,
+            labels: [{
+                position: .5,
                 attrs: {
-                    '.connection': {
-                        stroke: '#333333',//连线颜色
-                        'stroke-width': 2//连线粗细
-                    },
-                    '.marker-target': {
-                        fill: '#333333',//箭头颜色
-                        d: 'M 10 0 L 0 5 L 10 10 z'//箭头样式
-                    }
-                }
-            });
-            graph.addCell(cell);
-            return cell;
-        }
-
-
-        //创建元素
-        var start = state(100,300,"ellipse","#00FFFF", "怡园中林项目管理软件");
-        var state1 = state(300,200,"ellipse","#00FFFF", "项目基本资料");
-        var state11 = state(500,200,"rect","#f7a07b", "项目编号：Zl123456");
-        var state12 = state(500,250,"rect","#f7a07b", "立项时间：2019-03-15");
-        var state13 = state(500,300,"rect","#f7a07b", joint.util.breakText("部门：系统集成部",{width:80}));
-        var state14 = state(500,350,"rect","#f7a07b", "项目经理：张三");
-
-        var state2 = state(800,300,"ellipse","#00FFFF", "前期准备情况");
-//        var state21 = state(600,400,"rect","#f7a07b", "软件工作进度：开发中");
-        var state21 = state(750,450,"rect","#f7a07b", "方案完成情况：未完成");
-        var state22 = state(750,500,"rect","#f7a07b", "产品选型完成情况：未完成");
-        var state23 = state(750,550,"rect","#f7a07b", "招标组织完成情况：未完成");
-        var state24 = state(750,600,"rect","#f7a07b", "用资计划表确定：未完成");
-        var state25 = state(750,650,"rect","#f7a07b", "合同签订：未完成");
-
-        //创建连线
-        link(start, state1, "");
-        link(state1, state11, "");
-        link(state1, state12, "");
-        link(state1, state13, "");
-        link(state1, state14, "");
-
-        link(state11, state2, "");
-        link(state12, state2, "");
-        link(state13, state2, "");
-        link(state14, state2, "");
-
-//        link(start, state2, "");
-//        link(state2, state21, "");
-//        link(state2, state22, "");
-//        link(state2, state23, "");
-//        link(state2, state24, "");
-//        link(state2, state25, "");
-
-        //给所有元素添加点击事件
-        paper.on('cell:click', function (e) {
-            $("#detailModal .modal-body").html("");
-            var arr = $("#"+e.id+" tspan");
-            if(arr.length===1){
-                $("#detailModal .modal-body").append($(arr).html());
-                $("#detailModal").modal();
-            } else{
-                var tmp="";
-                $.each(arr, function(k,v){
-                    tmp+=$(v).html();
-                });
-                $("#detailModal .modal-body").append(tmp);
-                $("#detailModal").modal();
-            }
-
-        });
-
-	</script>
-	<!--<script type="text/javascript">
-        var $info = $('<pre>').css({
-            position: 'fixed',
-            top: 50,
-            right: 100
-        });
-        $(document.body).append($info);
-
-        function pluck(array, attribute) {
-            return array.map(function(item) { return item[attribute]; });
-        }
-
-        function clear() {
-            $info.text('');
-        }
-
-        function info(view) {
-
-            var cell = view.model;
-            var graph = view.paper.model;
-
-            if (!cell.isLink()) {
-
-                var inboundNeighbors = graph.getNeighbors(cell, { inbound: true });
-                var outboundNeighbors = graph.getNeighbors(cell, { outbound: true });
-                var successors = graph.getSuccessors(cell);
-                var predecessors = graph.getPredecessors(cell);
-                var predecessorsBreadthFirst = graph.getPredecessors(cell, { breadthFirst: true });
-                var deepSuccessors = graph.getSuccessors(cell, { deep: true });
-                var successorsBreadthFirst = graph.getSuccessors(cell, { breadthFirst: true });
-                var outboundLinks = graph.getConnectedLinks(cell, { outbound: true });
-                var inboundLinks = graph.getConnectedLinks(cell, { inbound: true });
-                var bfsDistance = {};
-
-                graph.bfs(cell, function(element, distance) { bfsDistance[element.id] = distance; }, { outbound: true });
-
-                var i = {
-                    id: cell.id,
-                    graphSources: pluck(graph.getSources(), 'id'),
-                    graphSinks: pluck(graph.getSinks(), 'id'),
-                    inboundNeighbors: pluck(inboundNeighbors, 'id'),
-                    outboundNeighbors: pluck(outboundNeighbors, 'id'),
-                    'successors (DFS)': pluck(successors, 'id'),
-                    'successors (BFS)': pluck(successorsBreadthFirst, 'id'),
-                    'predecessors (DFS)': pluck(predecessors, 'id'),
-                    'predecessors (BFS)': pluck(predecessorsBreadthFirst, 'id'),
-                    deepSuccessors: pluck(deepSuccessors, 'id'),
-                    outboundLinks: pluck(outboundLinks, 'id'),
-                    inboundLinks: pluck(inboundLinks, 'id'),
-                    bfsDistance: bfsDistance
-                };
-
-                $info.text(JSON.stringify(i, '\t', 4));
-            }
-        }
-
-
-        // make element
-        function me(g, id, x, y, s) {
-            console.log("sfddsfdsf",new joint)
-            var e = new joint.shapes.standard.Circle({
-                id: id,
-                position: { x: x, y: y },
-                size: { width: s || 50, height: s || 50 },
-                attrs: {
-                    label: {
+                    text: {
                         text: id,
                         fontWeight: 'bold'
-                    }
-                }
-            });
-            e.addTo(g);
-            return e;
-        }
-
-        // make link
-        function ml(g, id, a, b, v) {
-            var l = new joint.shapes.standard.Link({
-                id: id,
-                source: (typeof a === 'string') ? { id: a } : a,
-                target: (typeof b === 'string') ? { id: b } : b,
-                labels: [{
-                    position: .5,
-                    attrs: {
-                        text: {
-                            text: id,
-                            fontWeight: 'bold'
-                        }}
-                }],
-                vertices: v
-            });
-            l.addTo(g);
-            return l;
-        }
-
-        // Testing graph.
-        // &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
-
-        var graph = new joint.dia.Graph;
-        var paper = new joint.dia.Paper({
-            el: document.getElementById('paper'),
-            width: 800,
-            height: 600,
-            model: graph,
-            defaultConnectionPoint: { name: 'boundary' }
+                    }}
+            }],
+            vertices: v
         });
+        l.addTo(g);
+        return l;
+    }
 
-        //var a, aa, aaa, b, c, d, e, f, g, h, t, l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11, l12, l13, l14, l15, l16, l17;
+    // Testing graph.
+    // &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
 
-        me(graph, 't', 30, 5);
-        var a = me(graph, 'a', 50, 100, 140);
-        var aa = me(graph, 'aa', 85, 100, 60);
-        var aaa = me(graph, 'aaa', 110, 135, 23);
-        a.embed(aa);
-        aa.embed(aaa);
-        me(graph, 'b', 250, 250);
-        me(graph, 'c', 50, 280);
-        me(graph, 'd', 250, 100);
-        me(graph, 'e', 400, 200);
-        me(graph, 'f', 200, 400);
-        me(graph, 'g', 100, 400);
-        me(graph, 'h', 400, 400);
-        ml(graph, 'l1', 'a', 'b');
-        ml(graph, 'l2', 'a', 'c');
-        ml(graph, 'l3', 'a', 'd');
-        ml(graph, 'l4', 'd', 'e');
-        ml(graph, 'l5', 'e', 'b');
-        ml(graph, 'l6', 'e', 'a');
-        ml(graph, 'l7', 'f', { x: 300, y: 400 });
-        ml(graph, 'l8', { x: 20, y: 400 }, { x: 50, y: 500 });
-        ml(graph, 'l9', { x: 150, y: 500 }, { x: 400, y: 500 });
-        ml(graph, 'l10', 't', 'a');
-        ml(graph, 'l11', 't', 'aaa', [{ x: 200, y: 30 }]);
-        ml(graph, 'l12', 'aaa', 't', [{ x: 20, y: 100 }]);
-        var l13 = ml(graph, 'l13', 'aaa', 'aaa', [{ x: 170, y: 170 }, { x: 170, y: 150 }]);
-        aaa.embed(l13);
+    var graph = new joint.dia.Graph;
+    var paper = new joint.dia.Paper({
+        el: document.getElementById('paper'),
+        width: 800,
+        height: 600,
+        model: graph,
+        defaultConnectionPoint: { name: 'boundary' }
+    });
 
-        paper.on('cell:mouseover', info);
-        paper.on('cell:mouseout', clear);
+    //var a, aa, aaa, b, c, d, e, f, g, h, t, l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11, l12, l13, l14, l15, l16, l17;
 
-        // Tree Graph.
-        // -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+    me(graph, 't', 30, 5);
+    var a = me(graph, 'a', 50, 100, 140);
+    var aa = me(graph, 'aa', 85, 100, 60);
+    var aaa = me(graph, 'aaa', 110, 135, 23);
+    a.embed(aa);
+    aa.embed(aaa);
+    me(graph, 'b', 250, 250);
+    me(graph, 'c', 50, 280);
+    me(graph, 'd', 250, 100);
+    me(graph, 'e', 400, 200);
+    me(graph, 'f', 200, 400);
+    me(graph, 'g', 100, 400);
+    me(graph, 'h', 400, 400);
+    ml(graph, 'l1', 'a', 'b');
+    ml(graph, 'l2', 'a', 'c');
+    ml(graph, 'l3', 'a', 'd');
+    ml(graph, 'l4', 'd', 'e');
+    ml(graph, 'l5', 'e', 'b');
+    ml(graph, 'l6', 'e', 'a');
+    ml(graph, 'l7', 'f', { x: 300, y: 400 });
+    ml(graph, 'l8', { x: 20, y: 400 }, { x: 50, y: 500 });
+    ml(graph, 'l9', { x: 150, y: 500 }, { x: 400, y: 500 });
+    ml(graph, 'l10', 't', 'a');
+    ml(graph, 'l11', 't', 'aaa', [{ x: 200, y: 30 }]);
+    ml(graph, 'l12', 'aaa', 't', [{ x: 20, y: 100 }]);
+    var l13 = ml(graph, 'l13', 'aaa', 'aaa', [{ x: 170, y: 170 }, { x: 170, y: 150 }]);
+    aaa.embed(l13);
 
-        var treeGraph = new joint.dia.Graph;
-        var treePaper = new joint.dia.Paper({
-            el: document.getElementById('tree-paper'),
-            width: 800,
-            height: 600,
-            model: treeGraph,
-            defaultConnectionPoint: { name: 'boundary' }
-        });
+    paper.on('cell:mouseover', info);
+    paper.on('cell:mouseout', clear);
 
-        treePaper.on('cell:mouseover', info);
-        treePaper.on('cell:mouseout', clear);
+    // Tree Graph.
+    // -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
 
-        me(treeGraph, 'a', 30, 300, 40);
-        me(treeGraph, 'b', 120, 100, 40);
-        me(treeGraph, 'c', 120, 300, 40);
-        me(treeGraph, 'd', 120, 500, 40);
-        me(treeGraph, 'e', 220, 50, 40);
-        me(treeGraph, 'f', 220, 100, 40);
-        me(treeGraph, 'g', 220, 150, 40);
-        me(treeGraph, 'h', 220, 250, 40);
-        me(treeGraph, 'i', 220, 300, 40);
-        me(treeGraph, 'j', 220, 350, 40);
-        me(treeGraph, 'k', 220, 450, 40);
-        me(treeGraph, 'l', 220, 500, 40);
-        me(treeGraph, 'm', 220, 550, 40);
-        me(treeGraph, 'n', 320, 50, 40);
-        me(treeGraph, 'o', 320, 100, 40);
-        me(treeGraph, 'p', 320, 150, 40);
-        ml(treeGraph, 'l1', 'a', 'b');
-        ml(treeGraph, 'l2', 'a', 'c');
-        ml(treeGraph, 'l3', 'a', 'd');
-        ml(treeGraph, 'l4', 'b', 'e');
-        ml(treeGraph, 'l5', 'b', 'f');
-        ml(treeGraph, 'l6', 'b', 'g');
-        ml(treeGraph, 'l7', 'c', 'h');
-        ml(treeGraph, 'l8', 'c', 'i');
-        ml(treeGraph, 'l9', 'c', 'j');
-        ml(treeGraph, 'l10', 'd', 'k');
-        ml(treeGraph, 'l11', 'd', 'l');
-        ml(treeGraph, 'l12', 'd', 'm');
-        ml(treeGraph, 'l13', 'e', 'n');
-        ml(treeGraph, 'l14', 'f', 'o');
-        ml(treeGraph, 'l15', 'g', 'p');
-        ml(treeGraph, 'l16', 'h', 'b');
-        ml(treeGraph, 'l17', 'b', 'c');
-	</script>
+    var treeGraph = new joint.dia.Graph;
+    var treePaper = new joint.dia.Paper({
+        el: document.getElementById('tree-paper'),
+        width: 800,
+        height: 600,
+        model: treeGraph,
+        defaultConnectionPoint: { name: 'boundary' }
+    });
+
+    treePaper.on('cell:mouseover', info);
+    treePaper.on('cell:mouseout', clear);
+
+    me(treeGraph, 'a', 30, 300, 40);
+    me(treeGraph, 'b', 120, 100, 40);
+    me(treeGraph, 'c', 120, 300, 40);
+    me(treeGraph, 'd', 120, 500, 40);
+    me(treeGraph, 'e', 220, 50, 40);
+    me(treeGraph, 'f', 220, 100, 40);
+    me(treeGraph, 'g', 220, 150, 40);
+    me(treeGraph, 'h', 220, 250, 40);
+    me(treeGraph, 'i', 220, 300, 40);
+    me(treeGraph, 'j', 220, 350, 40);
+    me(treeGraph, 'k', 220, 450, 40);
+    me(treeGraph, 'l', 220, 500, 40);
+    me(treeGraph, 'm', 220, 550, 40);
+    me(treeGraph, 'n', 320, 50, 40);
+    me(treeGraph, 'o', 320, 100, 40);
+    me(treeGraph, 'p', 320, 150, 40);
+    ml(treeGraph, 'l1', 'a', 'b');
+    ml(treeGraph, 'l2', 'a', 'c');
+    ml(treeGraph, 'l3', 'a', 'd');
+    ml(treeGraph, 'l4', 'b', 'e');
+    ml(treeGraph, 'l5', 'b', 'f');
+    ml(treeGraph, 'l6', 'b', 'g');
+    ml(treeGraph, 'l7', 'c', 'h');
+    ml(treeGraph, 'l8', 'c', 'i');
+    ml(treeGraph, 'l9', 'c', 'j');
+    ml(treeGraph, 'l10', 'd', 'k');
+    ml(treeGraph, 'l11', 'd', 'l');
+    ml(treeGraph, 'l12', 'd', 'm');
+    ml(treeGraph, 'l13', 'e', 'n');
+    ml(treeGraph, 'l14', 'f', 'o');
+    ml(treeGraph, 'l15', 'g', 'p');
+    ml(treeGraph, 'l16', 'h', 'b');
+    ml(treeGraph, 'l17', 'b', 'c');
+</script>
 -->
 </body>
 </html>

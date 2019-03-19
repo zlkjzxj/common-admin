@@ -43,7 +43,7 @@ public class DeptController extends BaseController {
     ResultInfo<List<Department>> listData(Department department) {
         EntityWrapper<Department> wrapper = new EntityWrapper<>(department);
         if (department != null && department.getBmmc() != null) {
-            wrapper.like("bmmc", department.getBmmc());
+            wrapper.eq("bmmc", department.getBmmc());
             department.setBmmc(null);
         }
 //        List<Department> list = iDepartmentService.selectList(wrapper);
@@ -72,13 +72,14 @@ public class DeptController extends BaseController {
     public @ResponseBody
     ResultInfo<List<TreeNode>> listDataJson(Department department) {
         EntityWrapper<Department> wrapper = new EntityWrapper<>(department);
+        wrapper.eq("isshow",0);
         List<Department> list = iDepartmentService.selectList(wrapper);
         List<TreeNode> nodeList = new ArrayList<>();
         list.forEach(node -> {
-            TreeNode<TreeNode> treeNode = new TreeNode<>(node.getId(), node.getBmmc(), node.getPid());
+            TreeNode<TreeNode> treeNode = new TreeNode<>(node.getId(), node.getBmmc(), node.getPid(), false,false);
             nodeList.add(treeNode);
         });
-        return new ResultInfo<>(makeTree(nodeList, 0));
+        return new ResultInfo<>(makeTree(nodeList, 1));
     }
 
     @RequestMapping("/listDataTreeWithoutCode")
@@ -86,13 +87,20 @@ public class DeptController extends BaseController {
     public @ResponseBody
     List<TreeNode> listDataJsonWithoutCode(Department department) {
         EntityWrapper<Department> wrapper = new EntityWrapper<>(department);
+        Integer pid = 0;
+        wrapper.eq("isshow",0);
+        if (department != null && department.getPid() != null) {
+            wrapper.ge("pid", department.getPid());
+            pid = department.getPid();
+            department.setPid(null);
+        }
         List<Department> list = iDepartmentService.selectList(wrapper);
         List<TreeNode> nodeList = new ArrayList<>();
         list.forEach(node -> {
-            TreeNode<TreeNode> treeNode = new TreeNode<>(node.getId(), node.getBmmc(), node.getPid());
+            TreeNode<TreeNode> treeNode = new TreeNode<>(node.getId(), node.getBmmc(), node.getPid(), false, false);
             nodeList.add(treeNode);
         });
-        return makeTree(nodeList, 0);
+        return makeTree(nodeList, pid);
     }
 
     private static List<TreeNode> makeTree(List<TreeNode> TreeNodeList, int pId) {

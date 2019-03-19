@@ -15,7 +15,8 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
                 where: {
                     glbm: node.id,
                 }
-            })
+            });
+            $("#glbm").val(node.id);
         }
     });
 
@@ -100,7 +101,8 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
                 userName: $(".userName").val(),
                 name: $(".name").val(),
                 state: $(".state").val(),
-                roleId: $(".roleId").val()
+                roleId: $(".roleId").val(),
+                glbm : $("#glbm").val()
             }
         })
     });
@@ -130,11 +132,6 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
                     body.find("#stateSelect").val(edit.state);
                     form.render();
                 }
-                setTimeout(function () {
-                    layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
-                        tips: 3
-                    });
-                }, 500)
             }
         })
     }

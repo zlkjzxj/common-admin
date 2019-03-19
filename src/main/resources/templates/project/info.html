@@ -11,18 +11,30 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" href="/static/layui/css/layui.css" media="all"/>
     <link rel="stylesheet" href="/static/css/public.css" media="all"/>
+    <style>
+        .layui-form-label {
+            width: 120px;
+        }
+
+        .layui-input-block {
+            margin-left: 150px;
+            min-height: 36px
+        }
+    </style>
 </head>
 
 <body class="childrenBody">
 <form class="layui-form layui-form-item">
     <input type="hidden" id="department" name="department">
     <div class="layui-col-md8 layui-col-xs12">
-        <blockquote class="layui-elem-quote title"><i class="seraph icon-caidan"></i> 前期准备情况</blockquote>
+        <blockquote class="layui-elem-quote title" style="margin-bottom: 10px;"><i class="seraph icon-caidan"></i>
+            前期准备情况
+        </blockquote>
         <div class="layui-form-item">
             <label class="layui-form-label">项目名称</label>
             <div class="layui-input-block">
-                <input type="text" name="name" class="layui-input"  lay-verify="required"
-                       placeholder="请输入文章标题">
+                <input type="text" name="name" class="layui-input" lay-verify="required"
+                       placeholder="请输入项目名称">
             </div>
         </div>
         <div class="layui-form-item">
@@ -46,7 +58,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">部门</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="dTree" lay-filter="dTree" lay-verify="required">
+                    <input type="text" id="dTree" lay-filter="tree" class="layui-input" lay-verify="required">
                 </div>
             </div>
             <div class="layui-inline ">
@@ -110,7 +122,9 @@
             </div>
         </div>
         <div class="layui-col-md12 layui-col-xs12">
-            <blockquote class="layui-elem-quote title"><i class="seraph icon-caidan"></i> 集成部署情况</blockquote>
+            <blockquote class="layui-elem-quote title" style="margin-bottom: 10px;"><i class="seraph icon-caidan"></i>
+                集成部署情况
+            </blockquote>
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
@@ -148,7 +162,9 @@
         </div>
     </div>
     <div class="layui-col-md4 layui-col-xs12">
-        <blockquote class="layui-elem-quote title"><i class="layui-icon">&#xe609;</i> 财务填写状况</blockquote>
+        <blockquote class="layui-elem-quote title" style="margin-bottom: 10px;"><i class="layui-icon">&#xe609;</i>
+            财务填写状况
+        </blockquote>
         <div class="layui-form-item">
             <label class="layui-form-label">合同金额</label>
             <div class="layui-input-block">

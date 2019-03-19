@@ -53,7 +53,7 @@ public class User extends Model<User> {
     @JsonIgnore
     private String passWord;
     /**
-     * 密码
+     * 管理部门
      */
     @TableField("glbm")
     @JsonIgnore

@@ -22,7 +22,7 @@ layui.config({
         // 选择器
         elem: '#pTree',
         // 数据
-        data: '/dept/listDataTreeWithoutCode',
+        data: '/dept/listDataTreeWithoutCode?pid=1',
         // 异步加载方式：get/post，默认get
         type: 'get',
         // 占位符

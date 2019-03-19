@@ -23,18 +23,29 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
             {field: 'lxsj', title: '立项时间', align: 'center'},
             {field: 'department', title: '部门', align: 'center'},
             {field: 'manager', title: '项目经理', align: 'center'}
-            // {
-            //     field: 'newsTop', title: '是否置顶', align: 'center', templet: function (d) {
-            //         return '<input type="checkbox" name="newsTop" lay-filter="newsTop" lay-skin="switch" lay-text="是|否" ' + d.newsTop + '>'
-            //     }
-            // },
-            // {
-            //     field: 'newsTime', title: '发布时间', align: 'center', minWidth: 110, templet: function (d) {
-            //         return d.newsTime.substring(0, 10);
-            //     }
-            // },
-            // {title: '操作', width: 170, templet: '#newsListBar', fixed: "right", align: "center"}
-        ]]
+        ]],
+        done: function (res, curr, count) {
+            $('#newsList').next().find('.layui-table-body').find("table").find("tbody").children("tr").on('dblclick', function () {
+                var id = JSON.stringify($('#newsList').next().find('.layui-table-body').find("table").find("tbody").find(".layui-table-hover").data('index'));
+                var obj = res.data[id];
+                console.log(obj.number);
+                // $(window).one("resize", function () {
+                var index = layui.layer.open({
+                    title: "项目详情",
+                    type: 2,
+                    content: "chart.html",
+                    success: function (layero, index) {
+                        setTimeout(function () {
+                            layui.layer.tips('点击此处返回项目列表', '.layui-layer-setwin .layui-layer-close', {
+                                tips: 3
+                            });
+                        }, 500)
+                    }
+                })
+                layui.layer.full(index);
+            })
+            // }).resize();
+        }
     });
 
     //是否置顶
@@ -68,7 +79,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
 
     //添加项目
     function addNews(edit) {
-        var h = "780px";
+        var h = "700px";
         var title = "添加项目";
         if (edit) {
             h = "280px";
@@ -92,7 +103,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
                     form.render();
                 }
                 setTimeout(function () {
-                    layui.layer.tips('点击此处返回文章列表', '.layui-layer-setwin .layui-layer-close', {
+                    layui.layer.tips('点击此处返回项目列表', '.layui-layer-setwin .layui-layer-close', {
                         tips: 3
                     });
                 }, 500)
