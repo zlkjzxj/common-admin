@@ -7,19 +7,7 @@ layui.config({
     layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery;
 
-    //生成主管select
-    // console.log("caonimabi de layui")
-    // $.post("/user/listDataSelect?glbm=" + $("#id").val(), {
-    //     available: 1
-    // }, function (data) {
-    //     var userList = data.data;
-    //     console.log(userList);
-    //     userList.forEach(function (e) {
-    //         $("#manager").append("<option value='" + e.id + "'>" + e.name + "</option>");
-    //     });
-    //     $("#manager").val($("#managerId").val());//默认选中
-    //     form.render('select');//刷新select选择框渲染
-    // });
+
     layui.treeSelect.render({
         // 选择器
         elem: '#pTree',

@@ -9,17 +9,8 @@ layui.config({
         layer = parent.layer === undefined ? layui.layer : top.layer,
         form = layui.form;
 
-    var roleList;
-    $.post("/role/selectListData", {
-        available: 1
-    }, function (data) {
-        roleList = data.data;
-        roleList.forEach(function (e) {
-            $("#roleSelect").append("<option value='" + e.id + "'>" + e.roleName + "</option>");
-        });
-        form.render('select');//刷新select选择框渲染
-    });
-    /*var userList;
+
+    var userList;
     $.post("/user/listDataSelect", {
         available: 1
     }, function (data) {
@@ -32,7 +23,7 @@ layui.config({
         });
         // $("#manager").val($("#managerId").val());//默认选中
         form.render('select');//刷新select选择框渲染
-    });*/
+    });
     // 渲染表格
     var depTable = function () {
         treetable.render({
@@ -75,7 +66,7 @@ layui.config({
         })
         ;
     }
-
+    depTable();
     //添加部门
     function addDept(edit) {
         $("#id").val("");
@@ -102,7 +93,7 @@ layui.config({
                     body.find("#pid").val(edit.pid);
                     console.log(edit.isshow)
                     body.find("#isshow").val(edit.isshow);
-                    // form.render();
+                    form.render();
                 }
             }
         })
