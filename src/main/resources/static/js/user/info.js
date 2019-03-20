@@ -1,45 +1,41 @@
-layui.use(['form', 'layer', 'tree'], function () {
+layui.config({
+    base: '/static/layui/'
+}).extend({
+    treeSelect: 'treeSelect'
+}).use(['form', 'layer', 'treeSelect'], function () {
     var form = layui.form
     layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery,
-        tree = layui.tree;
+        treeSelect = layui.treeSelect;
 
-    // tree({
-    //     elem: "#department"
-    //     ,
-    //     nodes: [{
-    //         name: '常用文件夹',
-    //         id: 1,
-    //         alias: 'changyong',
-    //         children: [{name: '所有未读', id: 11, href: 'http://www.layui.com/', alias: 'weidu'}, {
-    //             name: '置顶邮件',
-    //             id: 12
-    //         }, {name: '标签邮件', id: 13}]
-    //     }, {
-    //         name: '我的邮箱',
-    //         id: 2,
-    //         spread: true,
-    //         children: [{
-    //             name: 'QQ邮箱',
-    //             id: 21,
-    //             spread: true,
-    //             children: [{
-    //                 name: '收件箱',
-    //                 id: 211,
-    //                 children: [{name: '所有未读', id: 2111}, {name: '置顶邮件', id: 2112}, {name: '标签邮件', id: 2113}]
-    //             }, {name: '已发出的邮件', id: 212}, {name: '垃圾邮件', id: 213}]
-    //         }, {
-    //             name: '阿里云邮',
-    //             id: 22,
-    //             children: [{name: '收件箱', id: 221}, {name: '已发出的邮件', id: 222}, {name: '垃圾邮件', id: 223}]
-    //         }]
-    //     }]
-    //     ,
-    //     click: function (node) {
-    //         var $select = $($(this)[0].elem).parents(".layui-form-select");
-    //         $select.removeClass("layui-form-selected").find(".layui-select-title span").html(node.name).end().find("input:hidden[name='selectID']").val(node.id);
-    //     }
-    // });
+    treeSelect.render({
+        // 选择器
+        elem: '#glbmTree',
+        // 数据
+        data: '/dept/listDataTreeWithoutCode?pid=1',
+        // 异步加载方式：get/post，默认get
+        type: 'get',
+        // 占位符
+        placeholder: '请选择部门',
+        // 是否开启搜索功能：true/false，默认false
+        search: false,
+        // 点击回调
+        click: function (d) {
+            $("#glbm").val(d.current.id);
+        },
+        // 加载完成后的回调函数
+        success: function (d) {
+            console.log(d);
+//                选中节点，根据id筛选
+            console.log($("#glbm").val());
+            treeSelect.checkNode('glbmTree', $("#glbm").val());
+            // var treeObj = treeSelect.zTree('tree');
+            // console.log(treeObj);
+
+//                刷新树结构
+//                treeSelect.refresh();
+        }
+    })
 
     $.post("/role/selectListData", {
         available: 1
@@ -52,7 +48,7 @@ layui.use(['form', 'layer', 'tree'], function () {
         form.render('select');//刷新select选择框渲染
     });
 
-    //添加验证规则
+//添加验证规则
     form.verify({
         newPwd: function (value, item) {
             if (value.length < 6) {

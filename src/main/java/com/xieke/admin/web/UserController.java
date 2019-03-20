@@ -80,7 +80,7 @@ public class UserController extends BaseController {
     ResultInfo<List<User>> listDataSelect(User user) {
         EntityWrapper<User> wrapper = new EntityWrapper<>(user);
         if (user != null && user.getGlbm() != null) {
-            wrapper.and("glbm", user.getGlbm());
+            wrapper.eq("glbm", user.getGlbm());
             user.setGlbm(null);
         }
         List<User> userList = iUserService.selectList(wrapper);
@@ -117,6 +117,7 @@ public class UserController extends BaseController {
         us.setName(user.getName());
         us.setRoleId(user.getRoleId());
         us.setState(user.getState());
+        us.setGlbm(user.getGlbm());
         boolean b = iUserService.updateById(us);
         return new ResultInfo<>(b);
     }

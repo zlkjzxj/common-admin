@@ -16,7 +16,7 @@
 <form class="layui-form linksAdd">
     <input type="hidden" value="" id="id" name="id">
     <input type="hidden" value="" id="pid" name="pid">
-    <input type="hidden" value="" id="managerId">
+    <!--<input type="hidden" value="" id="managerId">-->
     <div class="layui-form-item">
         <label class="layui-form-label">部门名称</label>
         <div class="layui-input-block">
@@ -31,15 +31,27 @@
             <input type="text" id="pTree" lay-filter="pTree" class="layui-input">
         </div>
     </div>
-    <div class="layui-form-item" id="managerDiv" style="display: none;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否显示</label>
+        <div class="layui-input-block">
+            <select id="isshow" name="isshow">
+                <option value="1">是</option>
+                <option value="0">否</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item" id="managerDiv" style="display: block;">
         <label class="layui-form-label">部门主管</label>
         <div class="layui-input-block">
-            <select name="manager" id="manager">
+            <!--<select name="manager" id="manager" lay-filter="manger">-->
+            <!--</select>-->
+            <select name="roleId" id="roleSelect">
+                <option value="">请选择角色</option>
             </select>
         </div>
     </div>
     <div class="layui-form-item">
-        <button class="layui-btn layui-block" lay-filter="addDept" lay-submit style="margin-top: 50px;">保存</button>
+        <button class="layui-btn layui-block" lay-filter="addDept" lay-submit>保存</button>
     </div>
 </form>
 <script type="text/javascript" src="/static/layui/layui.js"></script>

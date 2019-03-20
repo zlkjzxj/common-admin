@@ -16,6 +16,7 @@
 <form class="layui-form linksAdd">
     <input type="hidden" value="" id="id" name="id">
     <input type="hidden" value="" id="roleId">
+    <input type="hidden" id="glbm" name="glbm">
     <div class="layui-form-item">
         <label class="layui-form-label">用户姓名</label>
         <div class="layui-input-block">
@@ -31,13 +32,9 @@
     <div class="layui-form-item">
         <label class="layui-form-label">所属部门</label>
         <div class="layui-input-block">
-            <!--<input type="text" class="layui-input" id="glbm" name="glbm" lay-verify="required"-->
-                   <!--placeholder="请选择所属部门">-->
-            <select id="glbm" name="glbm">
-                <option value="1">系统集成部</option>
-                <option value="2">软件部</option>
-                <option value="3">人力资源部</option>
-            </select>
+            <input type="text" id="glbmTree" lay-filter="glbmTree" class="layui-input">
+            <!--<select id="glbm" name="glbm">-->
+            <!--</select>-->
         </div>
     </div>
     <div class="layui-form-item">

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,8 +64,16 @@ public class DeptController extends BaseController {
     @RequiresPermissions("dept:edit")
     public @ResponseBody
     ResultInfo<Boolean> edit(Department department) {
-
         return new ResultInfo<>(iDepartmentService.updateById(department));
+    }
+
+    @SysLog("删除用户操作")
+    @RequestMapping("/delBatch")
+    @RequiresPermissions("user:del")
+    public @ResponseBody
+    ResultInfo<Boolean> delBatch(Integer[] idArr) {
+        boolean b = iDepartmentService.deleteBatchIds(Arrays.asList(idArr));
+        return new ResultInfo<>(b);
     }
 
     @RequestMapping("/listDataTree")
@@ -72,11 +81,11 @@ public class DeptController extends BaseController {
     public @ResponseBody
     ResultInfo<List<TreeNode>> listDataJson(Department department) {
         EntityWrapper<Department> wrapper = new EntityWrapper<>(department);
-        wrapper.eq("isshow",0);
+        wrapper.eq("isshow", 1);
         List<Department> list = iDepartmentService.selectList(wrapper);
         List<TreeNode> nodeList = new ArrayList<>();
         list.forEach(node -> {
-            TreeNode<TreeNode> treeNode = new TreeNode<>(node.getId(), node.getBmmc(), node.getPid(), false,false);
+            TreeNode<TreeNode> treeNode = new TreeNode<>(node.getId(), node.getBmmc(), node.getPid(), false, false);
             nodeList.add(treeNode);
         });
         return new ResultInfo<>(makeTree(nodeList, 1));
@@ -88,7 +97,7 @@ public class DeptController extends BaseController {
     List<TreeNode> listDataJsonWithoutCode(Department department) {
         EntityWrapper<Department> wrapper = new EntityWrapper<>(department);
         Integer pid = 0;
-        wrapper.eq("isshow",0);
+        wrapper.eq("isshow", 1);
         if (department != null && department.getPid() != null) {
             wrapper.ge("pid", department.getPid());
             pid = department.getPid();

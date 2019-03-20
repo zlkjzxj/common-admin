@@ -40,6 +40,7 @@ public class User extends Model<User> {
     /**
      * 名称
      */
+    @TableField("name")
     private String name;
     /**
      * 用户名
@@ -56,7 +57,6 @@ public class User extends Model<User> {
      * 管理部门
      */
     @TableField("glbm")
-    @JsonIgnore
     private Integer glbm;
     /**
      * 盐值

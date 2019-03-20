@@ -11,6 +11,7 @@
         <result column="pass_word" property="passWord" />
         <result column="salt" property="salt" />
         <result column="state" property="state" />
+        <result column="glbm" property="glbm" />
         <result column="update_time" property="updateTime" />
         <result column="create_time" property="createTime" />
     </resultMap>

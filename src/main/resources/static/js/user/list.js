@@ -62,8 +62,8 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
         id: "userListTable",
         cols: [[
             {type: "checkbox", fixed: "left", width: 50},
-            {field: 'userName', title: '登录名称', minWidth: 100, align: "center"},
             {field: 'name', title: '用户名称', minWidth: 100, align: 'center'},
+            {field: 'userName', title: '登录名称', minWidth: 100, align: "center"},
             {
                 field: 'roleId', title: '角色名称', minWidth: 100, align: 'center', templet: function (d) {
                     var name = "";
@@ -75,6 +75,7 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
                     return name;
                 }
             },
+            {field: 'glbm', title: '管理部门', minWidth: 100, align: "center"},
             {
                 field: 'state', title: '用户状态', minWidth: 100, align: 'center', templet: function (d) {
                     if (d.state === 1) {
@@ -88,7 +89,11 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
             },
             {field: 'updateTime', title: '修改时间', align: 'center', minWidth: 100},
             {field: 'createTime', title: '创建时间', align: 'center', minWidth: 100}
-        ]]
+        ]],
+        done: function (res, curr, count) {
+            // 隐藏列
+            $(".layui-table-box").find("[data-field='glbm']").css("display", "none");
+        }
     });
 
     //搜索
@@ -102,7 +107,7 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
                 name: $(".name").val(),
                 state: $(".state").val(),
                 roleId: $(".roleId").val(),
-                glbm : $("#glbm").val()
+                glbm: $("#glbm").val()
             }
         })
     });
@@ -112,7 +117,7 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
         var h = "440px";
         var title = "添加用户";
         if (edit) {
-            h = "280px";
+            h = "330px";
             title = "编辑用户";
         }
         layui.layer.open({
@@ -123,11 +128,13 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
             success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
                 if (edit) {
+                    console.log(edit)
                     body.find("#une").remove();
                     body.find("#pwd1").remove();
                     body.find("#pwd2").remove();
                     body.find("#id").val(edit.id);
                     body.find("#name").val(edit.name);
+                    body.find("#glbm").val(edit.glbm);
                     body.find("#roleId").val(edit.roleId);
                     body.find("#stateSelect").val(edit.state);
                     form.render();
