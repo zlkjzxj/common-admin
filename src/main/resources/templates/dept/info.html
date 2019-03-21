@@ -16,7 +16,7 @@
 <form class="layui-form linksAdd">
     <input type="hidden" value="" id="id" name="id">
     <input type="hidden" value="" id="pid" name="pid">
-    <!--<input type="hidden" value="" id="managerId">-->
+    <input type="hidden" value="" id="managerId">
     <div class="layui-form-item">
         <label class="layui-form-label">部门名称</label>
         <div class="layui-input-block">
@@ -40,11 +40,10 @@
             </select>
         </div>
     </div>
-    <div class="layui-form-item">
+    <div class="layui-form-item" id="managerDiv" style="display: none">
         <label class="layui-form-label">部门主管</label>
         <div class="layui-input-block">
             <select name="manager" id="manager" lay-filter="manager">
-                <option value="">请选择部门主管</option>
             </select>
         </div>
     </div>

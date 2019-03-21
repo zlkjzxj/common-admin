@@ -50,16 +50,18 @@ layui.config({
 
 
     form.verify({
-        projectName: function (val) {
-            if (val == '') {
-                return "项目名称不能为空";
-            }
+       /* required: [/[\S]+/, "必填项不能为空"],
+        phone: [/^1\d{10}$/, "请输入正确的手机号"],
+        email: [/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, "邮箱格式不正确"],
+        url: [/(^#)|(^http(s*):\/\/[^\s]+\.[^\s]+)/, "链接格式不正确"],
+        number: function(e) {
+            if (!e || isNaN(e)) return "只能填写数字"
         },
-        projectNumber: function (val) {
-            if (val == '') {
-                return "项目编号不能为空";
-            }
-        }
+        date: [/^(\d{4})[-\/](\d{1}|0\d{1}|1[0-2])([-\/](\d{1}|0\d{1}|[1-2][0-9]|3[0-1]))*$/, "日期格式不正确"],
+        identity: [/(^\d{15}$)|(^\d{17}(x|X|\d)$)/, "请输入正确的身份证号"]*/
+        name: [/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, "邮箱格式不正确"],
+        //1、编号构成：年度+部门+项目类型+序号+追加
+        number: [/^(\d{4})+(XS|JC|YW|HL|CW|XZ|RJ|XX)+(JC|DR|ZR|JF|KF|CX|KR|KJ|NB|WB|BH)+([0-9][0-9][2-9]{1})+$/, "邮箱格式不正确"],
     })
 // form.on('submit(*)', function (data) {
 //     console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
@@ -80,7 +82,7 @@ layui.config({
             data: data.field,
             dataType: 'json',
             success: function (res) {
-                if (res.data){
+                if (res.data) {
                     layer.close(index);
                     layer.msg("添加成功！");
                     // layer.closeAll("iframe");

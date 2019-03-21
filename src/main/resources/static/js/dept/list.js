@@ -9,20 +9,12 @@ layui.config({
         layer = parent.layer === undefined ? layui.layer : top.layer,
         form = layui.form;
 
-
+//这是用来翻译部门树上的主管的
     var userList;
     $.post("/user/listDataSelect", {
         available: 1
     }, function (data) {
         userList = data.data;
-        // depTable();
-        //渲染主管
-        console.log(data);
-        userList.forEach(function (e) {
-            $("#manager").append("<option value='" + e.id + "'>" + e.name + "</option>");
-        });
-        // $("#manager").val($("#managerId").val());//默认选中
-        form.render('select');//刷新select选择框渲染
     });
     // 渲染表格
     var depTable = function () {
@@ -67,10 +59,9 @@ layui.config({
         ;
     }
     depTable();
+
     //添加部门
     function addDept(edit) {
-        $("#id").val("");
-        $("#pid").val("");
         var h = "300px";
         var title = "添加部门";
         if (edit) {
@@ -84,15 +75,17 @@ layui.config({
             content: "info.html",
             success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
-                // body.find("#managerDiv").hide();
+                body.find("#managerDiv").hide();
                 if (edit) {
                     console.log(edit);
                     body.find("#managerDiv").show();
                     body.find("#id").val(edit.id);
                     body.find("#bmmc").val(edit.bmmc);
                     body.find("#pid").val(edit.pid);
-                    console.log(edit.isshow)
                     body.find("#isshow").val(edit.isshow);
+                    body.find("#managerId").val(edit.manager);
+                    console.log(body.find("#managerId").val())
+                    console.log(body.find("#id").val())
                     form.render();
                 }
             }
@@ -104,15 +97,6 @@ layui.config({
         addDept();
     });
 
-    // $(".edit_btn").click(function () {
-    //     var checkStatus = table.checkStatus('deptListTable'),
-    //         data = checkStatus.data;
-    //     if (data.length > 0) {
-    //         addDept(data[0]);
-    //     } else {
-    //         layer.msg("请选择需要修改的部门");
-    //     }
-    // });
 
     //批量删除
     $(".delAll_btn").click(function () {

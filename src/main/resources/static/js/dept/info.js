@@ -7,7 +7,22 @@ layui.config({
     layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery;
 
-
+    //这是用来生成编辑框主管列表的
+    var userList;
+    $.post("/user/listDataSelect?glbm=" + $("#id").val(), {
+        available: 1
+    }, function (data) {
+        userList = data.data;
+        // depTable();
+        //渲染主管
+        console.log(data);
+        userList.forEach(function (e) {
+            $("#manager").append("<option value='" + e.id + "'>" + e.name + "</option>");
+        });
+        console.log("打开编辑找managerid",$("#managerId").val());
+        $("#manager").val($("#managerId").val());//默认选中
+        form.render('select');//刷新select选择框渲染
+    });
     layui.treeSelect.render({
         // 选择器
         elem: '#pTree',
@@ -42,24 +57,29 @@ layui.config({
         //弹出loading
         var index = top.layer.msg('数据保存中，请稍候...', {icon: 16, time: false, shade: 0.8});
         if ($("#id").val() === "") {
-            console.log(data.field)
-            // $.post("/dept/add", data.field, function (res) {
-            //     if (res.data) {
-            //         layer.close(index);
-            //         layer.msg("添加成功！");
-            //         layer.closeAll("iframe");
-            //         //刷新父页面
-            //         parent.location.reload();
-            //     } else {
-            //         layer.msg(data.msg);
-            //     }
-            // })
+            data.field.manger = "";
+            console.log(data.field);
+            // var xx = Object.assign(data.field,{manager:""})
+            $.post("/dept/add", data.field, function (res) {
+                if (res.data) {
+                    layer.close(index);
+                    layer.msg("添加成功！");
+                    layer.closeAll("iframe");
+                    //刷新父页面
+                    parent.location.reload();
+                } else {
+                    layer.msg(data.msg);
+                }
+            })
         } else {
             $.post("/dept/edit", data.field, function (res) {
                 if (res.data) {
                     layer.close(index);
                     layer.msg("修改成功！");
                     layer.closeAll("iframe");
+                    $("#id").val("");
+                    $("#pid").val("");
+                    $("#managerId").val("");
                     //刷新父页面
                     parent.location.reload();
                 } else {

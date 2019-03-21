@@ -36,9 +36,9 @@ public class ShiroRealm extends AuthorizingRealm {
         logger.info("权限配置----->ShiroRealm.doGetAuthorizationInfo()");
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        UserInfo userInfo  = (UserInfo)principals.getPrimaryPrincipal();
+        UserInfo userInfo = (UserInfo) principals.getPrimaryPrincipal();
         authorizationInfo.addRole(userInfo.getRoleInfo().getRoleCode());
-        for(Permission p:userInfo.getRoleInfo().getPermissions()){
+        for (Permission p : userInfo.getRoleInfo().getPermissions()) {
             authorizationInfo.addStringPermission(p.getPermissionCode());
         }
 
@@ -55,17 +55,17 @@ public class ShiroRealm extends AuthorizingRealm {
         logger.info("ShiroRealm.doGetAuthenticationInfo()");
 
         //获取用户的输入的账号.
-        String username = (String)token.getPrincipal();
+        String username = (String) token.getPrincipal();
         //通过username从数据库中查找 User对象，如果找到，没找到.
         //实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
         UserInfo userInfo = iUserService.findUserInfo(username);
 
         logger.info("----->userInfo=" + userInfo);
-        if(userInfo == null){
+        if (userInfo == null) {
             throw new AccountException();
-        }else if(userInfo.getState() == 0){
+        } else if (userInfo.getState() == 0) {
             throw new DisabledAccountException();
-        }else if(userInfo.getState() == 2){
+        } else if (userInfo.getState() == 2) {
             throw new LockedAccountException();
         }
 
@@ -87,7 +87,11 @@ public class ShiroRealm extends AuthorizingRealm {
         LoginLog loginLog = new LoginLog();
         loginLog.setUserId(userInfo.getId());
         loginLog.setUserName(userInfo.getUserName());
-        loginLog.setIpAddress(SecurityUtils.getSubject().getSession().getAttribute(Constant.LOGIN_IP_ADDRESS).toString());
+        Session session = SecurityUtils.getSubject().getSession();
+        Object o = session.getAttribute(Constant.LOGIN_IP_ADDRESS);
+        String xx = o.toString();
+//        loginLog.setIpAddress(SecurityUtils.getSubject().getSession().getAttribute(Constant.LOGIN_IP_ADDRESS).toString());
+        loginLog.setIpAddress(xx);
         loginLog.setGeographyLocation(AddressUtils.getAddressByIp(loginLog.getIpAddress()));
         iloginLogService.insert(loginLog);
     }
