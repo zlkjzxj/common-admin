@@ -2,11 +2,24 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
     var form = layui.form,
         layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery,
-        laydate = layui.laydate,
-        laytpl = layui.laytpl,
         table = layui.table;
+    //部门翻译
+    var departmentList;
+    $.post("/dept/listData", {
+        available: 1
+    }, function (data) {
+        departmentList = data.data;
+    });
 
-    //新闻列表
+    //项目经理翻译
+    var userList;
+    $.post("/user/listDataSelect", {
+        available: 1
+    }, function (data) {
+        userList = data.data;
+    });
+
+    //项目列表
     var tableIns = table.render({
         elem: '#newsList',
         url: '/project/listData',
@@ -17,13 +30,109 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
         limits: [10, 15, 20, 25],
         id: "newsListTable",
         cols: [[
-            {type: "checkbox", fixed: "left", width: 50},
-            {field: 'name', title: '项目名称', width: 300, align: "center"},
-            {field: 'number', title: '项目编号', width: 300},
-            {field: 'lxsj', title: '立项时间', align: 'center'},
-            {field: 'department', title: '部门', align: 'center'},
-            {field: 'manager', title: '项目经理', align: 'center'}
+            {type: "checkbox", fixed: "left"},
+            {field: 'name', title: '项目名称', align: "center",width: 200,},
+            {field: 'number', title: '项目编号',width: 120,},
+            {field: 'lxsj', title: '立项时间', align: 'center',width: 120,},
+            {field: 'department', title: '部门', align: 'center',width: 120,templet:function (d) {
+                var name = "";
+
+                for(var i=0;i<departmentList.length;i++){
+                    if(departmentList[i].id===d.department){
+                        name=departmentList[i].bmmc;
+                        break;
+                    }
+                }
+                return name;
+            }},
+            {field: 'manager', title: '项目经理', align: 'center', width: 120,templet:function (d) {
+                var name = "";
+                for(var i=0;i<userList.length;i++){
+                    if(userList[i].id===d.manager){
+                        name=userList[i].name;
+                        break;
+                    }
+                }
+                return name;
+            }},
+            {
+                field: 'rjkfjd', title: '软件开发进度', align: 'center', width: 120, templet: function (d) {
+                if (d.rjkfjd === 0) {
+                    return '<span class="layui-badge layui-bg-orange">工作中</span>';
+                } else if (d.rjkfjd === 1) {
+                    return '<span class="layui-badge layui-bg-black">暂停中</span>';
+                } else if (d.rjkfjd === 2) {
+                    return '<span class="layui-badge layui-bg-blue">测试中</span>';
+                } else if (d.rjkfjd === 3) {
+                    return '<span class="layui-badge layui-bg-green">完工</span>';
+                }
+            }
+            },
+            {
+                field: 'fawcqk', title: '方案完成情况', align: 'center', width: 120, templet: function (d) {
+                return isComplete(d.fawcqk);
+            }
+            },
+            {
+                field: 'cpxxwcqk', title: '产品选型情况', align: 'center', width: 120, templet: function (d) {
+                return isComplete(d.cpxxwcqk)
+            }
+            },
+            {
+                field: 'zbzzwcqk', title: '招标组织完成情况', align: 'center', width: 140, templet: function (d) {
+                return isPass(d.zbzzwcqk)
+            }
+            },
+            {
+                field: 'yzjhbqd', title: '用资计划表确定', align: 'center', width: 140, templet: function (d) {
+                return isPass(d.yzjhbqd)
+            }
+            },
+            {
+                field: 'htqd', title: '合同签订', align: 'center', templet: function (d) {
+                return isComplete(d.htqd)
+            }
+            },
+            {
+                field: 'yjcg', title: '硬件采购', align: 'center', templet: function (d) {
+                if (d.rjkfjd === 0) {
+                    return '<span class="layui-badge layui-bg-orange">开始</span>';
+                } else if (d.rjkfjd === 1) {
+                    return '<span class="layui-badge layui-bg-blue">进行中</span>';
+                } else if (d.rjkfjd === 2) {
+                    return '<span class="layui-badge layui-bg-green">完成</span>';
+                }
+            }
+            },
+            {
+                field: 'sgqr', title: '施工队确认', align: 'center', width: 120, templet: function (d) {
+                return isComplete(d.sgqr)
+            }
+            },
+            {
+                field: 'jcjd', title: '集成工作进度', align: 'center', width: 120, templet: function (d) {
+                if (d.rjkfjd === 0) {
+                    return '<span class="layui-badge layui-bg-black">到场</span>';
+                } else if (d.rjkfjd === 1) {
+                    return '<span class="layui-badge layui-bg-orange">实施</span>';
+                } else if (d.rjkfjd === 2) {
+                    return '<span class="layui-badge layui-bg-blue">完工</span>';
+                } else if (d.rjkfjd === 3) {
+                    return '<span class="layui-badge layui-bg-green">验收</span>';
+                }
+            }
+            },
+            {field: 'htje', title: '合同金额', align: 'center'},
+            {field: 'hkqk', title: '回款情况', align: 'center'},
+            {field: 'whje', title: '未回金额', align: 'center'},
+            {field: 'whsx', title: '未回时限', align: 'center'},
+            {field: 'hktz', title: '回款通知', align: 'center'},
+            {field: 'ml', title: '毛利', align: 'center'},
+            {field: 'zbj', title: '质保金', align: 'center'},
+            {field: 'zbjthqk', title: '质保金退还情况', width: 120, align: 'center'},
+            {field: 'xmjx', title: '项目结项', align: 'center'}
         ]],
+
         done: function (res, curr, count) {
             $('#newsList').next().find('.layui-table-body').find("table").find("tbody").children("tr").on('dblclick', function () {
                 var id = JSON.stringify($('#newsList').next().find('.layui-table-body').find("table").find("tbody").find(".layui-table-hover").data('index'));
@@ -47,6 +156,22 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
             // }).resize();
         }
     });
+
+    function isComplete(value) {
+        if (value === 0) {
+            return '<span class="layui-badge layui-bg-red">未完成</span>';
+        } else {
+            return '<span class="layui-badge layui-bg-green">完成</span>';
+        }
+    }
+
+    function isPass(value) {
+        if (value === 0) {
+            return '<span class="layui-badge layui-bg-red">未通过</span>';
+        } else {
+            return '<span class="layui-badge layui-bg-green">通过</span>';
+        }
+    }
 
     //是否置顶
     form.on('switch(newsTop)', function (data) {
