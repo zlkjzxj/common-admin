@@ -31,96 +31,100 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
         id: "newsListTable",
         cols: [[
             {type: "checkbox", fixed: "left"},
-            {field: 'name', title: '项目名称', align: "center",width: 200,},
-            {field: 'number', title: '项目编号',width: 120,},
-            {field: 'lxsj', title: '立项时间', align: 'center',width: 120,},
-            {field: 'department', title: '部门', align: 'center',width: 120,templet:function (d) {
-                var name = "";
+            {field: 'name', title: '项目名称', align: "center", width: 200,},
+            {field: 'number', title: '项目编号', width: 120,},
+            {field: 'lxsj', title: '立项时间', align: 'center', width: 120,},
+            {
+                field: 'department', title: '部门', align: 'center', width: 120, templet: function (d) {
+                    var name = "";
 
-                for(var i=0;i<departmentList.length;i++){
-                    if(departmentList[i].id===d.department){
-                        name=departmentList[i].bmmc;
-                        break;
+                    for (var i = 0; i < departmentList.length; i++) {
+                        if (departmentList[i].id === d.department) {
+                            name = departmentList[i].bmmc;
+                            break;
+                        }
                     }
+                    return name;
                 }
-                return name;
-            }},
-            {field: 'manager', title: '项目经理', align: 'center', width: 120,templet:function (d) {
-                var name = "";
-                for(var i=0;i<userList.length;i++){
-                    if(userList[i].id===d.manager){
-                        name=userList[i].name;
-                        break;
+            },
+            {
+                field: 'manager', title: '项目经理', align: 'center', width: 120, templet: function (d) {
+                    var name = "";
+                    for (var i = 0; i < userList.length; i++) {
+                        if (userList[i].id === d.manager) {
+                            name = userList[i].name;
+                            break;
+                        }
                     }
+                    return name;
                 }
-                return name;
-            }},
+            },
             {
                 field: 'rjkfjd', title: '软件开发进度', align: 'center', width: 120, templet: function (d) {
-                if (d.rjkfjd === 0) {
-                    return '<span class="layui-badge layui-bg-orange">工作中</span>';
-                } else if (d.rjkfjd === 1) {
-                    return '<span class="layui-badge layui-bg-black">暂停中</span>';
-                } else if (d.rjkfjd === 2) {
-                    return '<span class="layui-badge layui-bg-blue">测试中</span>';
-                } else if (d.rjkfjd === 3) {
-                    return '<span class="layui-badge layui-bg-green">完工</span>';
+                    if (d.rjkfjd === 0) {
+                        return '<span class="layui-badge layui-bg-orange">工作中</span>';
+                    } else if (d.rjkfjd === 1) {
+                        return '<span class="layui-badge layui-bg-black">暂停中</span>';
+                    } else if (d.rjkfjd === 2) {
+                        return '<span class="layui-badge layui-bg-blue">测试中</span>';
+                    } else if (d.rjkfjd === 3) {
+                        return '<span class="layui-badge layui-bg-green">完工</span>';
+                    }
                 }
-            }
             },
             {
                 field: 'fawcqk', title: '方案完成情况', align: 'center', width: 120, templet: function (d) {
-                return isComplete(d.fawcqk);
-            }
+                    return isComplete(d.fawcqk);
+                }
             },
             {
                 field: 'cpxxwcqk', title: '产品选型情况', align: 'center', width: 120, templet: function (d) {
-                return isComplete(d.cpxxwcqk)
-            }
+                    return isComplete(d.cpxxwcqk)
+                }
             },
             {
                 field: 'zbzzwcqk', title: '招标组织完成情况', align: 'center', width: 140, templet: function (d) {
-                return isPass(d.zbzzwcqk)
-            }
+                    return isPass(d.zbzzwcqk)
+                }
             },
             {
                 field: 'yzjhbqd', title: '用资计划表确定', align: 'center', width: 140, templet: function (d) {
-                return isPass(d.yzjhbqd)
-            }
+                    return isPass(d.yzjhbqd)
+                }
             },
             {
                 field: 'htqd', title: '合同签订', align: 'center', templet: function (d) {
-                return isComplete(d.htqd)
-            }
+                    return isComplete(d.htqd)
+                }
             },
             {
                 field: 'yjcg', title: '硬件采购', align: 'center', templet: function (d) {
-                if (d.rjkfjd === 0) {
-                    return '<span class="layui-badge layui-bg-orange">开始</span>';
-                } else if (d.rjkfjd === 1) {
-                    return '<span class="layui-badge layui-bg-blue">进行中</span>';
-                } else if (d.rjkfjd === 2) {
-                    return '<span class="layui-badge layui-bg-green">完成</span>';
+                    if (d.rjkfjd === 0) {
+                        return '<span class="layui-badge layui-bg-orange">开始</span>';
+                    } else if (d.rjkfjd === 1) {
+                        return '<span class="layui-badge layui-bg-blue">进行中</span>';
+                    } else if (d.rjkfjd === 2) {
+                        return '<span class="layui-badge layui-bg-green">完成</span>';
+                    }
                 }
-            }
             },
             {
                 field: 'sgqr', title: '施工队确认', align: 'center', width: 120, templet: function (d) {
-                return isComplete(d.sgqr)
-            }
+                    return isComplete(d.sgqr)
+                }
             },
             {
                 field: 'jcjd', title: '集成工作进度', align: 'center', width: 120, templet: function (d) {
-                if (d.rjkfjd === 0) {
-                    return '<span class="layui-badge layui-bg-black">到场</span>';
-                } else if (d.rjkfjd === 1) {
-                    return '<span class="layui-badge layui-bg-orange">实施</span>';
-                } else if (d.rjkfjd === 2) {
-                    return '<span class="layui-badge layui-bg-blue">完工</span>';
-                } else if (d.rjkfjd === 3) {
-                    return '<span class="layui-badge layui-bg-green">验收</span>';
+                    if (d.rjkfjd === 0) {
+                        return '<span class="layui-badge layui-bg-black">到场</span>';
+                    } else if (d.rjkfjd === 1) {
+                        return '<span class="layui-badge layui-bg-orange">实施</span>';
+                    } else if (d.rjkfjd === 2) {
+                        return '<span class="layui-badge layui-bg-blue">完工</span>';
+                    } else if (d.rjkfjd === 3) {
+                        return '<span class="layui-badge layui-bg-green">验收</span>';
+                    }
                 }
-            }
             },
             {field: 'htje', title: '合同金额', align: 'center'},
             {field: 'hkqk', title: '回款情况', align: 'center'},
@@ -130,7 +134,15 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
             {field: 'ml', title: '毛利', align: 'center'},
             {field: 'zbj', title: '质保金', align: 'center'},
             {field: 'zbjthqk', title: '质保金退还情况', width: 120, align: 'center'},
-            {field: 'xmjx', title: '项目结项', align: 'center'}
+            {
+                field: 'xmjx', title: '项目结项', align: 'center', templet: function (d) {
+                    if (d.xmjx === 0) {
+                        return '<span class="layui-badge layui-bg-red">未结项</span>';
+                    } else {
+                        return '<span class="layui-badge layui-bg-green">已结项</span>';
+                    }
+                }
+            }
         ]],
 
         done: function (res, curr, count) {

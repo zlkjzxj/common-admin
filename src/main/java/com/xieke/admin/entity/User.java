@@ -103,4 +103,8 @@ public class User extends Model<User> {
                 ", createTime=" + createTime +
                 '}';
     }
+
+    public static void main(String[] args) {
+        System.out.println("sdfsf");
+    }
 }
