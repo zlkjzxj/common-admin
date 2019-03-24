@@ -33,7 +33,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">项目名称</label>
             <div class="layui-input-block">
-                <input type="text" name="name" class="layui-input" lay-verify="required"
+                <input type="text" name="name" class="layui-input" lay-verify="name|required"
                        placeholder="请输入项目名称">
             </div>
         </div>
@@ -42,7 +42,7 @@
                 <label class="layui-form-label">项目编号</label>
                 <div class="layui-input-inline">
                     <input type="text" name="number" class="layui-input"
-                           lay-verify="required|number"
+                           lay-verify="required|pNumber"
                            placeholder="请输入项目编号">
                 </div>
             </div>
@@ -58,7 +58,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">部门</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="dTree" lay-filter="tree" class="layui-input" lay-verify="required">
+                    <input type="text" id="dTree" lay-filter="tree" class="layui-input" >
                 </div>
             </div>
             <div class="layui-inline ">

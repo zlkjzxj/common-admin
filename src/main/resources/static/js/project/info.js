@@ -29,6 +29,7 @@ layui.config({
                 url: "/user/listDataSelect",
                 data: {glbm: d.current.id},
                 success: function (data) {
+                    $("#manager").empty();
                     var userList = data.data;
                     userList.forEach(function (e) {
                         $("#manager").append("<option value='" + e.id + "'>" + e.name + "</option>");
@@ -50,6 +51,7 @@ layui.config({
 
 
     form.verify({
+        name:[/^[\u4e00-\u9fa5]{1,20}$/, "请输入正确的项目名称"],
        /* required: [/[\S]+/, "必填项不能为空"],
         phone: [/^1\d{10}$/, "请输入正确的手机号"],
         email: [/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, "邮箱格式不正确"],
@@ -60,7 +62,7 @@ layui.config({
         date: [/^(\d{4})[-\/](\d{1}|0\d{1}|1[0-2])([-\/](\d{1}|0\d{1}|[1-2][0-9]|3[0-1]))*$/, "日期格式不正确"],
         identity: [/(^\d{15}$)|(^\d{17}(x|X|\d)$)/, "请输入正确的身份证号"]*/
         //1、编号构成：年度+部门+项目类型+序号+追加
-        number: [/^(\d{4})+(XS|JC|YW|HL|CW|XZ|RJ|XX)+(JC|DR|ZR|JF|KF|CX|KR|KJ|NB|WB|BH)+([0-9][0-9][2-9]{1})+$/, "邮箱格式不正确"],
+        pNumber: [/^(\d{4})+(XS|JC|YW|HL|CW|XZ|RJ|XX)+(JC|DR|ZR|JF|KF|CX|KR|KJ|NB|WB|BH)+([0-9][0-9][2-9]{1})+$/, "请输入正确的项目编号"],
     })
 // form.on('submit(*)', function (data) {
 //     console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
@@ -82,7 +84,6 @@ layui.config({
             dataType: 'json',
             success: function (res) {
                 if (res.data) {
-                    layer.close(index);
                     layer.msg("添加成功！");
                     // layer.closeAll("iframe");
                     //刷新父页面

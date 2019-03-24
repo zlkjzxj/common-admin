@@ -30,8 +30,8 @@
                 <i class="layui-anim seraph icon-good"></i>
             </div>
             <div class="panel_word">
-                <span>为我点赞</span>
-                <cite>点赞地址</cite>
+                <span>为冠军部门点赞</span>
+                <!--<cite>点赞地址</cite>-->
             </div>
         </a>
     </div>
@@ -41,8 +41,8 @@
                 <i class="layui-anim seraph icon-oschina"></i>
             </div>
             <div class="panel_word">
-                <span>码云</span>
-                <cite>源码下载</cite>
+                <span>哈哈哈哈</span>
+                <cite>呵呵</cite>
             </div>
         </a>
     </div>
@@ -52,8 +52,8 @@
                 <i class="layui-anim seraph icon-icon1"></i>
             </div>
             <div class="panel_word userAll">
-                <span></span>
-                <em>用户总数</em>
+                <span>公司人数</span>
+                <em>89</em>
                 <cite class="layui-hide">用户中心</cite>
             </div>
         </a>
@@ -82,13 +82,13 @@
 <!--<script type="text/javascript" src="/static/layui/layui.js"></script>-->
 <!--<script type="text/javascript" src="/static/js/main.js"></script>-->
 <!--<script type="text/javascript" src="/static/jointjs/jquery-3.3.1.js"></script>-->
-<script type="text/javascript" src="/static/chart/echarts.js"></script>
+<script type="text/javascript" src="/static/chart/echarts.min.js"></script>
 <script>
     var myChart = echarts.init(document.getElementById('main'));
     var myChart1 = echarts.init(document.getElementById('main1'));
     option = {
         title: {
-            text: '项目部门分布图',
+            text: '部门项目分布图',
             // subtext: '纯属虚构',
             x: 'center'
         },
@@ -99,12 +99,12 @@
         legend: {
             // orient: 'vertical',
             // left: 'left',
-            top: 25,
+            top: 40,
             data: ['软件部', '系统集成部', '客服部', '总经办', '大宽物联', "产品行销部"]
         },
         series: [
             {
-                name: '项目完成比例',
+                name: '部门项目占比',
                 type: 'pie',
                 radius: '55%',
                 center: ['50%', '60%'],
@@ -170,7 +170,13 @@
     };
     option2 = {
         // backgroundColor: "#eee",
-        tooltip: {},
+        title: {
+            text: '部门项目完成比例',
+            // subtext: '纯属虚构',
+            x: 'center'
+        },
+        tooltip: {
+        },
         grid: {
             top: '8%',
             left: '1%',
