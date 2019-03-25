@@ -11,9 +11,19 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" href="/static/layui/css/layui.css" media="all"/>
     <link rel="stylesheet" href="/static/css/public.css" media="all"/>
+    <style>
+        /*button level0 switch root_close::before {*/
+            /*content: "\e623";*/
+        /*}*/
+        /*button level0 switch root_close::before {*/
+            /*content: "\e623";*/
+        /*}*/
+    </style>
+
 </head>
 <body class="childrenBody">
 <form class="layui-form">
+    <input id="departVal" type="hidden">
     <blockquote class="layui-elem-quote quoteBox">
         <form class="layui-form">
             <div class="layui-inline">
@@ -21,15 +31,13 @@
                     <input type="text" class="layui-input searchVal" placeholder="请输入项目编号"/>
                 </div>
                 <div class="layui-input-inline">
-                    <select class="state">
-                        <option value="">请选择部门</option>
-                        <option value="1">启用</option>
-                        <option value="0">禁用</option>
-                        <option value="2">锁定</option>
-                    </select>
+                    <!--<select class="state" id="departmentSelect">-->
+                    <!--</select>-->
+                    <!--<input type="text" id="departmentSelect" lay-filter="tree" class="layui-input" >-->
+                    <input id="departmentSelect" />
                 </div>
                 <div class="layui-input-inline">
-                    <select class="state">
+                    <select class="state" id="sfjxSelect">
                         <option value="">是否结项</option>
                         <option value="1">是</option>
                         <option value="0">否</option>
@@ -48,7 +56,7 @@
             </div>
         </form>
     </blockquote>
-    <table id="newsList" lay-filter="newsList"></table>
+    <table id="projectList" lay-filter="projectList"></table>
     <!--审核状态-->
     <script type="text/html" id="newsStatus">
         {{#  if(d.newsStatus == "1"){ }}

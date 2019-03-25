@@ -46,7 +46,8 @@
                 </li>
                 <li class="layui-nav-item" id="userInfo">
                     <a href="javascript:;"><cite class="adminName">
-                        <shiro:principal property="userName"/>
+                        <!--<shiro:principal property="userName"/>-->
+                        <p th:text="${session.userName}"></p>
                     </cite></a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" data-url="/user/center.html"><cite>个人资料</cite></a></dd>
@@ -66,7 +67,7 @@
     <div class="layui-side layui-bg-black">
         <div class="user-photo">
             <a class="img" title="我的头像"><img src="/static/images/face.jpg" class="userAvatar"></a>
-            <p>你好！<span class="userName"><shiro:principal property="name"/></span>，欢迎登录</p>
+            <p>你好！<span class="userName" th:text="${session.userName}"></span>，欢迎登录</p>
         </div>
         <div class="navBar layui-side-scroll" id="navBar">
             <ul class="layui-nav layui-nav-tree">

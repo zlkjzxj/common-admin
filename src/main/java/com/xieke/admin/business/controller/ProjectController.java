@@ -47,7 +47,7 @@ public class ProjectController extends BaseController {
     ResultInfo<List<Project>> listData(Project project, Integer page, Integer limit) {
         EntityWrapper<Project> wrapper = new EntityWrapper<>(project);
         if (project != null && project.getDepartment() != null) {
-            wrapper.and("department", project.getDepartment());
+            wrapper.eq("department", project.getDepartment());
             project.setDepartment(null);
         }
         Page<Project> pageObj = iProjectService.selectPage(new Page<>(page, limit), wrapper);
@@ -63,6 +63,16 @@ public class ProjectController extends BaseController {
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         project.setLrr(user.getId());
         return new ResultInfo<>(iProjectService.insert(project));
+    }
+
+    @SysLog("修改项目")
+    @RequestMapping("/edit")
+    @RequiresPermissions("project:edit")
+    public @ResponseBody
+    ResultInfo<Boolean> update(Project project) {
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        project.setLrr(user.getId());
+        return new ResultInfo<>(iProjectService.updateById(project));
     }
 
     @InitBinder

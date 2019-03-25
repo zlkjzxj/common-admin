@@ -25,7 +25,9 @@
 
 <body class="childrenBody">
 <form class="layui-form layui-form-item">
+    <input type="hidden" value="" id="id" name="id">
     <input type="hidden" id="department" name="department">
+    <input type="hidden" id="manager1" name="manager1">
     <div class="layui-col-md8 layui-col-xs12">
         <blockquote class="layui-elem-quote title" style="margin-bottom: 10px;"><i class="seraph icon-caidan"></i>
             前期准备情况
@@ -33,7 +35,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">项目名称</label>
             <div class="layui-input-block">
-                <input type="text" name="name" class="layui-input" lay-verify="name|required"
+                <input type="text" name="name" id="name" class="layui-input" lay-verify="name|required"
                        placeholder="请输入项目名称">
             </div>
         </div>
@@ -41,9 +43,9 @@
             <div class="layui-inline">
                 <label class="layui-form-label">项目编号</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="number" class="layui-input"
+                    <input type="text" name="number" id="number" class="layui-input"
                            lay-verify="required|pNumber"
-                           placeholder="请输入项目编号">
+                           placeholder="项目编号格式：2019RJKF003">
                 </div>
             </div>
             <div class="layui-inline">
@@ -58,7 +60,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">部门</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="dTree" lay-filter="tree" class="layui-input" >
+                    <input type="text" id="dTree" lay-filter="dTree" lay-verify="required" class="layui-input" >
                 </div>
             </div>
             <div class="layui-inline ">

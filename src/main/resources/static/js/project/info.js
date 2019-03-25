@@ -9,9 +9,10 @@ layui.config({
         upload = layui.upload,
         layedit = layui.layedit,
         laydate = layui.laydate,
-        $ = layui.jquery;
+        $ = layui.jquery,
+        treeSelect = layui.treeSelect;
 
-    layui.treeSelect.render({
+    treeSelect.render({
         // 选择器
         elem: '#dTree',
         // 数据
@@ -24,12 +25,18 @@ layui.config({
         search: false,
         // 点击回调
         click: function (d) {
+            console.log("部门被点击了")
             $("#department").val(d.current.id);
+            $("#dTree").val(d.current.id);
+            // treeSelect.checkNode('tree', d.current.id);
+            //先清空上次的选项，不然重叠了
+            $("#manager").empty();
+            //为了保证required 起作用加个空的
+            $("#manager").append("<option value=''>请选择项目经理</option>");
             $.ajax({
                 url: "/user/listDataSelect",
                 data: {glbm: d.current.id},
                 success: function (data) {
-                    $("#manager").empty();
                     var userList = data.data;
                     userList.forEach(function (e) {
                         $("#manager").append("<option value='" + e.id + "'>" + e.name + "</option>");
@@ -37,6 +44,28 @@ layui.config({
                     form.render('select');//刷新select选择框渲染
                 }
             })
+        },
+        success: function (d) {
+            if ($("#dTree").val() !== '') {
+                treeSelect.checkNode('dTree', $("#dTree").val());
+                $("#department").val($("#dTree").val());
+                $("#manager").append("<option value=''>请选择项目经理</option>");
+                $.ajax({
+                    url: "/user/listDataSelect",
+                    data: {glbm: $("#dTree").val()},
+                    success: function (data) {
+                        var userList = data.data;
+                        userList.forEach(function (e) {
+                            $("#manager").append("<option value='" + e.id + "'>" + e.name + "</option>");
+                        });
+                        $("#manager").val($("#manager1").val())
+                        form.render('select');//刷新select选择框渲染
+                    }
+                })
+                // treeSelect.click(d);
+                // $(".curSelectedNode").click(d);
+            }
+            // console.log($("#dTree").val());
         }
     })
     // 加载完成后的回调函数
@@ -51,18 +80,18 @@ layui.config({
 
 
     form.verify({
-        name:[/^[\u4e00-\u9fa5]{1,20}$/, "请输入正确的项目名称"],
-       /* required: [/[\S]+/, "必填项不能为空"],
-        phone: [/^1\d{10}$/, "请输入正确的手机号"],
-        email: [/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, "邮箱格式不正确"],
-        url: [/(^#)|(^http(s*):\/\/[^\s]+\.[^\s]+)/, "链接格式不正确"],
-        number: function(e) {
-            if (!e || isNaN(e)) return "只能填写数字"
-        },
-        date: [/^(\d{4})[-\/](\d{1}|0\d{1}|1[0-2])([-\/](\d{1}|0\d{1}|[1-2][0-9]|3[0-1]))*$/, "日期格式不正确"],
-        identity: [/(^\d{15}$)|(^\d{17}(x|X|\d)$)/, "请输入正确的身份证号"]*/
+        name: [/^[\u4e00-\u9fa5]{1,40}$/, "项目名只能是长度20内的汉字"],
+        /* required: [/[\S]+/, "必填项不能为空"],
+         phone: [/^1\d{10}$/, "请输入正确的手机号"],
+         email: [/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, "邮箱格式不正确"],
+         url: [/(^#)|(^http(s*):\/\/[^\s]+\.[^\s]+)/, "链接格式不正确"],
+         number: function(e) {
+             if (!e || isNaN(e)) return "只能填写数字"
+         },
+         date: [/^(\d{4})[-\/](\d{1}|0\d{1}|1[0-2])([-\/](\d{1}|0\d{1}|[1-2][0-9]|3[0-1]))*$/, "日期格式不正确"],
+         identity: [/(^\d{15}$)|(^\d{17}(x|X|\d)$)/, "请输入正确的身份证号"]*/
         //1、编号构成：年度+部门+项目类型+序号+追加
-        pNumber: [/^(\d{4})+(XS|JC|YW|HL|CW|XZ|RJ|XX)+(JC|DR|ZR|JF|KF|CX|KR|KJ|NB|WB|BH)+([0-9][0-9][2-9]{1})+$/, "请输入正确的项目编号"],
+        pNumber: [/^(\d{4})+(XS|JC|YW|HL|CW|XZ|RJ|XX)+(JC|DR|ZR|JF|KF|CX|KR|KJ|NB|WB|BH)+([0-9][0-9][2-9]{1})+$/, "项目编号格式：2019RJKF003"],
     })
 // form.on('submit(*)', function (data) {
 //     console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
@@ -72,30 +101,49 @@ layui.config({
 // });
 
     form.on("submit(addProject)", function (data) {
-        console.log("formdata", data.field);
-        //截取文章内容中的一部分文字放入文章摘要
-        // var abstract = layedit.getText(editIndex).substring(0, 50);
         //弹出loading
         // var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
-        $.ajax({
-            url: '/project/add',
-            method: 'POST',
-            data: data.field,
-            dataType: 'json',
-            success: function (res) {
-                if (res.data) {
-                    layer.msg("添加成功！");
-                    // layer.closeAll("iframe");
-                    //刷新父页面
-                    parent.location.reload();
-                } else {
-                    layer.msg(data.msg);
+        if ($("#id").val() === "") {
+            $.ajax({
+                url: '/project/add',
+                method: 'POST',
+                data: data.field,
+                dataType: 'json',
+                success: function (res) {
+                    if (res.data) {
+                        layer.msg("项目添加成功！");
+                        // layer.closeAll("iframe");
+                        //刷新父页面
+                        parent.location.reload();
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                },
+                error: function (e) {
+                    layer.msg(e.msg);
                 }
-            },
-            error: function (e) {
-                layer.msg(e.msg);
-            }
-        })
+            })
+        } else {
+            $.ajax({
+                url: '/project/edit',
+                method: 'POST',
+                data: data.field,
+                dataType: 'json',
+                success: function (res) {
+                    if (res.data) {
+                        layer.msg("项目修改成功！");
+                        // layer.closeAll("iframe");
+                        //刷新父页面
+                        parent.location.reload();
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                },
+                error: function (e) {
+                    layer.msg(e.msg);
+                }
+            })
+        }
         return false;
     })
 

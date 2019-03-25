@@ -1,8 +1,13 @@
-layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
+layui.config({
+    base: '/static/layui/'
+}).extend({
+    treeSelect: 'treeSelect'
+}).use(['form', 'layer', 'laydate', 'table', 'laytpl', 'treeSelect'], function () {
     var form = layui.form,
         layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery,
-        table = layui.table;
+        table = layui.table,
+        treeSelect = layui.treeSelect;
     //部门翻译
     var departmentList;
     $.post("/dept/listData", {
@@ -10,7 +15,32 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
     }, function (data) {
         departmentList = data.data;
     });
-
+    //主页按部门查询的部门列表
+    treeSelect.render({
+        // 选择器
+        elem: '#departmentSelect',
+        // 数据
+        data: '/dept/listDataTreeWithoutCode?pid=1',
+        // 异步加载方式：get/post，默认get
+        type: 'get',
+        // 占位符
+        placeholder: '请选择部门',
+        // 是否开启搜索功能：true/false，默认false
+        search: false,
+        // 一些可定制的样式
+        style: {
+            folder: {
+                enable: true
+            },
+            line: {
+                enable: true
+            }
+        },
+        // 点击回调
+        click: function (d) {
+            $("#departVal").val(d.current.id);
+        }
+    })
     //项目经理翻译
     var userList;
     $.post("/user/listDataSelect", {
@@ -21,14 +51,14 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
 
     //项目列表
     var tableIns = table.render({
-        elem: '#newsList',
+        elem: '#projectList',
         url: '/project/listData',
         cellMinWidth: 95,
         page: true,
         height: "full-125",
         limit: 10,
         limits: [10, 15, 20, 25],
-        id: "newsListTable",
+        id: "projectList",
         cols: [[
             {type: "checkbox", fixed: "left"},
             {field: 'name', title: '项目名称', align: "center", width: 200,},
@@ -201,16 +231,35 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
     //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
     $(".search_btn").on("click", function () {
         if ($(".searchVal").val() != '') {
-            table.reload("newsList", {
+            table.reload("projectList", {
                 page: {
                     curr: 1 //重新从第 1 页开始
                 },
                 where: {
-                    key: $(".searchVal").val()  //搜索的关键字
+                    number: $(".searchVal").val()
                 }
             })
-        } else {
-            // layer.msg("请输入搜索的内容");
+        }
+        if ($("#sfjxSelect").val() != '') {
+            table.reload("projectList", {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                where: {
+                    xmjx: $("#sfjxSelect").val()
+                }
+            })
+        }
+        if ($("#departVal").val() != '') {
+            console.log($("#departVal").val())
+            table.reload("projectList", {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                where: {
+                    department: $("#departVal").val()
+                }
+            })
         }
     });
 
@@ -218,8 +267,9 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
     function addNews(edit) {
         var h = "700px";
         var title = "添加项目";
+        console.log(edit);
         if (edit) {
-            h = "280px";
+            h = "700px";
             title = "编辑项目";
         }
         layui.layer.open({
@@ -230,11 +280,12 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
             success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
                 if (edit) {
-                    body.find(".newsName").val(edit.newsName);
-                    body.find(".abstract").val(edit.abstract);
-                    body.find(".thumbImg").attr("src", edit.newsImg);
-                    body.find("#news_content").val(edit.content);
-                    body.find(".newsStatus select").val(edit.newsStatus);
+                    body.find("#id").val(edit.id);
+                    body.find("#name").val(edit.name);
+                    body.find("#number").val(edit.number);
+                    body.find("#lxsj").val(edit.lxsj);
+                    body.find("#dTree").val(edit.department);
+                    body.find("#manager1").val(edit.manager);
                     body.find(".openness input[name='openness'][title='" + edit.newsLook + "']").prop("checked", "checked");
                     body.find(".newsTop input[name='newsTop']").prop("checked", edit.newsTop);
                     form.render();
@@ -256,6 +307,15 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
     $(".add_btn").click(function () {
         addNews();
     })
+    $(".edit_btn").click(function () {
+        var checkStatus = table.checkStatus('projectList'),
+            data = checkStatus.data;
+        if (data.length > 0) {
+            addNews(data[0]);
+        } else {
+            layer.msg("请选择需要修改的项目");
+        }
+    });
 
     //批量删除
     $(".delAll_btn").click(function () {
