@@ -1,13 +1,12 @@
 package com.xieke.admin.config;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.crazycake.shiro.RedisCacheManager;
-import org.crazycake.shiro.RedisSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
@@ -79,47 +78,48 @@ public class ShiroConfig {
 		shiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
 		return shiroRealm;
 	}
-
-	/**
+/*
+	*//**
 	 * 配置shiro redisManager
 	 * 使用的是shiro-redis开源插件
 	 * @return
-	 */
+	 *//*
 	@Bean
 	public CustomRedisManager customRedisManager() {
 		return new CustomRedisManager();
-	}
+	}*/
 
 	/**
 	 * cacheManager缓存 redis实现
 	 * 使用的是shiro-redis开源插件
 	 * @return
 	 */
-	@Bean
+	/*@Bean
 	public RedisCacheManager redisCacheManager() {
 		RedisCacheManager redisCacheManager = new RedisCacheManager();
 		redisCacheManager.setRedisManager(customRedisManager());
 		return redisCacheManager;
-	}
+	}*/
 
 	/**
 	 * RedisSessionDAO shiro sessionDao层的实现 通过redis
 	 * 使用的是shiro-redis开源插件
 	 */
-	@Bean
+	/*@Bean
 	public RedisSessionDAO redisSessionDAO() {
 		RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
 		redisSessionDAO.setRedisManager(customRedisManager());
 		return redisSessionDAO;
 	}
-
+*/
 	/**
 	 * shiro session管理
 	 */
 	@Bean
 	public DefaultWebSessionManager sessionManager() {
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-		sessionManager.setSessionDAO(redisSessionDAO());
+		//这个使用了redis，我们改为默认的！
+//		sessionManager.setSessionDAO(redisSessionDAO());
 		return sessionManager;
 	}
 
@@ -129,7 +129,7 @@ public class ShiroConfig {
 		// 设置realm
 		securityManager.setRealm(shiroRealm());
 		// 自定义缓存实现 使用redis
-		securityManager.setCacheManager(redisCacheManager());
+//		securityManager.setCacheManager(redisCacheManager());
 		// 自定义session管理 使用redis
 		securityManager.setSessionManager(sessionManager());
 		return securityManager;
@@ -161,12 +161,13 @@ public class ShiroConfig {
 	}
 
 	/**
+	 * 添加这段代码的目的就是为了在thymeleaf中使用shiro的自定义tag。
 	 * shiro 方言配置
 	 * @return
 	 */
-//	@Bean
-//	public ShiroDialect shiroDialect() {
-//		return new ShiroDialect();
-//	}
+	@Bean(name = "shiroDialect")
+	public ShiroDialect shiroDialect() {
+		return new ShiroDialect();
+	}
 
 }

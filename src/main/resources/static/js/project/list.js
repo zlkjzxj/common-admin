@@ -239,6 +239,12 @@ layui.config({
                     number: $(".searchVal").val()
                 }
             })
+        }else{
+            table.reload("projectList", {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            })
         }
         if ($("#sfjxSelect").val() != '') {
             table.reload("projectList", {
@@ -249,15 +255,26 @@ layui.config({
                     xmjx: $("#sfjxSelect").val()
                 }
             })
+        }else{
+            table.reload("projectList", {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            })
         }
         if ($("#departVal").val() != '') {
-            console.log($("#departVal").val())
             table.reload("projectList", {
                 page: {
                     curr: 1 //重新从第 1 页开始
                 },
                 where: {
                     department: $("#departVal").val()
+                }
+            })
+        }else{
+            table.reload("projectList", {
+                page: {
+                    curr: 1 //重新从第 1 页开始
                 }
             })
         }
@@ -286,8 +303,14 @@ layui.config({
                     body.find("#lxsj").val(edit.lxsj);
                     body.find("#dTree").val(edit.department);
                     body.find("#manager1").val(edit.manager);
+                    body.find("#rjkfjd").val(edit.rjkfjd);
+                    body.find("input[name='fawcqk']").prop("checked", edit.fawcqk);
+                    body.find("input[name='cpxxwcqk']").prop("checked", edit.cpxxwcqk);
+                    body.find("input[name='zbzzwcqk']").prop("checked", edit.zbzzwcqk);
+                    body.find("input[name='yzjhbqd']").prop("checked", edit.yzjhbqd);
+                    body.find("input[name='htqd']").prop("checked", edit.htqd);
                     body.find(".openness input[name='openness'][title='" + edit.newsLook + "']").prop("checked", "checked");
-                    body.find(".newsTop input[name='newsTop']").prop("checked", edit.newsTop);
+                    // body.find(".newsTop input[name='newsTop']").prop("checked", edit.newsTop);
                     form.render();
                 }
                 setTimeout(function () {

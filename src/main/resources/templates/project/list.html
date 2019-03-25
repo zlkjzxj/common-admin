@@ -13,10 +13,10 @@
     <link rel="stylesheet" href="/static/css/public.css" media="all"/>
     <style>
         /*button level0 switch root_close::before {*/
-            /*content: "\e623";*/
+        /*content: "\e623";*/
         /*}*/
         /*button level0 switch root_close::before {*/
-            /*content: "\e623";*/
+        /*content: "\e623";*/
         /*}*/
     </style>
 
@@ -34,7 +34,7 @@
                     <!--<select class="state" id="departmentSelect">-->
                     <!--</select>-->
                     <!--<input type="text" id="departmentSelect" lay-filter="tree" class="layui-input" >-->
-                    <input id="departmentSelect" />
+                    <input id="departmentSelect"/>
                 </div>
                 <div class="layui-input-inline">
                     <select class="state" id="sfjxSelect">
@@ -45,15 +45,21 @@
                 </div>
                 <a class="layui-btn search_btn" data-type="reload">搜索</a>
             </div>
-            <div class="layui-inline">
-                <a class="layui-btn layui-btn-normal add_btn">添加项目</a>
-            </div>
-            <div class="layui-inline">
-                <a class="layui-btn layui-btn-normal edit_btn">编辑项目</a>
-            </div>
-            <div class="layui-inline">
-                <a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">批量删除</a>
-            </div>
+            <shiro:hasPermission name="project:add">
+                <div class="layui-inline">
+                    <a class="layui-btn layui-btn-normal add_btn">添加项目</a>
+                </div>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="project:edit">
+                <div class="layui-inline">
+                    <a class="layui-btn layui-btn-normal edit_btn">编辑项目</a>
+                </div>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="project:del">
+                <div class="layui-inline">
+                    <a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">批量删除</a>
+                </div>
+            </shiro:hasPermission>
         </form>
     </blockquote>
     <table id="projectList" lay-filter="projectList"></table>

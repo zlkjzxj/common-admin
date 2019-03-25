@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 public class CustomFormAuthenticationFilter extends FormAuthenticationFilter {
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        // 在这里进行验证码的校验  
+        // 在这里进行验证码的校验
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpSession session = httpServletRequest.getSession();
 

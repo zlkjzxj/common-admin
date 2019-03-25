@@ -1,7 +1,5 @@
 package com.xieke.admin.util;
 
-import com.alibaba.fastjson.JSONObject;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -78,7 +76,7 @@ public class AddressUtils {
     }
 
     public static String getAddressByIp(String ipAddress) {
-        String json_result = getAddresses("ip=" + ipAddress, "utf-8");
+//        String json_result = getAddresses("ip=" + ipAddress, "utf-8");
 //		JSONObject dataJson = JSONObject.parseObject(json_result).getJSONObject("data");
 //		System.out.println("dataJson： " + dataJson);
 //		String country = dataJson.getString("country");
