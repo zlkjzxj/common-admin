@@ -153,6 +153,11 @@ public class Project {
      */
     @TableField("lrr")
     private Integer lrr;
+    /**
+     * 修改人
+     */
+    @TableField("xgr")
+    private Integer xgr;
 
     /**
      * 创建时间

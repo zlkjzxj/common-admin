@@ -54,7 +54,7 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping("/listData")
-    @RequiresPermissions("user:view")
+//    @RequiresPermissions("user:view")
     public @ResponseBody
     ResultInfo<List<User>> listData(User user, Integer page, Integer limit) {
         EntityWrapper<User> wrapper = new EntityWrapper<>(user);
@@ -75,7 +75,7 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping("/listDataSelect")
-    @RequiresPermissions("user:view")
+//    @RequiresPermissions("user:view")
     public @ResponseBody
     ResultInfo<List<User>> listDataSelect(User user) {
         EntityWrapper<User> wrapper = new EntityWrapper<>(user);

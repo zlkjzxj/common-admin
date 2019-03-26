@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <title>用户列表--layui后台管理模板 2.0</title>
@@ -23,6 +23,8 @@
 </head>
 <body class="childrenBody">
 <form class="layui-form">
+    <input type="hidden" id="userId" th:value="${session.loginUserId}"/>
+    <input type="hidden" id="projectId"/>
     <input id="departVal" type="hidden">
     <blockquote class="layui-elem-quote quoteBox">
         <form class="layui-form">
@@ -47,17 +49,17 @@
             </div>
             <shiro:hasPermission name="project:add">
                 <div class="layui-inline">
-                    <a class="layui-btn layui-btn-normal add_btn">添加项目</a>
+                    <a class="layui-btn layui-btn-normal add_btn">添加</a>
                 </div>
             </shiro:hasPermission>
             <shiro:hasPermission name="project:edit">
                 <div class="layui-inline">
-                    <a class="layui-btn layui-btn-normal edit_btn">编辑项目</a>
+                    <a class="layui-btn layui-btn-normal edit_btn">编辑</a>
                 </div>
             </shiro:hasPermission>
             <shiro:hasPermission name="project:del">
                 <div class="layui-inline">
-                    <a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">批量删除</a>
+                    <a class="layui-btn layui-btn-danger delAll_btn">删除</a>
                 </div>
             </shiro:hasPermission>
         </form>

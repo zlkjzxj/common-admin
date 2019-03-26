@@ -39,7 +39,7 @@ public class DeptController extends BaseController {
 
 
     @RequestMapping("/listData")
-    @RequiresPermissions("dept:view")
+//    @RequiresPermissions("dept:view")
     public @ResponseBody
     ResultInfo<List<Department>> listData(Department department) {
         EntityWrapper<Department> wrapper = new EntityWrapper<>(department);
@@ -77,7 +77,7 @@ public class DeptController extends BaseController {
     }
 
     @RequestMapping("/listDataTree")
-    @RequiresPermissions("dept:view")
+//    @RequiresPermissions("dept:view")
     public @ResponseBody
     ResultInfo<List<TreeNode>> listDataJson(Department department) {
         EntityWrapper<Department> wrapper = new EntityWrapper<>(department);
@@ -92,7 +92,7 @@ public class DeptController extends BaseController {
     }
 
     @RequestMapping("/listDataTreeWithoutCode")
-    @RequiresPermissions("dept:view")
+//    @RequiresPermissions("dept:view")
     public @ResponseBody
     List<TreeNode> listDataJsonWithoutCode(Department department) {
         EntityWrapper<Department> wrapper = new EntityWrapper<>(department);

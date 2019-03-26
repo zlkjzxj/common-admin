@@ -60,7 +60,7 @@ layui.config({
         limits: [10, 15, 20, 25],
         id: "projectList",
         cols: [[
-            {type: "checkbox", fixed: "left"},
+            {type: "radio", fixed: "left"},
             {field: 'name', title: '项目名称', align: "center", width: 200,},
             {field: 'number', title: '项目编号', width: 120,},
             {field: 'lxsj', title: '立项时间', align: 'center', width: 120,},
@@ -176,10 +176,14 @@ layui.config({
         ]],
 
         done: function (res, curr, count) {
-            $('#newsList').next().find('.layui-table-body').find("table").find("tbody").children("tr").on('dblclick', function () {
-                var id = JSON.stringify($('#newsList').next().find('.layui-table-body').find("table").find("tbody").find(".layui-table-hover").data('index'));
+            // var $mylist = $("#projectList").next('.layui-table-view').find('table.layui-table');
+            // $mylist.dblclick(function(event){
+            //     console.log($(event.target).data("index"))
+            // });
+            $("#projectList").next('.layui-table-view').find('table.layui-table').on('dblclick', function () {
+                var id = JSON.stringify($("#projectList").next('.layui-table-view').find('table.layui-table').find(".layui-table-hover").data('index'));
                 var obj = res.data[id];
-                console.log(obj.number);
+                $("#projectId").val(obj.id);
                 // $(window).one("resize", function () {
                 var index = layui.layer.open({
                     title: "项目详情",
@@ -195,7 +199,6 @@ layui.config({
                 })
                 layui.layer.full(index);
             })
-            // }).resize();
         }
     });
 
@@ -239,7 +242,7 @@ layui.config({
                     number: $(".searchVal").val()
                 }
             })
-        }else{
+        } else {
             table.reload("projectList", {
                 page: {
                     curr: 1 //重新从第 1 页开始
@@ -255,7 +258,7 @@ layui.config({
                     xmjx: $("#sfjxSelect").val()
                 }
             })
-        }else{
+        } else {
             table.reload("projectList", {
                 page: {
                     curr: 1 //重新从第 1 页开始
@@ -271,7 +274,7 @@ layui.config({
                     department: $("#departVal").val()
                 }
             })
-        }else{
+        } else {
             table.reload("projectList", {
                 page: {
                     curr: 1 //重新从第 1 页开始
@@ -282,13 +285,14 @@ layui.config({
 
     //添加项目
     function addNews(edit) {
-        var h = "700px";
+        var h = "710px";
         var title = "添加项目";
-        console.log(edit);
         if (edit) {
-            h = "700px";
+            h = "710px";
             title = "编辑项目";
         }
+        //修改项目需要判断是否添加人还是修改人
+        var userId = $("#userId").val();
         layui.layer.open({
             title: title,
             type: 2,
@@ -304,13 +308,95 @@ layui.config({
                     body.find("#dTree").val(edit.department);
                     body.find("#manager1").val(edit.manager);
                     body.find("#rjkfjd").val(edit.rjkfjd);
-                    body.find("input[name='fawcqk']").prop("checked", edit.fawcqk);
-                    body.find("input[name='cpxxwcqk']").prop("checked", edit.cpxxwcqk);
-                    body.find("input[name='zbzzwcqk']").prop("checked", edit.zbzzwcqk);
-                    body.find("input[name='yzjhbqd']").prop("checked", edit.yzjhbqd);
-                    body.find("input[name='htqd']").prop("checked", edit.htqd);
-                    body.find(".openness input[name='openness'][title='" + edit.newsLook + "']").prop("checked", "checked");
-                    // body.find(".newsTop input[name='newsTop']").prop("checked", edit.newsTop);
+                    // body.find("input:radio[name='fawcqk']").eq(edit.fawcqk).prop("checked", "checked");
+                    body.find(":radio[name='fawcqk'][value='" + edit.fawcqk + "']").prop("checked", "true");
+                    body.find(":radio[name='cpxxwcqk'][value='" + edit.cpxxwcqk + "']").prop("checked", "checked");
+                    body.find(":radio[name='zbzzwcqk'][value='" + edit.zbzzwcqk + "']").prop("checked", "checked");
+                    body.find(":radio[name='yzjhbqd'][value='" + edit.yzjhbqd + "']").prop("checked", "checked");
+                    body.find(":radio[name='htqd'][value='" + edit.htqd + "']").prop("checked", "checked");
+                    body.find(":radio[name='sgqr'][value='" + edit.sgqr + "']").prop("checked", "checked");
+
+                    body.find("#htje").val(edit.htje);
+                    body.find("#hkqk").val(edit.hkqk);
+                    body.find("#whje").val(edit.whje);
+                    body.find("#whsx").val(edit.whsx);
+                    body.find("#hktz").val(edit.hktz);
+                    body.find("#ml").val(edit.ml);
+                    body.find("#zbj").val(edit.zbj);
+                    body.find("#zbjthqk").val(edit.zbjthqk);
+
+
+                    if (userId == edit.lrr) {
+                        //录入人的可改
+                        //修改人的不可改
+                        body.find("#htje").prop("disabled", true);
+                        body.find("#hkqk").prop("disabled", true);
+                        body.find("#whje").prop("disabled", true);
+                        body.find("#whsx").prop("disabled", true);
+                        body.find("#hktz").prop("disabled", true);
+                        body.find("#ml").prop("disabled", true);
+                        body.find("#zbj").prop("disabled", true);
+                        body.find("#zbjthqk").prop("disabled", true);
+
+                        body.find(":checkbox[name='sfjx']").prop("disabled", true);
+
+                    } else if (userId == edit.xgr || edit.xgr == null) {
+                        body.find("#name").prop("disabled", true);
+                        body.find("#number").prop("disabled", true);
+                        body.find("#lxsj").prop("disabled", true);
+                        body.find("#dTree").prop("disabled", true);
+                        body.find("#manager").prop("disabled", true);
+                        body.find("#rjkfjd").prop("disabled", true);
+                        body.find("#fawcqk").prop("disabled", true);
+                        body.find(":radio[name='fawcqk']").prop("disabled", true);
+                        body.find(":radio[name='cpxxwcqk']").prop("disabled", true);
+                        body.find(":radio[name='zbzzwcqk']").prop("disabled", true);
+                        body.find(":radio[name='yzjhbqd']").prop("disabled", true);
+                        body.find(":radio[name='htqd']").prop("disabled", true);
+                        body.find("#yjcg").prop("disabled", true);
+                        body.find(":radio[name='sgqr']").prop("disabled", true);
+                        body.find("#jcjd").prop("disabled", true);
+                    } else {
+                        body.find("#htje").prop("disabled", true);
+                        body.find("#hkqk").prop("disabled", true);
+                        body.find("#whje").prop("disabled", true);
+                        body.find("#whsx").prop("disabled", true);
+                        body.find("#hktz").prop("disabled", true);
+                        body.find("#ml").prop("disabled", true);
+                        body.find("#zbj").prop("disabled", true);
+                        body.find("#zbjthqk").prop("disabled", true);
+
+                        body.find(":checkbox[name='sfjx']").prop("disabled", true);
+
+                        body.find("#name").prop("disabled", true);
+                        body.find("#number").prop("disabled", true);
+                        body.find("#lxsj").prop("disabled", true);
+                        body.find("#dTree").prop("disabled", true);
+                        body.find("#manager").prop("disabled", true);
+                        body.find("#rjkfjd").prop("disabled", true);
+                        body.find("#fawcqk").prop("disabled", true);
+                        body.find(":radio[name='fawcqk']").prop("disabled", true);
+                        body.find(":radio[name='cpxxwcqk']").prop("disabled", true);
+                        body.find(":radio[name='zbzzwcqk']").prop("disabled", true);
+                        body.find(":radio[name='yzjhbqd']").prop("disabled", true);
+                        body.find(":radio[name='htqd']").prop("disabled", true);
+                        body.find("#yjcg").prop("disabled", true);
+                        body.find(":radio[name='sgqr']").prop("disabled", true);
+                        body.find("#jcjd").prop("disabled", true);
+                        body.find("#addProject").prop("disabled", true).addClass("layui-btn-disabled");
+                    }
+
+                    form.render();
+                } else {
+                    body.find("#htje").prop("disabled", true);
+                    body.find("#hkqk").prop("disabled", true);
+                    body.find("#whje").prop("disabled", true);
+                    body.find("#whsx").prop("disabled", true);
+                    body.find("#hktz").prop("disabled", true);
+                    body.find("#ml").prop("disabled", true);
+                    body.find("#zbj").prop("disabled", true);
+                    body.find("#zbjthqk").prop("disabled", true);
+                    body.find(":checkbox[name='sfjx']").prop("disabled", true);
                     form.render();
                 }
                 setTimeout(function () {
@@ -342,23 +428,20 @@ layui.config({
 
     //批量删除
     $(".delAll_btn").click(function () {
-        var checkStatus = table.checkStatus('newsListTable'),
-            data = checkStatus.data,
-            newsId = [];
+        var checkStatus = table.checkStatus('projectList'),
+            data = checkStatus.data;
+        console.log(data);
         if (data.length > 0) {
-            for (var i in data) {
-                newsId.push(data[i].newsId);
-            }
-            layer.confirm('确定删除选中的文章？', {icon: 3, title: '提示信息'}, function (index) {
-                // $.get("删除文章接口",{
-                //     newsId : newsId  //将需要删除的newsId作为参数传入
-                // },function(data){
-                tableIns.reload();
-                layer.close(index);
-                // })
+            layer.confirm('确定删除选中的项目？', {icon: 3, title: '提示信息'}, function (index) {
+                $.post("/project/del", {
+                    id: data[0]['id']
+                }, function (data) {
+                    tableIns.reload();
+                    layer.close(index);
+                })
             })
         } else {
-            layer.msg("请选择需要删除的文章");
+            layer.msg("请选择需要删除的项目");
         }
     })
 

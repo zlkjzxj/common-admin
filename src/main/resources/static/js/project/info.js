@@ -110,13 +110,14 @@ layui.config({
                 data: data.field,
                 dataType: 'json',
                 success: function (res) {
+                    console.log(res)
                     if (res.data) {
-                        layer.msg("项目添加成功！");
+                        layer.msg(res.msg);
                         // layer.closeAll("iframe");
                         //刷新父页面
                         parent.location.reload();
                     } else {
-                        layer.msg(data.msg);
+                        layer.msg(res.msg);
                     }
                 },
                 error: function (e) {
@@ -131,12 +132,12 @@ layui.config({
                 dataType: 'json',
                 success: function (res) {
                     if (res.data) {
-                        layer.msg("项目修改成功！");
+                        layer.msg(res.msg);
                         // layer.closeAll("iframe");
                         //刷新父页面
                         parent.location.reload();
                     } else {
-                        layer.msg(data.msg);
+                        layer.msg(res.msg);
                     }
                 },
                 error: function (e) {

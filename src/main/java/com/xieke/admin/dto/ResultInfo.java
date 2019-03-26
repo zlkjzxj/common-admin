@@ -25,6 +25,12 @@ public class ResultInfo<T> implements Serializable {
         this.msg = msg;
     }
 
+    public ResultInfo(String code, String msg, T data) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+    }
+
     public ResultInfo(String msg) {
         this.code = Constant.YES_ERROR;
         this.msg = msg;
