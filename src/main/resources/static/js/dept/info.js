@@ -5,7 +5,8 @@ layui.config({
 }).use(['form', 'layer', 'tree', "treeSelect"], function () {
     var form = layui.form
     layer = parent.layer === undefined ? layui.layer : top.layer,
-        $ = layui.jquery;
+        $ = layui.jquery,
+        treeSelect = layui.treeSelect;
 
     //这是用来生成编辑框主管列表的
     var userList;
@@ -15,19 +16,18 @@ layui.config({
         userList = data.data;
         // depTable();
         //渲染主管
-        console.log(data);
         userList.forEach(function (e) {
             $("#manager").append("<option value='" + e.id + "'>" + e.name + "</option>");
         });
-        console.log("打开编辑找managerid",$("#managerId").val());
         $("#manager").val($("#managerId").val());//默认选中
         form.render('select');//刷新select选择框渲染
     });
-    layui.treeSelect.render({
+    treeSelect.render({
         // 选择器
         elem: '#pTree',
         // 数据
-        data: '/dept/listDataTreeWithoutCode?pid=1',
+        // data: '/dept/listDataTreeWithoutCode?pid=1',
+        data: '/dept/listDataTreeWithoutCode',
         // 异步加载方式：get/post，默认get
         type: 'get',
         // 占位符
@@ -40,9 +40,10 @@ layui.config({
         },
         // 加载完成后的回调函数
         success: function (d) {
-            // console.log(d);
 //                选中节点，根据id筛选
-//                treeSelect.checkNode('tree', 3);
+            var pid = $("#pid").val();
+            console.log(pid)
+            treeSelect.checkNode('pTree', pid);
 
 //                获取zTree对象，可以调用zTree方法
 //                var treeObj = treeSelect.zTree('tree');

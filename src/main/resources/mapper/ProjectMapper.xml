@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xieke.admin.mapper.ProjectMapper">
+    <select id="findProjectbyId" resultType="com.xieke.admin.dto.ProjectInfo" parameterType="java.lang.Integer">
+        SELECT
+            p.id,
+            p.`name`,
+            p.`number`,
+            p.lxsj,
+            p.rjkfjd,
+            p.fawcqk,
+            p.cpxxwcqk,
+            p.zbzzwcqk,
+            p.yzjhbqd,
+            p.htqd,
+            p.yjcg,
+            p.sgqr,
+            p.jcjd,
+            p.htje,
+            p.hkqk,
+            p.whje,
+            p.whsx,
+            p.hktz,
+            p.ml,
+            p.zbj,
+            p.zbjthqk,
+            p.xmjx,
+            p.lrr,
+            p.xgr,
+            p.create_time                 AS createTime,
+            p.update_time                 AS updateTime,
+
+            (SELECT d.bmmc
+             FROM sys_department d
+             WHERE d.id = p.`department`) AS department,
+            (SELECT u.name
+             FROM sys_user u
+             WHERE u.id = p.`manager`)    AS manager
+        FROM biz_project p
+        WHERE id = #{id};
+    </select>
+
+
+</mapper>

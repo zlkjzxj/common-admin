@@ -1,6 +1,7 @@
 package com.xieke.admin.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.xieke.admin.dto.ProjectInfo;
 import com.xieke.admin.entity.Project;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,5 +16,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ProjectMapper extends BaseMapper<Project> {
 
-
+    ProjectInfo findProjectbyId(Integer id);
 }

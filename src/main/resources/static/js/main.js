@@ -49,14 +49,24 @@ layui.use(['form', 'element', 'layer', 'jquery'], function () {
         parent.addTab($(this));
     })
 
-    //用户数量
+    //部门数量
+    $.get("/dept/count", function (res) {
+        $("#totalDep").text(res.data);
+    })
+    //员工数量
     $.get("/user/count", function (res) {
-        $(".userAll span").text(res.data);
+        $(".userAll #totalUser").text(res.data);
     })
-
+    var zanCount = 100;
+    $("#zan").text('西安研发部(获赞个数：)' + zanCount);
+    $(".zan").on('click', function (e) {
+        zanCount += 1;
+        $("#zan").text('西安研发部(获赞个数：)' + zanCount);
+        layer.msg("你很赞！");
+    })
     //外部图标
-    $.get(iconUrl, function (data) {
-        $(".outIcons span").text(data.split(".icon-").length - 1);
-    })
+    // $.get(iconUrl, function (data) {
+    //     $(".outIcons span").text(data.split(".icon-").length - 1);
+    // })
 
 })

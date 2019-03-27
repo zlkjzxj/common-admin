@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.xieke.admin.annotation.SysLog;
 import com.xieke.admin.business.service.IProjectService;
+import com.xieke.admin.dto.ProjectInfo;
 import com.xieke.admin.dto.ResultInfo;
 import com.xieke.admin.entity.Project;
 import com.xieke.admin.entity.User;
@@ -51,9 +52,15 @@ public class ProjectController extends BaseController {
     ResultInfo<List<Project>> listData(Project project, Integer page, Integer limit) {
         EntityWrapper<Project> wrapper = new EntityWrapper<>(project);
         if (project != null && project.getDepartment() != null) {
-            wrapper.eq("department", project.getDepartment());
+            if (project.getDepartment() != 1) {
+                wrapper.eq("department", project.getDepartment());
+            }
             project.setDepartment(null);
         }
+        if (project != null && !StringUtils.isEmpty(project.getNumber())) {
+            wrapper.like("number", project.getNumber());
+        }
+        project.setNumber(null);
         Page<Project> pageObj = iProjectService.selectPage(new Page<>(page, limit), wrapper);
 
         return new ResultInfo<>(pageObj.getRecords(), pageObj.getSize());
@@ -62,9 +69,9 @@ public class ProjectController extends BaseController {
     @RequestMapping("/getObject")
 //    @RequiresPermissions("project:view")
     public @ResponseBody
-    ResultInfo<Project> getObject(Integer id) {
+    ResultInfo<ProjectInfo> getObject(Integer id) {
         if (id != null) {
-            Project project = iProjectService.selectById(id);
+            ProjectInfo project = iProjectService.findProjectbyId(id);
             return new ResultInfo<>(project);
         }
         return new ResultInfo<>("-1", "查无数据");

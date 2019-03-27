@@ -22,7 +22,7 @@ public class KaptchaConfig {
         properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_CHAR_LENGTH, "4");
         properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_CHAR_STRING, "0123456789");
         properties.setProperty(Constants.KAPTCHA_IMAGE_WIDTH, "116");
-        properties.setProperty(Constants.KAPTCHA_IMAGE_HEIGHT, "36");
+        properties.setProperty(Constants.KAPTCHA_IMAGE_HEIGHT, "43");
         properties.setProperty(Constants.KAPTCHA_SESSION_CONFIG_KEY, "code");
         Config config = new Config(properties);
         captchaProducer.setConfig(config);

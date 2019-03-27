@@ -6,6 +6,7 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
 
     layui.tree({
         elem: '#depTree',
+        skin: 'shihuang',
         nodes: createTree(),
         click: function (node) {
             table.reload("userListTable", {
@@ -61,7 +62,7 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
         limit: 10,
         id: "userListTable",
         cols: [[
-            {type: "checkbox", fixed: "left", width: 50},
+            {type: "radio", fixed: "left", width: 50},
             {field: 'name', title: '用户名称', minWidth: 100, align: 'center'},
             {field: 'userName', title: '登录名称', minWidth: 100, align: "center"},
             {
@@ -117,7 +118,7 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
         var h = "440px";
         var title = "添加用户";
         if (edit) {
-            h = "330px";
+            h = "400px";
             title = "编辑用户";
         }
         layui.layer.open({
@@ -129,11 +130,10 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
                 var body = layui.layer.getChildFrame('body', index);
                 if (edit) {
                     console.log(edit)
-                    body.find("#une").remove();
                     body.find("#pwd1").remove();
-                    body.find("#pwd2").remove();
                     body.find("#id").val(edit.id);
                     body.find("#name").val(edit.name);
+                    body.find("#userName").val(edit.userName);
                     body.find("#glbm").val(edit.glbm);
                     body.find("#roleId").val(edit.roleId);
                     body.find("#stateSelect").val(edit.state);

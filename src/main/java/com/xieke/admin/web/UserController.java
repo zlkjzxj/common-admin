@@ -67,11 +67,14 @@ public class UserController extends BaseController {
             user.setName(null);
         }
         if (user != null && user.getGlbm() != null) {
-            wrapper.and("glbm", user.getGlbm());
-            user.setId(null);
+            //是宜元中林的时候取消掉部门参数
+            if (user.getGlbm() != 1) {
+                wrapper.eq("glbm", user.getGlbm());
+            }
+            user.setGlbm(null);
         }
         Page<User> pageObj = iUserService.selectPage(new Page<>(page, limit), wrapper);
-        return new ResultInfo<>(pageObj.getRecords(),pageObj.getSize());
+        return new ResultInfo<>(pageObj.getRecords(), pageObj.getSize());
     }
 
     @RequestMapping("/listDataSelect")
@@ -92,6 +95,10 @@ public class UserController extends BaseController {
     @RequiresPermissions("user:add")
     public @ResponseBody
     ResultInfo<Boolean> add(User user) {
+        User oldUser = iUserService.findUserInfo(user.getUserName());
+        if (oldUser != null) {
+            return new ResultInfo<>("此登录名称已经存在！");
+        }
         Map<String, String> map = PasswordEncoder.enCodePassWord(user.getUserName(), user.getPassWord());
         user.setSalt(map.get(PasswordEncoder.SALT));
         user.setPassWord(map.get(PasswordEncoder.PASSWORD));
@@ -113,8 +120,13 @@ public class UserController extends BaseController {
     @RequiresPermissions("user:edit")
     public @ResponseBody
     ResultInfo<Boolean> edit(User user) {
+        User oldUser = iUserService.findUserInfo(user.getUserName());
+        if (oldUser != null) {
+            return new ResultInfo<>("此登录名称已经存在！");
+        }
         User us = iUserService.selectById(user.getId());
         us.setName(user.getName());
+        us.setUserName(user.getUserName());
         us.setRoleId(user.getRoleId());
         us.setState(user.getState());
         us.setGlbm(user.getGlbm());

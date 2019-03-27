@@ -20,7 +20,7 @@ layui.use(['form', 'jquery', "layer"], function () {
             id: 'LAY_layuipro',
             btn: ['火速围观'],
             moveType: 1,
-            content: '<div style="padding:15px 20px; text-align:justify; line-height: 22px; text-indent:2em;border-bottom:1px solid #e2e2e2;"><p class="layui-red">本系统为宜元中林项目管理软件初版</p></pclass></p><p>欢迎大家使用和测试，期待大家提出更好的意见，温馨提示：<span class="layui-red">如果对此系统有改进意见或者好的建议，请联系开发人员或者添加到留言板里，谢谢！</span></p></div>',
+            content: '<div style="padding:15px 20px; text-align:justify; line-height: 22px; text-indent:2em;border-bottom:1px solid #e2e2e2;"><p style="color:#e60000;">本系统为宜元中林项目管理软件初版</p></pclass></p><p>欢迎大家使用和测试，期待大家提出更好的意见，温馨提示：<span class="layui-red">如果对此系统有改进意见或者好的建议，请联系开发人员或者添加到留言板里，谢谢！</span></p></div>',
             success: function (layero) {
                 var btn = layero.find('.layui-layer-btn');
                 btn.css('text-align', 'center');

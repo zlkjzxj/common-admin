@@ -77,7 +77,6 @@ layui.config({
                 var body = layui.layer.getChildFrame('body', index);
                 body.find("#managerDiv").hide();
                 if (edit) {
-                    console.log(edit);
                     body.find("#managerDiv").show();
                     body.find("#id").val(edit.id);
                     body.find("#bmmc").val(edit.bmmc);

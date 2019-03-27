@@ -81,14 +81,20 @@ public class DeptController extends BaseController {
     public @ResponseBody
     ResultInfo<List<TreeNode>> listDataJson(Department department) {
         EntityWrapper<Department> wrapper = new EntityWrapper<>(department);
+        Integer pid = 0;
         wrapper.eq("isshow", 1);
+        if (department != null && department.getPid() != null) {
+            wrapper.ge("pid", department.getPid());
+            pid = department.getPid();
+            department.setPid(null);
+        }
         List<Department> list = iDepartmentService.selectList(wrapper);
         List<TreeNode> nodeList = new ArrayList<>();
         list.forEach(node -> {
-            TreeNode<TreeNode> treeNode = new TreeNode<>(node.getId(), node.getBmmc(), node.getPid(), false, false);
+            TreeNode<TreeNode> treeNode = new TreeNode<>(node.getId(), node.getBmmc(), node.getPid(), true);
             nodeList.add(treeNode);
         });
-        return new ResultInfo<>(makeTree(nodeList, 1));
+        return new ResultInfo<>(makeTree(nodeList, pid));
     }
 
     @RequestMapping("/listDataTreeWithoutCode")
@@ -127,6 +133,12 @@ public class DeptController extends BaseController {
         );
 
         return children;
+    }
 
+    @RequestMapping("/count")
+    public @ResponseBody
+    ResultInfo<Integer> count() {
+        return new ResultInfo<>(
+                iDepartmentService.selectCount(new EntityWrapper<>()));
     }
 }

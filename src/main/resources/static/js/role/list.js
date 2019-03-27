@@ -15,7 +15,7 @@ layui.use(['form','layer','table'],function(){
         limit : 10,
         id : "roleListTable",
         cols : [[
-            {type: "checkbox", fixed:"left", width:50},
+            {type: "radio", fixed:"left", width:50},
             {field: 'roleCode', title: '角色编码', minWidth:100, align:"center"},
             {field: 'roleName', title: '角色名称', minWidth:200, align:'center'},
             {field: 'available', title: '角色状态',  align:'center',templet:function(d){

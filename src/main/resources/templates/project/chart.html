@@ -85,7 +85,7 @@
             if (shape === "rect") {
                 cell = new joint.shapes.basic.Rect({
                     position: {x: x, y: y},//坐标
-                    size: {width: 140, height: 40},//宽高
+                    size: {width: 180, height: 40},//宽高
                     attrs: {
                         rect: {
                             fill: {
@@ -151,6 +151,7 @@
         }
 
         var projectId = window.parent.document.getElementById("projectId").value;
+        console.log(projectId)
         $.ajax({
             url: '/project/getObject',
             method: 'POST',
@@ -187,24 +188,56 @@
             var state25 = state(500, 500, "rect", data.htqd === 1 ? completeColor : uncompleteColor, "合同签订：" + (data.htqd == 1 ? '完成' : '未完成'));
 
             var state3 = state(300, 600, "ellipse", "#00FFFF", "软件开发进度");
-            var state31 = state(500, 600, "rect", "#f7a07b", "软件工作进度：开发中");
+            var rjkfjd = data.rjkfjd;
+            var kfjd = "";
+            if (rjkfjd === 0) {
+                kfjd = "工作中";
+            } else if (rjkfjd === 1) {
+                kfjd = "暂停中";
+            } else if (rjkfjd === 2) {
+                kfjd = "测试中";
+            } else if (rjkfjd === 3) {
+                kfjd = "完工";
+            }
+            console.log(kfjd)
+            var state31 = state(500, 600, "rect", "#f7a07b", "软件工作进度：" + kfjd);
 
             var state4 = state(750, 300, "ellipse", "#00FFFF", "集成部署");
-            var state41 = state(900, 200, "rect", "#f7a07b", "硬件采购：未开始");
-            var state42 = state(900, 300, "rect", "#f7a07b", "继承工作进度：到场");
-            var state43 = state(900, 400, "rect", "#f7a07b", "施工队确认：未完成");
+            var yjcg = data.yjcg;
+            var yj = "";
+            if (yjcg === 0) {
+                yj = "开始";
+            } else if (yjcg === 1) {
+                yj = "进行中";
+            } else if (yjcg === 2) {
+                yj = "完成";
+            }
+            var state41 = state(900, 200, "rect", "#f7a07b", "硬件采购：" + yj);
+            var jcjd = data.jcjd;
+            var jc = "";
+            if (jcjd === 0) {
+                jc = "到场";
+            } else if (jcjd === 1) {
+                jc = "实施";
+            } else if (jcjd === 2) {
+                jc = "完工";
+            } else if (jcjd === 3) {
+                jc = "验收";
+            }
+            var state42 = state(900, 300, "rect", "#f7a07b", "集成工作进度:" + jc);
+            var state43 = state(900, 400, "rect", data.sgqr === 1 ? completeColor : uncompleteColor, "施工队确认：" + (data.htqd == 1 ? '完成' : '未完成'));
 
             var state5 = state(1100, 300, "ellipse", "#00FFFF", "回款状况");
-            var state51 = state(1300, 100, "rect", "#f7a07b", "合同金额：", {width: 80});
-            var state52 = state(1300, 150, "rect", "#f7a07b", "回款情况：", {width: 80});
-            var state53 = state(1300, 200, "rect", "#f7a07b", "未回金额：", {width: 80});
-            var state54 = state(1300, 250, "rect", "#f7a07b", "未回时限：", {width: 80});
-            var state55 = state(1300, 300, "rect", "#f7a07b", "回款通知：", {width: 80});
-            var state56 = state(1300, 350, "rect", "#f7a07b", "毛利：", {width: 80});
-            var state57 = state(1300, 400, "rect", "#f7a07b", "质保金：", {width: 80});
-            var state58 = state(1300, 450, "rect", "#f7a07b", "质保金退换情况：", {width: 80});
+            var state51 = state(1300, 100, "rect", "#f7a07b", "合同金额：" + data.htje, {width: 80});
+            var state52 = state(1300, 150, "rect", "#f7a07b", "回款情况：" + data.hkqk, {width: 80});
+            var state53 = state(1300, 200, "rect", "#f7a07b", "未回金额：" + data.whje, {width: 80});
+            var state54 = state(1300, 250, "rect", "#f7a07b", "未回时限：" + data.whsx, {width: 80});
+            var state55 = state(1300, 300, "rect", "#f7a07b", "回款通知：" + data.hktz, {width: 80});
+            var state56 = state(1300, 350, "rect", "#f7a07b", "毛利：" + data.ml, {width: 80});
+            var state57 = state(1300, 400, "rect", "#f7a07b", "质保金：" + data.zbj, {width: 80});
+            var state58 = state(1300, 450, "rect", "#f7a07b", "质保金退换情况：" + data.zbjthqk, {width: 80});
 
-            var state6 = state(1500, 300, "ellipse", fa === 1 ? completeColor : uncompleteColor, "项目结项：未结项");
+            var state6 = state(1500, 300, "ellipse", data.xmjx == 1 ? completeColor : uncompleteColor, "项目结项:" + data.xmjx === 1 ? "结项" : "未结项");
 
 
             //创建连线

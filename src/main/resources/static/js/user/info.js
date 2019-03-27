@@ -25,10 +25,13 @@ layui.config({
         },
         // 加载完成后的回调函数
         success: function (d) {
-            console.log(d);
-//                选中节点，根据id筛选
-            console.log($("#glbm").val());
-            treeSelect.checkNode('glbmTree', $("#glbm").val());
+            var glbm = window.parent.document.getElementById("glbm").value;
+            console.log(glbm)
+            //部门树被点击之后才能初始化部门下拉列表
+            if (glbm != '') {
+                treeSelect.checkNode('glbmTree', glbm);
+            }
+
             // var treeObj = treeSelect.zTree('tree');
             // console.log(treeObj);
 
@@ -74,7 +77,8 @@ layui.config({
                     //刷新父页面
                     parent.location.reload();
                 } else {
-                    layer.msg(data.msg);
+                    console.log(res);
+                    layer.msg(res.msg);
                 }
             })
         } else {
@@ -86,7 +90,7 @@ layui.config({
                     //刷新父页面
                     parent.location.reload();
                 } else {
-                    layer.msg(data.msg);
+                    layer.msg(res.msg);
                 }
             })
         }

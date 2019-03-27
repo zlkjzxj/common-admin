@@ -25,7 +25,6 @@ layui.config({
         search: false,
         // 点击回调
         click: function (d) {
-            console.log("部门被点击了")
             $("#department").val(d.current.id);
             $("#dTree").val(d.current.id);
             // treeSelect.checkNode('tree', d.current.id);

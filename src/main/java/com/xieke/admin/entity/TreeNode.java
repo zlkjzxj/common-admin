@@ -22,31 +22,27 @@ public class TreeNode<T> {
     private String href;
     private Integer pid;
     private boolean open;
+    private boolean spread;
     private boolean checked;
     private List<T> children = new ArrayList<>();
 
-    public TreeNode(Integer id, String name, Integer pid, boolean open,boolean checked) {
+    public TreeNode(Integer id, String name, Integer pid, boolean open, boolean checked) {
         this.name = name;
         this.id = id;
         this.pid = pid;
         this.open = open;
         this.checked = checked;
     }
+    public TreeNode(Integer id, String name, Integer pid, boolean spread) {
+        this.name = name;
+        this.id = id;
+        this.pid = pid;
+        this.spread = spread;
+    }
 
     public static void main(String[] args) {
 
         List<TreeNode> TreeNodeList = new ArrayList<>();
-
-//        TreeNodeList.add(new TreeNode(1, "白胡子", 0));
-//        TreeNodeList.add(new TreeNode(2, "不死鸟", 1));
-//        TreeNodeList.add(new TreeNode(3, "艾斯", 1));
-//        TreeNodeList.add(new TreeNode(4, "龙", 0));
-//        TreeNodeList.add(new TreeNode(5, "路飞", 4));
-//        TreeNodeList.add(new TreeNode(6, "索隆", 5));
-//        TreeNodeList.add(new TreeNode(7, "娜美", 5));
-//        TreeNodeList.add(new TreeNode(8, "罗宾", 5));
-//        TreeNodeList.add(new TreeNode(9, "乌索普", 5));
-//        TreeNodeList.add(new TreeNode(10, "小丑", 100));//小丑的长官Id不存在，所以tree中没有它的信息
 
         List<TreeNode> tree = makeTree(TreeNodeList, 0);
 

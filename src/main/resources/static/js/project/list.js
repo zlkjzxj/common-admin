@@ -20,7 +20,8 @@ layui.config({
         // 选择器
         elem: '#departmentSelect',
         // 数据
-        data: '/dept/listDataTreeWithoutCode?pid=1',
+        // data: '/dept/listDataTreeWithoutCode?pid=1',
+        data: '/dept/listDataTreeWithoutCode',
         // 异步加载方式：get/post，默认get
         type: 'get',
         // 占位符
@@ -159,7 +160,7 @@ layui.config({
             {field: 'htje', title: '合同金额', align: 'center'},
             {field: 'hkqk', title: '回款情况', align: 'center'},
             {field: 'whje', title: '未回金额', align: 'center'},
-            {field: 'whsx', title: '未回时限', align: 'center'},
+            {field: 'whsx', title: '未回时限', align: 'center',width: 120,},
             {field: 'hktz', title: '回款通知', align: 'center'},
             {field: 'ml', title: '毛利', align: 'center'},
             {field: 'zbj', title: '质保金', align: 'center'},
@@ -186,7 +187,7 @@ layui.config({
                 $("#projectId").val(obj.id);
                 // $(window).one("resize", function () {
                 var index = layui.layer.open({
-                    title: "项目详情",
+                    title: "项目详情流程图",
                     type: 2,
                     content: "chart.html",
                     success: function (layero, index) {
@@ -233,54 +234,17 @@ layui.config({
 
     //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
     $(".search_btn").on("click", function () {
-        if ($(".searchVal").val() != '') {
-            table.reload("projectList", {
-                page: {
-                    curr: 1 //重新从第 1 页开始
-                },
-                where: {
-                    number: $(".searchVal").val()
-                }
-            })
-        } else {
-            table.reload("projectList", {
-                page: {
-                    curr: 1 //重新从第 1 页开始
-                }
-            })
-        }
-        if ($("#sfjxSelect").val() != '') {
-            table.reload("projectList", {
-                page: {
-                    curr: 1 //重新从第 1 页开始
-                },
-                where: {
-                    xmjx: $("#sfjxSelect").val()
-                }
-            })
-        } else {
-            table.reload("projectList", {
-                page: {
-                    curr: 1 //重新从第 1 页开始
-                }
-            })
-        }
-        if ($("#departVal").val() != '') {
-            table.reload("projectList", {
-                page: {
-                    curr: 1 //重新从第 1 页开始
-                },
-                where: {
-                    department: $("#departVal").val()
-                }
-            })
-        } else {
-            table.reload("projectList", {
-                page: {
-                    curr: 1 //重新从第 1 页开始
-                }
-            })
-        }
+        console.log($("#departVal").val(),$("#departmentSelect").val())
+        table.reload("projectList", {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                number: $(".searchVal").val(),
+                department:$("#departVal").val(),
+                xmjx:$("#sfjxSelect").val()
+            }
+        })
     });
 
     //添加项目
