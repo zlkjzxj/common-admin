@@ -23,7 +23,7 @@ layui.use(['form','layer','table','laydate'],function(){
             {type: "checkbox", fixed:"left", width:50},
             {field: 'userName', title: '用户名', minWidth:100, align:"center"},
             {field: 'ipAddress', title: 'IP地址', minWidth:100, align:'center'},
-            {field: 'geographyLocation', title: '登录地点', minWidth:100, align:'center'},
+            // {field: 'geographyLocation', title: '登录地点', minWidth:100, align:'center'},
             {field: 'createTime', title: '登录时间', minWidth:100, align:'center'}
         ]]
     });
