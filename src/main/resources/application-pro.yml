@@ -1,0 +1,29 @@
+server:
+  port: 9999
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/other_fream?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+    mode: LEGACYHTML5
+  mvc:
+    static-path-pattern: /static/**
+
+mybatis-plus:
+  type-aliases-package: com.xieke.admin.entity
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  global-config:
+    id-type: 2
+    field-strategy: 2
+    db-column-underline: true
+    refresh-mapper: true
+    meta-object-handler: com.xieke.admin.config.AutoMetaObjectHandler
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false

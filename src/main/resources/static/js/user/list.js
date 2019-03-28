@@ -9,6 +9,7 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
         skin: 'shihuang',
         nodes: createTree(),
         click: function (node) {
+            console.log(node);
             table.reload("userListTable", {
                 page: {
                     curr: 1 //重新从第 1 页开始
@@ -17,7 +18,8 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
                     glbm: node.id,
                 }
             });
-            $("#glbm").val(node.id);
+            $("#sonGlbm").val(node.id);
+            $("#parentGlbm").val(node.id);
         }
     });
 
@@ -108,7 +110,7 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
                 name: $(".name").val(),
                 state: $(".state").val(),
                 roleId: $(".roleId").val(),
-                glbm: $("#glbm").val()
+                glbm: $("#parentGlbm").val()
             }
         })
     });
@@ -120,6 +122,16 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
         if (edit) {
             h = "400px";
             title = "编辑用户";
+            //必须提前设置，不然就没用了
+            $("#sonGlbm").val(edit.glbm);
+        } else {
+            var parentGlbm = $("#parentGlbm").val();
+            if (parentGlbm != "") {
+                $("#sonGlbm").val(parentGlbm);
+            } else {
+                $("#sonGlbm").val("");
+            }
+
         }
         layui.layer.open({
             title: title,
@@ -134,7 +146,6 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
                     body.find("#id").val(edit.id);
                     body.find("#name").val(edit.name);
                     body.find("#userName").val(edit.userName);
-                    body.find("#glbm").val(edit.glbm);
                     body.find("#roleId").val(edit.roleId);
                     body.find("#stateSelect").val(edit.state);
                     form.render();

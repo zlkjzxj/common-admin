@@ -22,13 +22,15 @@ layui.config({
         // 点击回调
         click: function (d) {
             $("#glbm").val(d.current.id);
+            $("#glbmTree").val(d.current.id);
         },
         // 加载完成后的回调函数
         success: function (d) {
-            var glbm = window.parent.document.getElementById("glbm").value;
+            var glbm = window.parent.document.getElementById("sonGlbm").value;
             console.log(glbm)
             //部门树被点击之后才能初始化部门下拉列表
-            if (glbm != '') {
+            if (glbm != '' && glbm != 1) {
+                $("#glbmTree").val(glbm);
                 treeSelect.checkNode('glbmTree', glbm);
             }
 

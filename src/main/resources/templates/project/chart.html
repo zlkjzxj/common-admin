@@ -180,7 +180,6 @@
 
             var state2 = state(300, 400, "ellipse", "#00FFFF", "前期准备情况");
 
-            var fa = 0
             var state21 = state(500, 300, "rect", data.fawcxk === 1 ? completeColor : uncompleteColor, "方案完成情况：" + (data.fawcxk == 1 ? '完成' : '未完成'));
             var state22 = state(500, 350, "rect", data.cpxxwcqk === 1 ? completeColor : uncompleteColor, "产品选型完成情况：" + (data.cpxxwcqk == 1 ? '完成' : '未完成'));
             var state23 = state(500, 400, "rect", data.zbzzwcqk === 1 ? completeColor : uncompleteColor, "招标组织完成情况：" + (data.zbzzwcqk == 1 ? '完成' : '未完成'));
@@ -228,14 +227,14 @@
             var state43 = state(900, 400, "rect", data.sgqr === 1 ? completeColor : uncompleteColor, "施工队确认：" + (data.htqd == 1 ? '完成' : '未完成'));
 
             var state5 = state(1100, 300, "ellipse", "#00FFFF", "回款状况");
-            var state51 = state(1300, 100, "rect", "#f7a07b", "合同金额：" + data.htje, {width: 80});
-            var state52 = state(1300, 150, "rect", "#f7a07b", "回款情况：" + data.hkqk, {width: 80});
-            var state53 = state(1300, 200, "rect", "#f7a07b", "未回金额：" + data.whje, {width: 80});
-            var state54 = state(1300, 250, "rect", "#f7a07b", "未回时限：" + data.whsx, {width: 80});
-            var state55 = state(1300, 300, "rect", "#f7a07b", "回款通知：" + data.hktz, {width: 80});
-            var state56 = state(1300, 350, "rect", "#f7a07b", "毛利：" + data.ml, {width: 80});
-            var state57 = state(1300, 400, "rect", "#f7a07b", "质保金：" + data.zbj, {width: 80});
-            var state58 = state(1300, 450, "rect", "#f7a07b", "质保金退换情况：" + data.zbjthqk, {width: 80});
+            var state51 = state(1300, 100, "rect", "#f7a07b", "合同金额：" + (data.htje == null ? "" : data.htje), {width: 80});
+            var state52 = state(1300, 150, "rect", "#f7a07b", "回款情况：" + (data.hkqk == null ? "" : data.hkqk), {width: 80});
+            var state53 = state(1300, 200, "rect", "#f7a07b", "未回金额：" + (data.whje == null ? "" : data.whje), {width: 80});
+            var state54 = state(1300, 250, "rect", "#f7a07b", "未回时限：" + (data.whsx == null ? "" : data.whsx), {width: 80});
+            var state55 = state(1300, 300, "rect", "#f7a07b", "回款通知：" + (data.hktz == null ? "" : data.hktz), {width: 80});
+            var state56 = state(1300, 350, "rect", "#f7a07b", "毛利：" + (data.ml == null ? "" : data.ml), {width: 80});
+            var state57 = state(1300, 400, "rect", "#f7a07b", "质保金：" + (data.zbj == null ? "" : data.zbj), {width: 80});
+            var state58 = state(1300, 450, "rect", "#f7a07b", "质保金退换情况：" + (data.zbjthqk == null ? "" : data.zbjthqk), {width: 80});
 
             var state6 = state(1500, 300, "ellipse", data.xmjx == 1 ? completeColor : uncompleteColor, "项目结项:" + data.xmjx === 1 ? "结项" : "未结项");
 

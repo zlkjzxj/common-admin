@@ -36,7 +36,7 @@
             <label class="layui-form-label">项目名称</label>
             <div class="layui-input-block">
                 <input type="text" name="name" id="name" class="layui-input" lay-verify="name|required"
-                       placeholder="请输入项目名称">
+                       placeholder="请输入项目名称" autocomplete="off">
             </div>
         </div>
         <div class="layui-form-item">
@@ -45,14 +45,14 @@
                 <div class="layui-input-inline">
                     <input type="text" name="number" id="number" class="layui-input"
                            lay-verify="required|pNumber"
-                           placeholder="格式：2019RJKF003">
+                           placeholder="格式：2019RJKF003" onkeyup="this.value=this.value.toUpperCase()">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">立项时间</label>
                 <div class="layui-input-inline">
                     <input type="text" name="lxsj" class="layui-input" id="lxsj" placeholder="请选择项目时间"
-                           lay-verify="required">
+                           lay-verify="required" autocomplete="off">
                 </div>
             </div>
         </div>

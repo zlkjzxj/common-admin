@@ -7,10 +7,13 @@ import com.xieke.admin.dto.ResultInfo;
 import com.xieke.admin.dto.UserInfo;
 import com.xieke.admin.entity.User;
 import com.xieke.admin.service.IUserService;
+import com.xieke.admin.util.Constant;
 import com.xieke.admin.util.PasswordEncoder;
 import com.xieke.admin.util.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -120,10 +125,6 @@ public class UserController extends BaseController {
     @RequiresPermissions("user:edit")
     public @ResponseBody
     ResultInfo<Boolean> edit(User user) {
-        User oldUser = iUserService.findUserInfo(user.getUserName());
-        if (oldUser != null) {
-            return new ResultInfo<>("此登录名称已经存在！");
-        }
         User us = iUserService.selectById(user.getId());
         us.setName(user.getName());
         us.setUserName(user.getUserName());
@@ -164,6 +165,17 @@ public class UserController extends BaseController {
     public @ResponseBody
     ResultInfo<Integer> count() {
         return new ResultInfo<>(iUserService.selectCount(new EntityWrapper<>()));
+    }
+
+    @RequestMapping("/getAvatar")
+    public @ResponseBody String getAvatar(HttpServletResponse response) {
+        Session session = SecurityUtils.getSubject().getSession();
+        try {
+            response.getWriter().write((String) session.getAttribute("avatar"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

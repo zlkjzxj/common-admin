@@ -3,6 +3,9 @@
 #### 修改点
 1. 取消redis管理sessionManager
 2. securityManager 把redis cache也取消掉
+3. 修改向左伸缩icon不显示问题
+4. 
+
 
 
 #### 问题点
