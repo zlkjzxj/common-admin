@@ -78,8 +78,8 @@ public class ShiroRealm extends AuthorizingRealm {
 
         session.setAttribute("userName", userInfo.getName());
 
-//        session.setAttribute("avatar", Base64.decodeToString(userInfo.getAvatar()));
         session.setAttribute("avatar", userInfo.getAvatar());
+        session.setAttribute("user", userInfo);
 
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 userInfo, //用户信息

@@ -16,12 +16,13 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -138,9 +139,18 @@ public class UserController extends BaseController {
     @SysLog("本人修改用户操作")
     @RequestMapping("/userEdit")
     public @ResponseBody
-    ResultInfo<Boolean> userEdit(User user) {
+    ResultInfo<Boolean> userEdit(@RequestParam("avatarFile") MultipartFile avatarFile, User user) {
         UserInfo userInfo = this.getUserInfo();
         User us = iUserService.selectById(userInfo.getId());
+        String avatarStr = "";
+        if (avatarFile != null) {
+            try {
+                avatarStr = Base64Utils.encodeToString(avatarFile.getBytes());
+                us.setAvatar(Constant.BASE64_PIC_HEADER + avatarStr);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         if (!StringUtils.isEmpty(user.getName())) {
             us.setName(user.getName());
         }
@@ -150,6 +160,13 @@ public class UserController extends BaseController {
             us.setPassWord(map.get(PasswordEncoder.PASSWORD));
         }
         boolean b = iUserService.updateById(us);
+        Session session = SecurityUtils.getSubject().getSession();
+        if (b && !"".equals(avatarStr)) {
+            session.setAttribute("avatar", Constant.BASE64_PIC_HEADER + avatarStr);
+        }
+        if (b && !StringUtils.isEmpty(user.getName())) {
+            session.setAttribute("userName", userInfo.getName());
+        }
         return new ResultInfo<>(b);
     }
 
@@ -161,21 +178,23 @@ public class UserController extends BaseController {
         return new ResultInfo<>(userInfo);
     }
 
+    /**
+     * 查询用户数量
+     */
     @RequestMapping("/count")
     public @ResponseBody
     ResultInfo<Integer> count() {
         return new ResultInfo<>(iUserService.selectCount(new EntityWrapper<>()));
     }
 
-    @RequestMapping("/getAvatar")
-    public @ResponseBody String getAvatar(HttpServletResponse response) {
-        Session session = SecurityUtils.getSubject().getSession();
-        try {
-            response.getWriter().write((String) session.getAttribute("avatar"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    /**
+     * 修改头像
+     */
+
+    @RequestMapping("/updateAvatar")
+    public @ResponseBody
+    ResultInfo<Integer> updateAvatar() {
+        return new ResultInfo<>(iUserService.selectCount(new EntityWrapper<>()));
     }
 
 }

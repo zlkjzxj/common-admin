@@ -75,6 +75,11 @@ public class User extends Model<User> {
     @TableField("avatar")
     private String avatar;
     /**
+     * 用户签名
+     */
+    @TableField("sign")
+    private String sign;
+    /**
      * 修改时间
      */
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
