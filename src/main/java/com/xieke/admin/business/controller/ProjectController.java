@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -49,21 +50,28 @@ public class ProjectController extends BaseController {
     @RequestMapping("/listData")
 //    @RequiresPermissions("project:view")
     public @ResponseBody
-    ResultInfo<List<Project>> listData(Project project, Integer page, Integer limit) {
-        EntityWrapper<Project> wrapper = new EntityWrapper<>(project);
-        if (project != null && project.getDepartment() != null) {
-            if (project.getDepartment() != 1) {
-                wrapper.eq("department", project.getDepartment());
-            }
-            project.setDepartment(null);
-        }
-        if (project != null && !StringUtils.isEmpty(project.getNumber())) {
-            wrapper.like("number", project.getNumber());
-        }
-        project.setNumber(null);
-        Page<Project> pageObj = iProjectService.selectPage(new Page<>(page, limit), wrapper);
+    ResultInfo<List<ProjectInfo>> listData(ProjectInfo project, Integer page, Integer limit) {
 
-        return new ResultInfo<>(pageObj.getRecords(), pageObj.getSize());
+        Project project1 = new Project();
+        EntityWrapper<Project> wrapper = new EntityWrapper<>(project1);
+
+//        if (project != null && project.getDepartment() != null) {
+//            if (project.getDepartment() != 1) {
+//                wrapper.eq("department", project.getDepartment());
+//            }
+//            project.setDepartment(null);
+//        }
+        //判断模糊搜索字段是否为空(项目名称|编号|部门|项目经理)
+//        if (!StringUtils.isEmpty(project.getFuzzySearchVal())) {
+//            wrapper.where("concat(`name`,`number`,`department`,`manager`)  like '%" + project.getFuzzySearchVal() + "%'");
+//        }
+//        Page<Project> pageObj = iProjectService.selectPage(new Page<>(page, limit), wrapper);
+        project.setLimit1(limit * (page - 1));
+        project.setLimit2(limit);
+        List<ProjectInfo> list = iProjectService.findProjectByFuzzySearchVal(project);
+        Integer count = iProjectService.selectCount(wrapper);
+//        return new ResultInfo<>(pageObj.getRecords(), pageObj.getSize());
+        return new ResultInfo<>(list, count);
     }
 
     @RequestMapping("/getObject")

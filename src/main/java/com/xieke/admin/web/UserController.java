@@ -2,6 +2,7 @@ package com.xieke.admin.web;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import com.xieke.admin.annotation.SysLog;
 import com.xieke.admin.dto.ResultInfo;
 import com.xieke.admin.dto.UserInfo;
@@ -80,7 +81,7 @@ public class UserController extends BaseController {
             user.setGlbm(null);
         }
         Page<User> pageObj = iUserService.selectPage(new Page<>(page, limit), wrapper);
-        return new ResultInfo<>(pageObj.getRecords(), pageObj.getSize());
+        return new ResultInfo<>(pageObj.getRecords(), pageObj.getTotal());
     }
 
     @RequestMapping("/listDataSelect")

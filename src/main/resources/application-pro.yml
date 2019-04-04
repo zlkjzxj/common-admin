@@ -3,7 +3,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/other_fream?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://127.0.0.1:3306/zl_manager?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource

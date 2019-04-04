@@ -15,6 +15,8 @@ layui.config({
         available: 1
     }, function (data) {
         userList = data.data;
+        //渲染表格要放到这，不然容易出错！
+        depTable();
     });
     // 渲染表格
     var depTable = function () {
@@ -58,7 +60,6 @@ layui.config({
         })
         ;
     }
-    depTable();
 
     //添加部门
     function addDept(edit) {

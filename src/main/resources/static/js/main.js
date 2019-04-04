@@ -68,7 +68,7 @@ layui.use(['form', 'element', 'layer', 'jquery', 'layim'], function () {
     // $.get(iconUrl, function (data) {
     //     $(".outIcons span").text(data.split(".icon-").length - 1);
     // })
-    layui.use('layim', function (layim) {
+    /*layui.use('layim', function (layim) {
         //基础配置
         layim.config({
 
@@ -106,5 +106,5 @@ layui.use(['form', 'element', 'layer', 'jquery', 'layim'], function () {
             , find: layui.cache.dir + 'css/modules/layim/html/find.html' //发现页面地址，若不开启，剔除该项即可
             , chatLog: layui.cache.dir + 'css/modules/layim/html/chatlog.html' //聊天记录页面地址，若不开启，剔除该项即可
         });
-    });
+    });*/
 })
