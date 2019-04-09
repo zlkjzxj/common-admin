@@ -209,13 +209,21 @@ layui.config({
         //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
         table.reload('projectList', {
             initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。
-            ,where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+            , where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
                 field: obj.field //排序字段
-                ,order: obj.type //排序方式
+                , order: obj.type //排序方式
             }
         });
-
-        layer.msg('服务端排序。order by ' + obj.field + ' ' + obj.type);
+        // table.reload("projectList", {
+        //     page: {
+        //         curr: 1 //重新从第 1 页开始
+        //     },
+        //     where: {
+        //         fuzzySearchVal: $(".searchVal").val(),
+        //         department: $("#departVal").val(),
+        //         xmjx: $("#sfjxSelect").val()
+        //     }
+        // })
     });
 
     function isComplete(value) {
