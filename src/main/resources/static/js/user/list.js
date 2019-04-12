@@ -93,7 +93,12 @@ layui.use(['form', 'layer', 'table', 'tree', 'laypage'], function () {
                 }
             },
             {field: 'updateTime', title: '修改时间', align: 'center', minWidth: 100},
-            {field: 'createTime', title: '创建时间', align: 'center', minWidth: 100}
+            {field: 'createTime', title: '创建时间', align: 'center', minWidth: 100},
+            {
+                title: '重置密码', align: 'center', minWidth: 100, templet: function () {
+                    return '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="editPass">重置密码</a>';
+                }
+            },
         ]],
         done: function (res, curr, count) {
             // 隐藏列
@@ -173,6 +178,17 @@ layui.use(['form', 'layer', 'table', 'tree', 'laypage'], function () {
             addUser(data[0]);
         } else {
             layer.msg("请选择需要修改的用户");
+        }
+    });
+
+    //重置密码
+    table.on('tool(userList)', function (obj) {
+        var layEvent = obj.event,
+            data = obj.data;
+        if (layEvent === 'editPass') {
+            $.post("/user/resetPass", {id: data.id}, function (e) {
+                layer.msg("重置密码成功！");
+            });
         }
     });
 

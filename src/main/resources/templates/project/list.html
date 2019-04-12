@@ -28,23 +28,104 @@
     <input id="departVal" type="hidden">
     <blockquote class="layui-elem-quote quoteBox">
         <form class="layui-form">
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input searchVal" style="width: 300px;"
+                       placeholder="搜索条件：项目名称|编号|部门|项目经理"/>
+            </div>
+            <div class="layui-input-inline">
+                <!--<select class="state" id="departmentSelect">-->
+                <!--</select>-->
+                <!--<input type="text" id="departmentSelect" lay-filter="tree" class="layui-input" >-->
+                <input id="departmentSelect"/>
+            </div>
+            <div class="layui-input-inline">
+                <select class="state" id="sfjxSelect">
+                    <option value="">是否结项</option>
+                    <option value="1">是</option>
+                    <option value="0">否</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select class="state" id="rjkfjdSelect">
+                    <option value="">软件开发进度</option>
+                    <option value="0">未开始</option>
+                    <option value="1">工作中</option>
+                    <option value="2">暂停中</option>
+                    <option value="3">测试中</option>
+                    <option value="4">完工</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select class="state" id="fawcqkSelect">
+                    <option value="">方案完成情况</option>
+                    <option value="0">未完成</option>
+                    <option value="1">完成</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select class="state" id="cpxxwcqkSelect">
+                    <option value="">产品选型完成情况</option>
+                    <option value="0">未完成</option>
+                    <option value="1">完成</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select class="state" id="zbzzwcqkSelect">
+                    <option value="">招标组织完成情况</option>
+                    <option value="0">未完成</option>
+                    <option value="1">完成</option>
+                    <option value="3">不招标</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select class="state" id="yzjhbqdSelect">
+                    <option value="">用资计划表确定</option>
+                    <option value="0">未通过</option>
+                    <option value="1">通过</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select class="state" id="htqdSelect">
+                    <option value="">合同签订</option>
+                    <option value="0">未完成</option>
+                    <option value="1">完成</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select class="state" id="yjcgSelect">
+                    <option value="">硬件采购</option>
+                    <option value="0">未开始</option>
+                    <option value="1">销售合同签订中</option>
+                    <option value="2">进行中</option>
+                    <option value="3">完成</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select class="state" id="sgqrSelect">
+                    <option value="">施工队确认</option>
+                    <option value="0">未完成</option>
+                    <option value="1">完成</option>
+                    <option value="2">无</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select class="state" id="jcjdSelect">
+                    <option value="">集成工作进度</option>
+                    <option value="0">未开始</option>
+                    <option value="1">到场</option>
+                    <option value="2">实施</option>
+                    <option value="3">完工</option>
+                    <option value="4">验收</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select class="state" id="sflxSelect">
+                    <option value="">是否立项</option>
+                    <option value="0">否</option>
+                    <option value="1">是</option>
+                </select>
+            </div>
             <div class="layui-inline">
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input searchVal" style="width: 300px;" placeholder="搜索条件：项目名称|编号|部门|经理"/>
-                </div>
-                <!--<div class="layui-input-inline">
-                    &lt;!&ndash;<select class="state" id="departmentSelect">&ndash;&gt;
-                    &lt;!&ndash;</select>&ndash;&gt;
-                    &lt;!&ndash;<input type="text" id="departmentSelect" lay-filter="tree" class="layui-input" >&ndash;&gt;
-                    <input id="departmentSelect"/>
-                </div>-->
-                <div class="layui-input-inline">
-                    <select class="state" id="sfjxSelect">
-                        <option value="">是否结项</option>
-                        <option value="1">是</option>
-                        <option value="0">否</option>
-                    </select>
-                </div>
                 <a class="layui-btn search_btn" data-type="reload">搜索</a>
             </div>
             <shiro:hasPermission name="project:add">
@@ -62,9 +143,9 @@
                     <a class="layui-btn layui-btn-danger delAll_btn">删除</a>
                 </div>
             </shiro:hasPermission>
-                <div class="layui-inline">
-                    <a class="layui-btn layui-btn-danger export_btn">导出数据</a>
-                </div>
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-danger export_btn">导出数据</a>
+            </div>
         </form>
     </blockquote>
     <table id="projectList" lay-filter="projectList"></table>
@@ -88,5 +169,30 @@
 </form>
 <script type="text/javascript" src="/static/layui/layui.js"></script>
 <script type="text/javascript" src="/static/js/project/list.js"></script>
+<script type="text/javascript" src="/static/jointjs/jquery-3.3.1.js"></script>
+<!--<script type="text/javascript" src="/static/xlsx/xlsx.full.min.js"></script>-->
+<!--<script type="text/javascript" src="/static/xlsx/export.js"></script>-->
+<script>
+    // $(".export_btn").click(function () {
+    //     // var table1 = document.querySelector("#table1");
+    //     // console.log(table1);
+    //     // var sheet = XLSX.utils.table_to_sheet(table1);//将一个table对象转换成一个sheet对象
+    //     $.ajax({
+    //         url: '/project/listData',
+    //         type: 'get',
+    //         dataType: 'json',
+    //         success: function (data) {
+    //             console.log(data.data);
+    //             var data1 = [
+    //                 {"name": "John", "city": "Seattle"},
+    //                 {"name": "Mike", "city": "Los Angeles"},
+    //                 {"name": "Zach", "city": "New York"}
+    //             ];
+    //             var sheet = XLSX.utils.json_to_sheet(data);
+    //             openDownloadDialog(sheet2blob(sheet), '下载.xlsx');
+    //         }
+    //     })
+    // })
+</script>
 </body>
 </html>

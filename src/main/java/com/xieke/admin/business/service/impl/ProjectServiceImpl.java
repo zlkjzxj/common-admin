@@ -33,4 +33,9 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         return projectMapper.findProjectByFuzzySearchVal(project);
     }
 
+    @Override
+    public String getAddSequence() {
+        return projectMapper.getAddSequence();
+    }
+
 }

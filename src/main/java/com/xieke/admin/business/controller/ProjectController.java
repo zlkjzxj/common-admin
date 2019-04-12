@@ -1,19 +1,18 @@
 package com.xieke.admin.business.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
 import com.xieke.admin.annotation.SysLog;
 import com.xieke.admin.business.service.IProjectService;
 import com.xieke.admin.dto.ProjectInfo;
 import com.xieke.admin.dto.ResultInfo;
+import com.xieke.admin.entity.Department;
 import com.xieke.admin.entity.Project;
 import com.xieke.admin.entity.User;
-import com.xieke.admin.util.Constant;
-import com.xieke.admin.util.StringUtils;
+import com.xieke.admin.service.IDepartmentService;
 import com.xieke.admin.web.BaseController;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.session.Session;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -23,10 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -42,6 +38,8 @@ public class ProjectController extends BaseController {
 
     @Resource
     private IProjectService iProjectService;
+    @Resource
+    private IDepartmentService iDepartmentService;
 
     @RequestMapping("/*")
     public void toHtml() {
@@ -51,26 +49,41 @@ public class ProjectController extends BaseController {
 //    @RequiresPermissions("project:view")
     public @ResponseBody
     ResultInfo<List<ProjectInfo>> listData(ProjectInfo project, Integer page, Integer limit) {
-
+        if ("1".equals(project.getDepartment()) || "".equals(project.getDepartment())) {
+            project.setDepartment(null);
+        }
         Project project1 = new Project();
         EntityWrapper<Project> wrapper = new EntityWrapper<>(project1);
 
-//        if (project != null && project.getDepartment() != null) {
-//            if (project.getDepartment() != 1) {
-//                wrapper.eq("department", project.getDepartment());
-//            }
-//            project.setDepartment(null);
-//        }
-        //判断模糊搜索字段是否为空(项目名称|编号|部门|项目经理)
-//        if (!StringUtils.isEmpty(project.getFuzzySearchVal())) {
-//            wrapper.where("concat(`name`,`number`,`department`,`manager`)  like '%" + project.getFuzzySearchVal() + "%'");
-//        }
-//        Page<Project> pageObj = iProjectService.selectPage(new Page<>(page, limit), wrapper);
-        project.setLimit1(limit * (page - 1));
-        project.setLimit2(limit);
-        List<ProjectInfo> list = iProjectService.findProjectByFuzzySearchVal(project);
+        List<ProjectInfo> list = new ArrayList<>();
         Integer count = iProjectService.selectCount(wrapper);
-//        return new ResultInfo<>(pageObj.getRecords(), pageObj.getSize());
+        //代码极致，如果count是0了就没必要下面的查询了。操作数据库肯定比if要的时间多
+        if (count != 0) {
+            //老板看所有,部门经理看部门，项目经理看自己
+            //根据用户去判断他是否部门主管，如果是则查小于等于他部门的所有
+            User user = (User) SecurityUtils.getSubject().getPrincipal();
+            EntityWrapper<Department> wrapper1 = new EntityWrapper<>(new Department());
+            wrapper1.eq("manager", user.getId());
+            Department department = iDepartmentService.selectOne(wrapper1);
+            List<Integer> ids;
+            if (department != null) {
+                ids = iDepartmentService.getAllChildrenDepartment(user.getGlbm());
+                if (!ids.isEmpty()) {
+                    ids.add(user.getGlbm());
+                    project.setIds(ids);
+                }
+                //项目经理看自己的项目
+            } else {
+                //录入人加上，不然我添加的比人的项目我自己就看不见了
+                project.setLrr(user.getId());
+                project.setManager(user.getId());
+            }
+            if (page != null && limit != null) {
+                project.setLimit1(limit * (page - 1));
+                project.setLimit2(limit);
+            }
+            list = iProjectService.findProjectByFuzzySearchVal(project);
+        }
         return new ResultInfo<>(list, count);
     }
 
@@ -84,6 +97,16 @@ public class ProjectController extends BaseController {
         }
         return new ResultInfo<>("-1", "查无数据");
 
+    }
+
+    @SysLog("添加项目")
+    @RequestMapping("/getAddSequence")
+    @RequiresPermissions("project:add")
+    public @ResponseBody
+    ResultInfo<Integer> getAddSequence() {
+        String sequence = iProjectService.getAddSequence();
+        Integer s = Integer.parseInt(sequence) + 1;
+        return new ResultInfo<>(s);
     }
 
     @SysLog("添加项目")

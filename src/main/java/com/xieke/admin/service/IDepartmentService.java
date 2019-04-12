@@ -5,6 +5,8 @@ import com.xieke.admin.dto.UserInfo;
 import com.xieke.admin.entity.Department;
 import com.xieke.admin.entity.User;
 
+import java.util.List;
+
 /**
  * <p>
  * 系统用户表 服务类
@@ -15,4 +17,5 @@ import com.xieke.admin.entity.User;
  */
 public interface IDepartmentService extends IService<Department> {
 
+    List<Integer> getAllChildrenDepartment(int id);
 }

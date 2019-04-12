@@ -1,13 +1,14 @@
 layui.config({
     base: '/static/layui/'
 }).extend({
-    treeSelect: 'treeSelect'
-}).use(['form', 'layer', 'laydate', 'table', 'laytpl', 'treeSelect'], function () {
+    treeSelect: 'treeSelect',
+}).use(['form', 'layer', 'laydate', 'table', 'laytpl', 'treeSelect',], function () {
     var form = layui.form,
         layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery,
         table = layui.table,
-        treeSelect = layui.treeSelect;
+        treeSelect = layui.treeSelect
+    ;
     //部门翻译
     var departmentList;
     $.post("/dept/listData", {
@@ -58,7 +59,7 @@ layui.config({
             url: '/project/listData',
             cellMinWidth: 95,
             page: true,
-            height: "full-125",//高度最大化减去125
+            height: "full-175",//高度最大化减去125
             limit: 10,
             limits: [10, 20, 30],
             id: "projectList",
@@ -92,12 +93,14 @@ layui.config({
                 {
                     field: 'rjkfjd', title: '软件开发进度', align: 'center', width: 120, templet: function (d) {
                         if (d.rjkfjd === 0) {
-                            return '<span class="layui-badge layui-bg-orange">工作中</span>';
+                            return '<span class="layui-badge layui-bg-orange">未开始</span>';
                         } else if (d.rjkfjd === 1) {
-                            return '<span class="layui-badge layui-bg-black">暂停中</span>';
+                            return '<span class="layui-badge layui-bg-orange">工作中</span>';
                         } else if (d.rjkfjd === 2) {
-                            return '<span class="layui-badge layui-bg-blue">测试中</span>';
+                            return '<span class="layui-badge layui-bg-black">暂停中</span>';
                         } else if (d.rjkfjd === 3) {
+                            return '<span class="layui-badge layui-bg-blue">测试中</span>';
+                        } else if (d.rjkfjd === 4) {
                             return '<span class="layui-badge layui-bg-green">完工</span>';
                         }
                     }
@@ -114,7 +117,13 @@ layui.config({
                 },
                 {
                     field: 'zbzzwcqk', title: '招标组织完成情况', align: 'center', width: 140, templet: function (d) {
-                        return isPass(d.zbzzwcqk)
+                        if (d.zbzzwcqk === 0) {
+                            return '<span class="layui-badge layui-bg-red">未完成</span>';
+                        } else if (d.zbzzwcqk === 1) {
+                            return '<span class="layui-badge layui-bg-green">完成</span>';
+                        } else {
+                            return '<span class="layui-badge layui-bg-black">不招标</span>';
+                        }
                     }
                 },
                 {
@@ -130,10 +139,12 @@ layui.config({
                 {
                     field: 'yjcg', title: '硬件采购', align: 'center', templet: function (d) {
                         if (d.yjcg === 0) {
-                            return '<span class="layui-badge layui-bg-orange">开始</span>';
+                            return '<span class="layui-badge layui-bg-red">未开始</span>';
                         } else if (d.rjkfjd === 1) {
-                            return '<span class="layui-badge layui-bg-blue">进行中</span>';
+                            return '<span class="layui-badge layui-bg-blue">销售合同签订中</span>';
                         } else if (d.rjkfjd === 2) {
+                            return '<span class="layui-badge layui-bg-orange">进行中</span>';
+                        } else if (d.rjkfjd === 3) {
                             return '<span class="layui-badge layui-bg-green">完成</span>';
                         }
                     }
@@ -146,12 +157,14 @@ layui.config({
                 {
                     field: 'jcjd', title: '集成工作进度', align: 'center', width: 120, templet: function (d) {
                         if (d.jcjd === 0) {
-                            return '<span class="layui-badge layui-bg-black">到场</span>';
+                            return '<span class="layui-badge layui-bg-black">未开始</span>';
                         } else if (d.rjkfjd === 1) {
-                            return '<span class="layui-badge layui-bg-orange">实施</span>';
+                            return '<span class="layui-badge layui-bg-orange">到场</span>';
                         } else if (d.rjkfjd === 2) {
-                            return '<span class="layui-badge layui-bg-blue">完工</span>';
+                            return '<span class="layui-badge layui-bg-blue">实施</span>';
                         } else if (d.rjkfjd === 3) {
+                            return '<span class="layui-badge layui-bg-green">完工</span>';
+                        } else if (d.rjkfjd === 4) {
                             return '<span class="layui-badge layui-bg-green">验收</span>';
                         }
                     }
@@ -201,9 +214,6 @@ layui.config({
     // var tableIns = initTable();
     //监听排序事件
     table.on('sort(projectList)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-        console.log(obj.field); //当前排序的字段名
-        console.log(obj.type); //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序）
-        console.log(this); //当前排序的 th 对象
 
         //尽管我们的 table 自带排序功能，但并没有请求服务端。
         //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
@@ -214,16 +224,6 @@ layui.config({
                 , order: obj.type //排序方式
             }
         });
-        // table.reload("projectList", {
-        //     page: {
-        //         curr: 1 //重新从第 1 页开始
-        //     },
-        //     where: {
-        //         fuzzySearchVal: $(".searchVal").val(),
-        //         department: $("#departVal").val(),
-        //         xmjx: $("#sfjxSelect").val()
-        //     }
-        // })
     });
 
     function isComplete(value) {
@@ -242,19 +242,6 @@ layui.config({
         }
     }
 
-    /*  //是否置顶
-      form.on('switch(newsTop)', function (data) {
-          var index = layer.msg('修改中，请稍候', {icon: 16, time: false, shade: 0.8});
-          setTimeout(function () {
-              layer.close(index);
-              if (data.elem.checked) {
-                  layer.msg("置顶成功！");
-              } else {
-                  layer.msg("取消置顶成功！");
-              }
-          }, 500);
-      })*/
-
     //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
     $(".search_btn").on("click", function () {
         console.log($("#departVal").val(), $("#departmentSelect").val())
@@ -265,16 +252,28 @@ layui.config({
             where: {
                 fuzzySearchVal: $(".searchVal").val(),
                 department: $("#departVal").val(),
-                xmjx: $("#sfjxSelect").val()
+                xmjx: $("#sfjxSelect").val(),
+                sflx: $("#sflxSelect").val(),
+                rjkfjd: $("#rjkfjdSelect").val(),
+                fawcqk: $("#fawcqkSelect").val(),
+                cpxxwcqk: $("#cpxxwcqkSelect").val(),
+                zbzzwcqk: $("#zbzzwcqkSelect").val(),
+                yzjhbqd: $("#yzjhbqdSelect").val(),
+                htqd: $("#htqdSelect").val(),
+                yjcg: $("#yjcgSelect").val(),
+                sgqr: $("#sgqrSelect").val(),
+                jcjd: $("#jcjdSelect").val()
             }
         })
     });
 
     //添加项目
-    function addNews(edit) {
+    function addNews(type, data) {
         var h = "750px";
         var title = "添加项目";
-        if (edit) {
+        if (type === 'add') {
+
+        } else {
             h = "750px";
             title = "编辑项目";
         }
@@ -287,34 +286,35 @@ layui.config({
             content: "info.html",
             success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
-                if (edit) {
-                    body.find("#id").val(edit.id);
-                    body.find("#name").val(edit.name);
-                    body.find("#number").val(edit.number);
-                    body.find("#sflx").val(edit.sflx);
-                    body.find("#lxsj").val(edit.lxsj);
-                    body.find("#dTree").val(edit.department);
-                    body.find("#manager1").val(edit.manager);
-                    body.find("#rjkfjd").val(edit.rjkfjd);
+                if (type === 'edit') {
+                    body.find("#id").val(data.id);
+                    body.find("#name").val(data.name);
+                    body.find("#number").val(data.number.substring(0, 8));
+                    body.find("#number1").val(data.number.substring(8, 11));
+                    body.find("#sflx").val(data.sflx);
+                    body.find("#lxsj").val(data.lxsj);
+                    body.find("#dTree").val(data.department);
+                    body.find("#manager1").val(data.manager);
+                    body.find("#rjkfjd").val(data.rjkfjd);
                     // body.find("input:radio[name='fawcqk']").eq(edit.fawcqk).prop("checked", "checked");
-                    body.find(":radio[name='fawcqk'][value='" + edit.fawcqk + "']").prop("checked", "true");
-                    body.find(":radio[name='cpxxwcqk'][value='" + edit.cpxxwcqk + "']").prop("checked", "checked");
-                    body.find("#zbzzwcqk").val(edit.zbzzwcqk);
-                    body.find(":radio[name='yzjhbqd'][value='" + edit.yzjhbqd + "']").prop("checked", "checked");
-                    body.find(":radio[name='htqd'][value='" + edit.htqd + "']").prop("checked", "checked");
-                    body.find("#sgqr").val(edit.sgqr);
+                    body.find(":radio[name='fawcqk'][value='" + data.fawcqk + "']").prop("checked", "true");
+                    body.find(":radio[name='cpxxwcqk'][value='" + data.cpxxwcqk + "']").prop("checked", "checked");
+                    body.find("#zbzzwcqk").val(data.zbzzwcqk);
+                    body.find(":radio[name='yzjhbqd'][value='" + data.yzjhbqd + "']").prop("checked", "checked");
+                    body.find(":radio[name='htqd'][value='" + data.htqd + "']").prop("checked", "checked");
+                    body.find("#sgqr").val(data.sgqr);
 
-                    body.find("#htje").val(edit.htje);
-                    body.find("#hkqk").val(edit.hkqk);
-                    body.find("#whje").val(edit.whje);
-                    body.find("#whsx").val(edit.whsx);
-                    body.find("#hktz").val(edit.hktz);
-                    body.find("#ml").val(edit.ml);
-                    body.find("#zbj").val(edit.zbj);
-                    body.find("#zbjthqk").val(edit.zbjthqk);
+                    body.find("#htje").val(data.htje);
+                    body.find("#hkqk").val(data.hkqk);
+                    body.find("#whje").val(data.whje);
+                    body.find("#whsx").val(data.whsx);
+                    body.find("#hktz").val(data.hktz);
+                    body.find("#ml").val(data.ml);
+                    body.find("#zbj").val(data.zbj);
+                    body.find("#zbjthqk").val(data.zbjthqk);
 
 
-                    if (userId == edit.lrr) {
+                    if (userId == data.lrr) {
                         //录入人的可改
                         //修改人的不可改
                         body.find("#htje").prop("disabled", true);
@@ -328,7 +328,7 @@ layui.config({
 
                         body.find(":checkbox[name='sfjx']").prop("disabled", true);
 
-                    } else if (userId == edit.xgr || edit.xgr == null) {
+                    } else if (userId == data.xgr || data.xgr == null) {
                         body.find("#name").prop("disabled", true);
                         body.find("#number").prop("disabled", true);
                         body.find("#sflx").prop("disabled", true);
@@ -378,6 +378,7 @@ layui.config({
 
                     form.render();
                 } else {
+                    body.find("#number1").val(data);
                     body.find("#htje").prop("disabled", true);
                     body.find("#hkqk").prop("disabled", true);
                     body.find("#whje").prop("disabled", true);
@@ -404,21 +405,32 @@ layui.config({
     }
 
     $(".add_btn").click(function () {
-        addNews();
+        $.post("/project/getAddSequence", function (data) {
+            console.log(data);
+            addNews('add', data.data);
+        });
+
     })
     $(".edit_btn").click(function () {
         var checkStatus = table.checkStatus('projectList'),
             data = checkStatus.data;
         if (data.length > 0) {
-            addNews(data[0]);
+            addNews('edit', data[0]);
         } else {
             layer.msg("请选择需要修改的项目");
         }
     });
     $(".export_btn").click(function () {
         //将上述表格示例导出为 csv 文件
-        var tableIns = initTable();
-        table.exportFile(tableIns.config.id, null, 'xls'); //data 为该实例中的任意数量的数据
+        var data = table.clearCacheKey(table.cache['projectList']);
+        // for (var i = 0, len = data.length; i < len; i++) {
+        //     //是否立项
+        //     console.log(data[i]['sflx']);
+        //     data[i]['sflx'] = isornot(data[i]['sflx'])
+        //     console.log(data[i]['sflx']);
+        // }
+        // console.log(data);
+        table.exportFile_project('projectList', data, 'xls'); //data 为该实例中的任意数量的数据
         //可以不依赖table的实例
         /* table.exportFile(['名字','性别','年龄'], [
              ['张三','男','20'],
@@ -426,6 +438,33 @@ layui.config({
              ['王五','女','19']
          ], 'xls'); //默认导出 csv，也可以为：xls*/
     })
+
+    //导出数据所需要的翻译
+
+    //是否
+    function isornot(value) {
+        console.log(value === 1);
+        if (value === 1) {
+            return '是';
+        }
+        return '否';
+    }
+
+    //通过
+    function ispass(value) {
+        if (value === 1) {
+            return '通过';
+        }
+        return '未通过';
+    }
+
+    //完成
+    function iscomplete(value) {
+        if (value === 1) {
+            return '完成';
+        }
+        return '未完成';
+    }
 
     //批量删除
     $(".delAll_btn").click(function () {
@@ -467,5 +506,4 @@ layui.config({
             layer.alert("此功能需要前台展示，实际开发中传入对应的必要参数进行文章内容页面访问")
         }
     });
-
 })

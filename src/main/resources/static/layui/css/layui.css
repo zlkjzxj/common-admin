@@ -3441,7 +3441,9 @@ body .layui-table-tips .layui-layer-content {
 .layui-tree li a i {
     font-size: 16px
 }
-
+.layui-tree li a:focus {
+    background-color: #EEEEEE;
+}
 .layui-tree li a cite {
     padding: 0 6px;
     font-size: 14px;
