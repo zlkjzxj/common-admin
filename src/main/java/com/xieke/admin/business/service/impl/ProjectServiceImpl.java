@@ -8,6 +8,7 @@ import com.xieke.admin.mapper.ProjectMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -21,13 +22,15 @@ import javax.annotation.Resource;
 public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> implements IProjectService {
     @Resource
     private ProjectMapper projectMapper;
+
     @Override
     public ProjectInfo findProjectbyId(Integer id) {
         return projectMapper.findProjectbyId(id);
     }
 
-//    @Override
-//    public Project findProject(String name) {
-//        return this.baseMapper.findProject(name);
-//    }
+    @Override
+    public List<ProjectInfo> findProjectByFuzzySearchVal(ProjectInfo project) {
+        return projectMapper.findProjectByFuzzySearchVal(project);
+    }
+
 }

@@ -48,159 +48,182 @@ layui.config({
         available: 1
     }, function (data) {
         userList = data.data;
+        initTable();
     });
 
     //项目列表
-    var tableIns = table.render({
-        elem: '#projectList',
-        url: '/project/listData',
-        cellMinWidth: 95,
-        page: true,
-        height: "full-125",
-        limit: 10,
-        limits: [10, 15, 20, 25],
-        id: "projectList",
-        cols: [[
-            {type: "radio", fixed: "left"},
-            {field: 'name', title: '项目名称', align: "center", width: 200,},
-            {field: 'number', title: '项目编号', width: 120,},
-            {field: 'lxsj', title: '立项时间', align: 'center', width: 120,},
-            {
-                field: 'department', title: '部门', align: 'center', width: 120, templet: function (d) {
-                    var name = "";
+    var initTable = function () {
+        var tableIns = table.render({
+            elem: '#projectList',
+            url: '/project/listData',
+            cellMinWidth: 95,
+            page: true,
+            height: "full-125",//高度最大化减去125
+            limit: 10,
+            limits: [10, 20, 30],
+            id: "projectList",
+            // skin:'nob',
+            // size:"sm",
+            even: true,
+            // toolbar:true,
+            autoSort: true,
+            sortType: 'server',
+            title: '宜元中林项目表',//导出Excel的时候会用到
+            initSort: {//默认排序
+                field: 'number' //排序字段，对应 cols 设定的各字段名
+                , type: 'asc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+            },
+            cols: [[
+                {type: "radio", fixed: "left"},
+                {field: 'name', title: '项目名称', align: "center", width: 200},
+                {field: 'number', title: '项目编号', width: 120, sort: true},
+                {
+                    field: 'sflx', title: '是否立项', width: 100, align: 'center', templet: function (d) {
+                        if (d.sflx === 0) {
+                            return '<span class="layui-badge layui-bg-red">否</span>';
+                        } else {
+                            return '<span class="layui-badge layui-bg-green">是</span>';
+                        }
+                    }
+                },
+                {field: 'lxsj', title: '立项时间', align: 'center', width: 120, sort: true},
+                {field: 'bmmc', title: '部门', align: 'center', width: 120},
+                {field: 'userName', title: '项目经理', align: 'center', width: 120},
+                {
+                    field: 'rjkfjd', title: '软件开发进度', align: 'center', width: 120, templet: function (d) {
+                        if (d.rjkfjd === 0) {
+                            return '<span class="layui-badge layui-bg-orange">工作中</span>';
+                        } else if (d.rjkfjd === 1) {
+                            return '<span class="layui-badge layui-bg-black">暂停中</span>';
+                        } else if (d.rjkfjd === 2) {
+                            return '<span class="layui-badge layui-bg-blue">测试中</span>';
+                        } else if (d.rjkfjd === 3) {
+                            return '<span class="layui-badge layui-bg-green">完工</span>';
+                        }
+                    }
+                },
+                {
+                    field: 'fawcqk', title: '方案完成情况', align: 'center', width: 120, templet: function (d) {
+                        return isComplete(d.fawcqk);
+                    }
+                },
+                {
+                    field: 'cpxxwcqk', title: '产品选型情况', align: 'center', width: 120, templet: function (d) {
+                        return isComplete(d.cpxxwcqk)
+                    }
+                },
+                {
+                    field: 'zbzzwcqk', title: '招标组织完成情况', align: 'center', width: 140, templet: function (d) {
+                        return isPass(d.zbzzwcqk)
+                    }
+                },
+                {
+                    field: 'yzjhbqd', title: '用资计划表确定', align: 'center', width: 140, templet: function (d) {
+                        return isPass(d.yzjhbqd)
+                    }
+                },
+                {
+                    field: 'htqd', title: '合同签订', align: 'center', templet: function (d) {
+                        return isComplete(d.htqd)
+                    }
+                },
+                {
+                    field: 'yjcg', title: '硬件采购', align: 'center', templet: function (d) {
+                        if (d.yjcg === 0) {
+                            return '<span class="layui-badge layui-bg-orange">开始</span>';
+                        } else if (d.rjkfjd === 1) {
+                            return '<span class="layui-badge layui-bg-blue">进行中</span>';
+                        } else if (d.rjkfjd === 2) {
+                            return '<span class="layui-badge layui-bg-green">完成</span>';
+                        }
+                    }
+                },
+                {
+                    field: 'sgqr', title: '施工队确认', align: 'center', width: 120, templet: function (d) {
+                        return isComplete(d.sgqr)
+                    }
+                },
+                {
+                    field: 'jcjd', title: '集成工作进度', align: 'center', width: 120, templet: function (d) {
+                        if (d.jcjd === 0) {
+                            return '<span class="layui-badge layui-bg-black">到场</span>';
+                        } else if (d.rjkfjd === 1) {
+                            return '<span class="layui-badge layui-bg-orange">实施</span>';
+                        } else if (d.rjkfjd === 2) {
+                            return '<span class="layui-badge layui-bg-blue">完工</span>';
+                        } else if (d.rjkfjd === 3) {
+                            return '<span class="layui-badge layui-bg-green">验收</span>';
+                        }
+                    }
+                },
+                {field: 'htje', title: '合同金额', align: 'center'},
+                {field: 'hkqk', title: '回款情况', align: 'center'},
+                {field: 'whje', title: '未回金额', align: 'center'},
+                {field: 'whsx', title: '未回时限', align: 'center', width: 120,},
+                {field: 'hktz', title: '回款通知', align: 'center'},
+                {field: 'ml', title: '毛利', align: 'center'},
+                {field: 'zbj', title: '质保金', align: 'center'},
+                {field: 'zbjthqk', title: '质保金退还情况', width: 120, align: 'center'},
+                {
+                    field: 'xmjx', title: '项目结项', align: 'center', templet: function (d) {
+                        if (d.xmjx === 0) {
+                            return '<span class="layui-badge layui-bg-red">未结项</span>';
+                        } else {
+                            return '<span class="layui-badge layui-bg-green">已结项</span>';
+                        }
+                    }
+                }
+            ]],
 
-                    for (var i = 0; i < departmentList.length; i++) {
-                        if (departmentList[i].id === d.department) {
-                            name = departmentList[i].bmmc;
-                            break;
+            done: function (res, curr, count) {
+                //监听行双击事件  layui 新版添加，上面是旧版没有这个方法
+                table.on('rowDouble(projectList)', function (obj) {
+                    $("#projectId").val(obj.data.id);
+                    // $(window).one("resize", function () {
+                    var index = layui.layer.open({
+                        title: "项目详情流程图",
+                        type: 2,
+                        content: "chart.html",
+                        success: function (layero, index) {
+                            setTimeout(function () {
+                                layui.layer.tips('点击此处返回项目列表', '.layui-layer-setwin .layui-layer-close', {
+                                    tips: 3
+                                });
+                            }, 500)
                         }
-                    }
-                    return name;
-                }
-            },
-            {
-                field: 'manager', title: '项目经理', align: 'center', width: 120, templet: function (d) {
-                    var name = "";
-                    for (var i = 0; i < userList.length; i++) {
-                        if (userList[i].id === d.manager) {
-                            name = userList[i].name;
-                            break;
-                        }
-                    }
-                    return name;
-                }
-            },
-            {
-                field: 'rjkfjd', title: '软件开发进度', align: 'center', width: 120, templet: function (d) {
-                    if (d.rjkfjd === 0) {
-                        return '<span class="layui-badge layui-bg-orange">工作中</span>';
-                    } else if (d.rjkfjd === 1) {
-                        return '<span class="layui-badge layui-bg-black">暂停中</span>';
-                    } else if (d.rjkfjd === 2) {
-                        return '<span class="layui-badge layui-bg-blue">测试中</span>';
-                    } else if (d.rjkfjd === 3) {
-                        return '<span class="layui-badge layui-bg-green">完工</span>';
-                    }
-                }
-            },
-            {
-                field: 'fawcqk', title: '方案完成情况', align: 'center', width: 120, templet: function (d) {
-                    return isComplete(d.fawcqk);
-                }
-            },
-            {
-                field: 'cpxxwcqk', title: '产品选型情况', align: 'center', width: 120, templet: function (d) {
-                    return isComplete(d.cpxxwcqk)
-                }
-            },
-            {
-                field: 'zbzzwcqk', title: '招标组织完成情况', align: 'center', width: 140, templet: function (d) {
-                    return isPass(d.zbzzwcqk)
-                }
-            },
-            {
-                field: 'yzjhbqd', title: '用资计划表确定', align: 'center', width: 140, templet: function (d) {
-                    return isPass(d.yzjhbqd)
-                }
-            },
-            {
-                field: 'htqd', title: '合同签订', align: 'center', templet: function (d) {
-                    return isComplete(d.htqd)
-                }
-            },
-            {
-                field: 'yjcg', title: '硬件采购', align: 'center', templet: function (d) {
-                    if (d.rjkfjd === 0) {
-                        return '<span class="layui-badge layui-bg-orange">开始</span>';
-                    } else if (d.rjkfjd === 1) {
-                        return '<span class="layui-badge layui-bg-blue">进行中</span>';
-                    } else if (d.rjkfjd === 2) {
-                        return '<span class="layui-badge layui-bg-green">完成</span>';
-                    }
-                }
-            },
-            {
-                field: 'sgqr', title: '施工队确认', align: 'center', width: 120, templet: function (d) {
-                    return isComplete(d.sgqr)
-                }
-            },
-            {
-                field: 'jcjd', title: '集成工作进度', align: 'center', width: 120, templet: function (d) {
-                    if (d.rjkfjd === 0) {
-                        return '<span class="layui-badge layui-bg-black">到场</span>';
-                    } else if (d.rjkfjd === 1) {
-                        return '<span class="layui-badge layui-bg-orange">实施</span>';
-                    } else if (d.rjkfjd === 2) {
-                        return '<span class="layui-badge layui-bg-blue">完工</span>';
-                    } else if (d.rjkfjd === 3) {
-                        return '<span class="layui-badge layui-bg-green">验收</span>';
-                    }
-                }
-            },
-            {field: 'htje', title: '合同金额', align: 'center'},
-            {field: 'hkqk', title: '回款情况', align: 'center'},
-            {field: 'whje', title: '未回金额', align: 'center'},
-            {field: 'whsx', title: '未回时限', align: 'center',width: 120,},
-            {field: 'hktz', title: '回款通知', align: 'center'},
-            {field: 'ml', title: '毛利', align: 'center'},
-            {field: 'zbj', title: '质保金', align: 'center'},
-            {field: 'zbjthqk', title: '质保金退还情况', width: 120, align: 'center'},
-            {
-                field: 'xmjx', title: '项目结项', align: 'center', templet: function (d) {
-                    if (d.xmjx === 0) {
-                        return '<span class="layui-badge layui-bg-red">未结项</span>';
-                    } else {
-                        return '<span class="layui-badge layui-bg-green">已结项</span>';
-                    }
-                }
+                    })
+                    layui.layer.full(index);
+                });
             }
-        ]],
+        });
+        return tableIns;
+    }
+    // var tableIns = initTable();
+    //监听排序事件
+    table.on('sort(projectList)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        console.log(obj.field); //当前排序的字段名
+        console.log(obj.type); //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序）
+        console.log(this); //当前排序的 th 对象
 
-        done: function (res, curr, count) {
-            // var $mylist = $("#projectList").next('.layui-table-view').find('table.layui-table');
-            // $mylist.dblclick(function(event){
-            //     console.log($(event.target).data("index"))
-            // });
-            $("#projectList").next('.layui-table-view').find('table.layui-table').on('dblclick', function () {
-                var id = JSON.stringify($("#projectList").next('.layui-table-view').find('table.layui-table').find(".layui-table-hover").data('index'));
-                var obj = res.data[id];
-                $("#projectId").val(obj.id);
-                // $(window).one("resize", function () {
-                var index = layui.layer.open({
-                    title: "项目详情流程图",
-                    type: 2,
-                    content: "chart.html",
-                    success: function (layero, index) {
-                        setTimeout(function () {
-                            layui.layer.tips('点击此处返回项目列表', '.layui-layer-setwin .layui-layer-close', {
-                                tips: 3
-                            });
-                        }, 500)
-                    }
-                })
-                layui.layer.full(index);
-            })
-        }
+        //尽管我们的 table 自带排序功能，但并没有请求服务端。
+        //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
+        table.reload('projectList', {
+            initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。
+            , where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+                field: obj.field //排序字段
+                , order: obj.type //排序方式
+            }
+        });
+        // table.reload("projectList", {
+        //     page: {
+        //         curr: 1 //重新从第 1 页开始
+        //     },
+        //     where: {
+        //         fuzzySearchVal: $(".searchVal").val(),
+        //         department: $("#departVal").val(),
+        //         xmjx: $("#sfjxSelect").val()
+        //     }
+        // })
     });
 
     function isComplete(value) {
@@ -219,40 +242,40 @@ layui.config({
         }
     }
 
-    //是否置顶
-    form.on('switch(newsTop)', function (data) {
-        var index = layer.msg('修改中，请稍候', {icon: 16, time: false, shade: 0.8});
-        setTimeout(function () {
-            layer.close(index);
-            if (data.elem.checked) {
-                layer.msg("置顶成功！");
-            } else {
-                layer.msg("取消置顶成功！");
-            }
-        }, 500);
-    })
+    /*  //是否置顶
+      form.on('switch(newsTop)', function (data) {
+          var index = layer.msg('修改中，请稍候', {icon: 16, time: false, shade: 0.8});
+          setTimeout(function () {
+              layer.close(index);
+              if (data.elem.checked) {
+                  layer.msg("置顶成功！");
+              } else {
+                  layer.msg("取消置顶成功！");
+              }
+          }, 500);
+      })*/
 
     //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
     $(".search_btn").on("click", function () {
-        console.log($("#departVal").val(),$("#departmentSelect").val())
+        console.log($("#departVal").val(), $("#departmentSelect").val())
         table.reload("projectList", {
             page: {
                 curr: 1 //重新从第 1 页开始
             },
             where: {
-                number: $(".searchVal").val(),
-                department:$("#departVal").val(),
-                xmjx:$("#sfjxSelect").val()
+                fuzzySearchVal: $(".searchVal").val(),
+                department: $("#departVal").val(),
+                xmjx: $("#sfjxSelect").val()
             }
         })
     });
 
     //添加项目
     function addNews(edit) {
-        var h = "710px";
+        var h = "750px";
         var title = "添加项目";
         if (edit) {
-            h = "710px";
+            h = "750px";
             title = "编辑项目";
         }
         //修改项目需要判断是否添加人还是修改人
@@ -268,6 +291,7 @@ layui.config({
                     body.find("#id").val(edit.id);
                     body.find("#name").val(edit.name);
                     body.find("#number").val(edit.number);
+                    body.find("#sflx").val(edit.sflx);
                     body.find("#lxsj").val(edit.lxsj);
                     body.find("#dTree").val(edit.department);
                     body.find("#manager1").val(edit.manager);
@@ -275,10 +299,10 @@ layui.config({
                     // body.find("input:radio[name='fawcqk']").eq(edit.fawcqk).prop("checked", "checked");
                     body.find(":radio[name='fawcqk'][value='" + edit.fawcqk + "']").prop("checked", "true");
                     body.find(":radio[name='cpxxwcqk'][value='" + edit.cpxxwcqk + "']").prop("checked", "checked");
-                    body.find(":radio[name='zbzzwcqk'][value='" + edit.zbzzwcqk + "']").prop("checked", "checked");
+                    body.find("#zbzzwcqk").val(edit.zbzzwcqk);
                     body.find(":radio[name='yzjhbqd'][value='" + edit.yzjhbqd + "']").prop("checked", "checked");
                     body.find(":radio[name='htqd'][value='" + edit.htqd + "']").prop("checked", "checked");
-                    body.find(":radio[name='sgqr'][value='" + edit.sgqr + "']").prop("checked", "checked");
+                    body.find("#sgqr").val(edit.sgqr);
 
                     body.find("#htje").val(edit.htje);
                     body.find("#hkqk").val(edit.hkqk);
@@ -307,6 +331,7 @@ layui.config({
                     } else if (userId == edit.xgr || edit.xgr == null) {
                         body.find("#name").prop("disabled", true);
                         body.find("#number").prop("disabled", true);
+                        body.find("#sflx").prop("disabled", true);
                         body.find("#lxsj").prop("disabled", true);
                         body.find("#dTree").prop("disabled", true);
                         body.find("#manager").prop("disabled", true);
@@ -314,11 +339,11 @@ layui.config({
                         body.find("#fawcqk").prop("disabled", true);
                         body.find(":radio[name='fawcqk']").prop("disabled", true);
                         body.find(":radio[name='cpxxwcqk']").prop("disabled", true);
-                        body.find(":radio[name='zbzzwcqk']").prop("disabled", true);
+                        body.find("#zbzzwcqk").prop("disabled", true);
                         body.find(":radio[name='yzjhbqd']").prop("disabled", true);
                         body.find(":radio[name='htqd']").prop("disabled", true);
                         body.find("#yjcg").prop("disabled", true);
-                        body.find(":radio[name='sgqr']").prop("disabled", true);
+                        body.find("#sgqr").prop("disabled", true);
                         body.find("#jcjd").prop("disabled", true);
                     } else {
                         body.find("#htje").prop("disabled", true);
@@ -334,6 +359,7 @@ layui.config({
 
                         body.find("#name").prop("disabled", true);
                         body.find("#number").prop("disabled", true);
+                        body.find("#sflx").prop("disabled", true);
                         body.find("#lxsj").prop("disabled", true);
                         body.find("#dTree").prop("disabled", true);
                         body.find("#manager").prop("disabled", true);
@@ -341,11 +367,11 @@ layui.config({
                         body.find("#fawcqk").prop("disabled", true);
                         body.find(":radio[name='fawcqk']").prop("disabled", true);
                         body.find(":radio[name='cpxxwcqk']").prop("disabled", true);
-                        body.find(":radio[name='zbzzwcqk']").prop("disabled", true);
+                        body.find("#zbzzwcqk").prop("disabled", true);
                         body.find(":radio[name='yzjhbqd']").prop("disabled", true);
                         body.find(":radio[name='htqd']").prop("disabled", true);
                         body.find("#yjcg").prop("disabled", true);
-                        body.find(":radio[name='sgqr']").prop("disabled", true);
+                        body.find("#sgqr").prop("disabled", true);
                         body.find("#jcjd").prop("disabled", true);
                         body.find("#addProject").prop("disabled", true).addClass("layui-btn-disabled");
                     }
@@ -389,6 +415,17 @@ layui.config({
             layer.msg("请选择需要修改的项目");
         }
     });
+    $(".export_btn").click(function () {
+        //将上述表格示例导出为 csv 文件
+        var tableIns = initTable();
+        table.exportFile(tableIns.config.id, null, 'xls'); //data 为该实例中的任意数量的数据
+        //可以不依赖table的实例
+        /* table.exportFile(['名字','性别','年龄'], [
+             ['张三','男','20'],
+             ['李四','女','18'],
+             ['王五','女','19']
+         ], 'xls'); //默认导出 csv，也可以为：xls*/
+    })
 
     //批量删除
     $(".delAll_btn").click(function () {
@@ -400,6 +437,7 @@ layui.config({
                 $.post("/project/del", {
                     id: data[0]['id']
                 }, function (data) {
+                    var tableIns = initTable();
                     tableIns.reload();
                     layer.close(index);
                 })

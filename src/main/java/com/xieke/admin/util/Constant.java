@@ -26,9 +26,7 @@ public class Constant {
     //无错误
     public static String NOT_ERROR = "0";
 
-    //测试Project 的list
-    public static final List<Project> PROJECT_LIST = new ArrayList<>();
-    public static final List<Department> DEP_LIST = new ArrayList<>();
-//    public static final List<DepTree> DEPTREE_LIST = new ArrayList<>();
+    //base64图片开头
 
+    public static String BASE64_PIC_HEADER = "data:image/jpg;base64,";
 }

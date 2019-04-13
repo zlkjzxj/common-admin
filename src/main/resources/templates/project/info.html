@@ -36,23 +36,30 @@
             <label class="layui-form-label">项目名称</label>
             <div class="layui-input-block">
                 <input type="text" name="name" id="name" class="layui-input" lay-verify="name|required"
-                       placeholder="请输入项目名称">
+                       placeholder="请输入项目名称" autocomplete="off">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">项目编号</label>
+            <div class="layui-input-block">
+                <input type="text" name="number" id="number" class="layui-input"
+                       lay-verify="required|pNumber"
+                       placeholder="格式：2019RJKF003" onkeyup="this.value=this.value.toUpperCase()">
             </div>
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">项目编号</label>
+                <label class="layui-form-label">是否立项</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="number" id="number" class="layui-input"
-                           lay-verify="required|pNumber"
-                           placeholder="格式：2019RJKF003">
+                    <input type="radio" name="sflx" value="1" title="是" lay-skin="primary" checked/>
+                    <input type="radio" name="sflx" value="0" title="否" lay-skin="primary"/>
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">立项时间</label>
                 <div class="layui-input-inline">
                     <input type="text" name="lxsj" class="layui-input" id="lxsj" placeholder="请选择项目时间"
-                           lay-verify="required">
+                           lay-verify="required" autocomplete="off">
                 </div>
             </div>
         </div>
@@ -60,7 +67,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">部门</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="dTree" lay-filter="dTree" lay-verify="required" class="layui-input" >
+                    <input type="text" id="dTree" lay-filter="dTree" lay-verify="required" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline ">
@@ -76,10 +83,11 @@
                 <label class="layui-form-label">软件开发工作进度</label>
                 <div class="layui-input-inline">
                     <select name="rjkfjd" id="rjkfjd" lay-filter="rjkfjd">
-                        <option value="0">工作中</option>
-                        <option value="1">暂停中</option>
-                        <option value="2">测试中</option>
-                        <option value="3">完工</option>
+                        <option value="0">未开始</option>
+                        <option value="1">工作中</option>
+                        <option value="2">暂停中</option>
+                        <option value="3">测试中</option>
+                        <option value="4">完工</option>
                     </select>
                 </div>
             </div>
@@ -102,8 +110,13 @@
             <div class="layui-inline">
                 <label class="layui-form-label">招标组织完成情况</label>
                 <div class="layui-input-inline">
-                    <input type="radio" name="zbzzwcqk" value="0" title="未完成" lay-skin="primary" checked/>
-                    <input type="radio" name="zbzzwcqk" value="1" title="完成" lay-skin="primary"/>
+                    <!--<input type="radio" name="zbzzwcqk" value="0" title="未完成" lay-skin="primary" checked/>-->
+                    <!--<input type="radio" name="zbzzwcqk" value="1" title="完成" lay-skin="primary"/>-->
+                    <select name="zbzzwcqk" id="zbzzwcqk" lay-filter="zbzzwcqk">
+                        <option value="0">未完成</option>
+                        <option value="1">完成</option>
+                        <option value="3">不招标</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -133,17 +146,23 @@
                 <label class="layui-form-label">硬件采购工作</label>
                 <div class="layui-input-inline">
                     <select name="yjcg" id="yjcg" lay-filter="yjcg">
-                        <option value="0">开始</option>
-                        <option value="1">进行中</option>
-                        <option value="2">完成</option>
+                        <option value="0">未开始</option>
+                        <option value="1">销售合同签订中</option>
+                        <option value="2">进行中</option>
+                        <option value="3">完成</option>
                     </select>
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">施工队确认</label>
                 <div class="layui-input-inline">
-                    <input type="radio" name="sgqr" value="0" title="未完成" lay-skin="primary" checked/>
-                    <input type="radio" name="sgqr" value="1" title="完成" lay-skin="primary"/>
+                    <!--<input type="radio" name="sgqr" value="0" title="未完成" lay-skin="primary" checked/>-->
+                    <!--<input type="radio" name="sgqr" value="1" title="完成" lay-skin="primary"/>-->
+                    <select name="sgqr" id="sgqr" lay-filter="sgqr">
+                        <option value="0">未完成</option>
+                        <option value="1">完成</option>
+                        <option value="2">无</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -153,10 +172,11 @@
                     <label class="layui-form-label">集成工作进度</label>
                     <div class="layui-input-block">
                         <select name="jcjd" id="jcjd" lay-filter="jcjd">
-                            <option value="0">到场</option>
-                            <option value="1">实施</option>
-                            <option value="2">完工</option>
-                            <option value="3">验收</option>
+                            <option value="0">未开始</option>
+                            <option value="1">到场</option>
+                            <option value="2">实施</option>
+                            <option value="3">完工</option>
+                            <option value="4">验收</option>
                         </select>
                     </div>
                 </div>
@@ -188,7 +208,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">未回时限</label>
             <div class="layui-input-block">
-                <input type="text" name="whsx" id="whsx" class="layui-input"  placeholder="请选择未回时限">
+                <input type="text" name="whsx" id="whsx" class="layui-input" placeholder="请选择未回时限">
             </div>
         </div>
         <div class="layui-form-item">

@@ -13,6 +13,9 @@ File Encoding         : 65001
 Date: 2018-12-26 14:50:23
 */
 
+# CREATE DATABASE `zl_manager` DEFAULT CHARACTER SET UTF8 COLLATE UTF8_GENERAl_CI;
+
+#mysqldump db1 -u root -p123456 --add-drop-table | mysql newdb -u root -p123456
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------

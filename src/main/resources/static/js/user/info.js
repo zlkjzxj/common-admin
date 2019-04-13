@@ -21,14 +21,18 @@ layui.config({
         search: false,
         // 点击回调
         click: function (d) {
+            console.log("添加用户点击部门树了：" + d.current.id);
             $("#glbm").val(d.current.id);
+            $("#glbmTree").val(d.current.id);
         },
         // 加载完成后的回调函数
         success: function (d) {
-            var glbm = window.parent.document.getElementById("glbm").value;
-            console.log(glbm)
+            var glbm = window.parent.document.getElementById("sonGlbm").value;
             //部门树被点击之后才能初始化部门下拉列表
-            if (glbm != '') {
+            if (glbm != '' && glbm != 1) {
+                //虽然这里选中了，但是不点击的话没给glbm赋值，
+                $("#glbmTree").val(glbm);
+                $("#glbm").val(glbm);
                 treeSelect.checkNode('glbmTree', glbm);
             }
 
@@ -69,6 +73,7 @@ layui.config({
         //弹出loading
         var index = top.layer.msg('数据保存中，请稍候...', {icon: 16, time: false, shade: 0.8});
         if ($("#id").val() === "") {
+            console.log(data.field);
             $.post("/user/add", data.field, function (res) {
                 if (res.data) {
                     layer.close(index);

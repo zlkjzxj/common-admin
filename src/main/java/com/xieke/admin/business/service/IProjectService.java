@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.service.IService;
 import com.xieke.admin.dto.ProjectInfo;
 import com.xieke.admin.entity.Project;
 
+import java.util.List;
+
 /**
  * <p>
  * 系统用户表 服务类
@@ -14,6 +16,8 @@ import com.xieke.admin.entity.Project;
  */
 public interface IProjectService extends IService<Project> {
     ProjectInfo findProjectbyId(Integer id);
+
+    List<ProjectInfo> findProjectByFuzzySearchVal(ProjectInfo project);
 
 //    Project findProject(String name);
 

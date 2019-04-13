@@ -37,6 +37,11 @@ public class Project {
     @TableField("number")
     private String number;
     /**
+     * 是否立项
+     */
+    @TableField("sflx")
+    private Integer sflx;
+    /**
      * 立项时间
      */
     @TableField(value = "lxsj", fill = FieldFill.INSERT_UPDATE)
@@ -171,5 +176,11 @@ public class Project {
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date updateTime;
+
+    /**
+     * 模糊搜索条件
+     */
+
+//    private String fuzzySearchVal;
 
 }

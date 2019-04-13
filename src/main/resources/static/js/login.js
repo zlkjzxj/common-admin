@@ -1,43 +1,43 @@
 layui.config({
-    base : "/static/js/modules/"
+    base: "/static/js/modules/"
 }).extend({
-    "common" : "common"
+    "common": "common"
 })
-layui.use(['form','layer','jquery','common'],function(){
+layui.use(['form', 'layer', 'jquery', 'common'], function () {
     var form = layui.form,
         layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery,
         common = layui.common;
 
     //表单输入效果
-    $(".loginBody .input-item").click(function(e){
+    $(".loginBody .input-item").click(function (e) {
         e.stopPropagation();
         $(this).addClass("layui-input-focus").find(".layui-input").focus();
     })
-    $(".loginBody .layui-form-item .layui-input").focus(function(){
+    $(".loginBody .layui-form-item .layui-input").focus(function () {
         $(this).parent().addClass("layui-input-focus");
     })
-    $(".loginBody .layui-form-item .layui-input").blur(function(){
+    $(".loginBody .layui-form-item .layui-input").blur(function () {
         $(this).parent().removeClass("layui-input-focus");
-        if($(this).val() != ''){
+        if ($(this).val() != '') {
             $(this).parent().addClass("layui-input-active");
-        }else{
+        } else {
             $(this).parent().removeClass("layui-input-active");
         }
     });
 
-    $("#imgCode img").click(function() {
-        this.src = "/kaptcha/getKaptchaImage?rnd="+Math.random();
+    $("#imgCode img").click(function () {
+        this.src = "/kaptcha/getKaptchaImage?rnd=" + Math.random();
     });
 
     //登录按钮
-    form.on("submit(login)",function(data){
-        $("#login").text("登录中...").attr("disabled","disabled").addClass("layui-disabled");
+    form.on("submit(login)", function (data) {
+        $("#login").text("登录中...").attr("disabled", "disabled").addClass("layui-disabled");
         $.ajax({
             url: "/login",
             type: "post",
             data: data.field,
-            success: function(){
+            success: function () {
                 location.href = "/";
             },
             error: function (xmlHttpRequest) {
@@ -47,5 +47,12 @@ layui.use(['form','layer','jquery','common'],function(){
         });
         return false;
     });
+    //回车事件
+    document.onkeydown = function (event) {
+        var e = event || window.event;
+        if (e && e.keyCode == 13) { //回车键的键值为13
+            $("#login").click(); //调用登录按钮的登录事件
+        }
+    };
 
 })

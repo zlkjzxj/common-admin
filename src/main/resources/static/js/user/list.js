@@ -1,7 +1,8 @@
-layui.use(['form', 'layer', 'table', 'tree'], function () {
+layui.use(['form', 'layer', 'table', 'tree', 'laypage'], function () {
     var form = layui.form,
         layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery,
+        laypage = layui.laypage,
         table = layui.table;
 
     layui.tree({
@@ -9,6 +10,10 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
         skin: 'shihuang',
         nodes: createTree(),
         click: function (node) {
+            console.log(node);
+            //这里设置值得目的是为了把值传递给添加或修改用户的时候给下拉部门树赋值让其选中
+            $("#sonGlbm").val(node.id);
+            $("#parentGlbm").val(node.id);
             table.reload("userListTable", {
                 page: {
                     curr: 1 //重新从第 1 页开始
@@ -17,7 +22,6 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
                     glbm: node.id,
                 }
             });
-            $("#glbm").val(node.id);
         }
     });
 
@@ -58,8 +62,8 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
         cellMinWidth: 95,
         page: true,
         height: "full-125",
-        limits: [10, 20, 30],
         limit: 10,
+        limits: [10, 20, 30],
         id: "userListTable",
         cols: [[
             {type: "radio", fixed: "left", width: 50},
@@ -94,6 +98,12 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
         done: function (res, curr, count) {
             // 隐藏列
             $(".layui-table-box").find("[data-field='glbm']").css("display", "none");
+            /*laypage.render({
+                elem: '#userList',
+                count: count,
+                limit: 5,
+                limits: [5, 10, 15]
+            })*/
         }
     });
 
@@ -108,7 +118,7 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
                 name: $(".name").val(),
                 state: $(".state").val(),
                 roleId: $(".roleId").val(),
-                glbm: $("#glbm").val()
+                glbm: $("#parentGlbm").val()
             }
         })
     });
@@ -120,6 +130,16 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
         if (edit) {
             h = "400px";
             title = "编辑用户";
+            //必须提前设置，不然就没用了
+            $("#sonGlbm").val(edit.glbm);
+        } else {
+            var parentGlbm = $("#parentGlbm").val();
+            if (parentGlbm != "") {
+                $("#sonGlbm").val(parentGlbm);
+            } else {
+                $("#sonGlbm").val("");
+            }
+
         }
         layui.layer.open({
             title: title,
@@ -134,7 +154,6 @@ layui.use(['form', 'layer', 'table', 'tree'], function () {
                     body.find("#id").val(edit.id);
                     body.find("#name").val(edit.name);
                     body.find("#userName").val(edit.userName);
-                    body.find("#glbm").val(edit.glbm);
                     body.find("#roleId").val(edit.roleId);
                     body.find("#stateSelect").val(edit.state);
                     form.render();

@@ -33,7 +33,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">所属部门</label>
         <div class="layui-input-block">
-            <input type="text" id="glbmTree" lay-filter="glbmTree" class="layui-input">
+            <input type="text" id="glbmTree" lay-filter="glbmTree" class="layui-input" lay-verify="required">
             <!--<select id="glbm" name="glbm">-->
             <!--</select>-->
         </div>
@@ -41,7 +41,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">所属角色</label>
         <div class="layui-input-block">
-            <select name="roleId" id="roleSelect">
+            <select name="roleId" id="roleSelect" lay-verify="required">
                 <option value="">请选择角色</option>
             </select>
         </div>

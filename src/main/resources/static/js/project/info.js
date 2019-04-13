@@ -12,6 +12,14 @@ layui.config({
         $ = layui.jquery,
         treeSelect = layui.treeSelect;
 
+    //number input hover 提示怎么输入
+    // $("#number").hover(function () {
+    //     layer.open({
+    //         title: '在线调试'
+    //         ,content: '可以填写任意的layer代码'
+    //     });
+    //
+    // })
     treeSelect.render({
         // 选择器
         elem: '#dTree',
@@ -71,10 +79,15 @@ layui.config({
 
 //执行一个laydate实例
     laydate.render({
-        elem: '#lxsj'
+        elem: '#lxsj',
+        theme: 'grid'
+        // theme: '#393D49'
+        ,calendar: true
     });
     laydate.render({
-        elem: '#whsx'
+        elem: '#whsx',
+        theme: 'grid'
+        ,calendar: true
     });
 
 
@@ -90,7 +103,7 @@ layui.config({
          date: [/^(\d{4})[-\/](\d{1}|0\d{1}|1[0-2])([-\/](\d{1}|0\d{1}|[1-2][0-9]|3[0-1]))*$/, "日期格式不正确"],
          identity: [/(^\d{15}$)|(^\d{17}(x|X|\d)$)/, "请输入正确的身份证号"]*/
         //1、编号构成：年度+部门+项目类型+序号+追加
-        pNumber: [/^(\d{4})+(XS|JC|YW|HL|CW|XZ|RJ|XX)+(JC|DR|ZR|JF|KF|CX|KR|KJ|NB|WB|BH)+([0-9][0-9][2-9]{1})+$/, "项目编号格式：2019RJKF003"],
+        pNumber: [/^(\d{4})+(XS|JC|YW|HL|CW|XZ|RJ|XX)+(JC|DR|ZR|JF|KF|CX|KR|KJ|NB|WB|BH)+([0-9][0-9][2-9])+$/, "项目编号格式有误！"],
     })
 // form.on('submit(*)', function (data) {
 //     console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象

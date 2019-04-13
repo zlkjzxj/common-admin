@@ -2,22 +2,29 @@ package com.xieke.admin.web;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import com.xieke.admin.annotation.SysLog;
 import com.xieke.admin.dto.ResultInfo;
 import com.xieke.admin.dto.UserInfo;
 import com.xieke.admin.entity.User;
 import com.xieke.admin.service.IUserService;
+import com.xieke.admin.util.Constant;
 import com.xieke.admin.util.PasswordEncoder;
 import com.xieke.admin.util.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +81,7 @@ public class UserController extends BaseController {
             user.setGlbm(null);
         }
         Page<User> pageObj = iUserService.selectPage(new Page<>(page, limit), wrapper);
-        return new ResultInfo<>(pageObj.getRecords(), pageObj.getSize());
+        return new ResultInfo<>(pageObj.getRecords(), pageObj.getTotal());
     }
 
     @RequestMapping("/listDataSelect")
@@ -120,10 +127,6 @@ public class UserController extends BaseController {
     @RequiresPermissions("user:edit")
     public @ResponseBody
     ResultInfo<Boolean> edit(User user) {
-        User oldUser = iUserService.findUserInfo(user.getUserName());
-        if (oldUser != null) {
-            return new ResultInfo<>("此登录名称已经存在！");
-        }
         User us = iUserService.selectById(user.getId());
         us.setName(user.getName());
         us.setUserName(user.getUserName());
@@ -137,9 +140,18 @@ public class UserController extends BaseController {
     @SysLog("本人修改用户操作")
     @RequestMapping("/userEdit")
     public @ResponseBody
-    ResultInfo<Boolean> userEdit(User user) {
+    ResultInfo<Boolean> userEdit(@RequestParam("avatarFile") MultipartFile avatarFile, User user) {
         UserInfo userInfo = this.getUserInfo();
         User us = iUserService.selectById(userInfo.getId());
+        String avatarStr = "";
+        if (avatarFile != null) {
+            try {
+                avatarStr = Base64Utils.encodeToString(avatarFile.getBytes());
+                us.setAvatar(Constant.BASE64_PIC_HEADER + avatarStr);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         if (!StringUtils.isEmpty(user.getName())) {
             us.setName(user.getName());
         }
@@ -149,6 +161,13 @@ public class UserController extends BaseController {
             us.setPassWord(map.get(PasswordEncoder.PASSWORD));
         }
         boolean b = iUserService.updateById(us);
+        Session session = SecurityUtils.getSubject().getSession();
+        if (b && !"".equals(avatarStr)) {
+            session.setAttribute("avatar", Constant.BASE64_PIC_HEADER + avatarStr);
+        }
+        if (b && !StringUtils.isEmpty(user.getName())) {
+            session.setAttribute("userName", userInfo.getName());
+        }
         return new ResultInfo<>(b);
     }
 
@@ -160,9 +179,22 @@ public class UserController extends BaseController {
         return new ResultInfo<>(userInfo);
     }
 
+    /**
+     * 查询用户数量
+     */
     @RequestMapping("/count")
     public @ResponseBody
     ResultInfo<Integer> count() {
+        return new ResultInfo<>(iUserService.selectCount(new EntityWrapper<>()));
+    }
+
+    /**
+     * 修改头像
+     */
+
+    @RequestMapping("/updateAvatar")
+    public @ResponseBody
+    ResultInfo<Integer> updateAvatar() {
         return new ResultInfo<>(iUserService.selectCount(new EntityWrapper<>()));
     }
 

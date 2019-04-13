@@ -7,10 +7,13 @@ import com.xieke.admin.service.ILoginLogService;
 import com.xieke.admin.service.IUserService;
 import com.xieke.admin.util.AddressUtils;
 import com.xieke.admin.util.Constant;
+import io.netty.handler.codec.base64.Base64Decoder;
+import io.netty.handler.codec.base64.Base64Encoder;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.codec.Base64;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -74,6 +77,9 @@ public class ShiroRealm extends AuthorizingRealm {
         session.setAttribute(Constant.LOGIN_USER_ID, userInfo.getId());
 
         session.setAttribute("userName", userInfo.getName());
+
+        session.setAttribute("avatar", userInfo.getAvatar());
+        session.setAttribute("user", userInfo);
 
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 userInfo, //用户信息
