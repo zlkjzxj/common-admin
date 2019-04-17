@@ -269,20 +269,19 @@ layui.config({
 
     //添加项目
     function addNews(type, data) {
-        var h = "750px";
+        // var h = "750px";
         var title = "添加项目";
         if (type === 'add') {
 
         } else {
-            h = "750px";
             title = "编辑项目";
         }
         //修改项目需要判断是否添加人还是修改人
         var userId = $("#userId").val();
-        layui.layer.open({
+        var index = layui.layer.open({
             title: title,
             type: 2,
-            area: ["1200px", h],
+            // area: ["1200px", h],
             content: "info.html",
             success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
@@ -397,11 +396,11 @@ layui.config({
                 }, 500)
             }
         })
-        // layui.layer.full(index);
+        layui.layer.full(index);
         //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
-        // $(window).on("resize", function () {
-        //     layui.layer.full(index);
-        // })
+        $(window).on("resize", function () {
+            layui.layer.full(index);
+        })
     }
 
     $(".add_btn").click(function () {

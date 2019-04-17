@@ -5,7 +5,9 @@ import com.xieke.admin.annotation.SysLog;
 import com.xieke.admin.business.service.IProjectService;
 import com.xieke.admin.dto.ProjectInfo;
 import com.xieke.admin.dto.ResultInfo;
+import com.xieke.admin.dto.UserInfo;
 import com.xieke.admin.entity.Department;
+import com.xieke.admin.entity.Permission;
 import com.xieke.admin.entity.Project;
 import com.xieke.admin.entity.User;
 import com.xieke.admin.service.IDepartmentService;
@@ -36,6 +38,8 @@ import java.util.*;
 @RequestMapping("/project")
 public class ProjectController extends BaseController {
 
+    private final static String VIEW_ALL_PROJECT = "project:viewall";
+    private final static String TOP_DEPARTMENT_ID = "1";
     @Resource
     private IProjectService iProjectService;
     @Resource
@@ -45,45 +49,63 @@ public class ProjectController extends BaseController {
     public void toHtml() {
     }
 
+    protected UserInfo getUserInfo() {
+        return (UserInfo) SecurityUtils.getSubject().getPrincipal();
+    }
+
     @RequestMapping("/listData")
 //    @RequiresPermissions("project:view")
     public @ResponseBody
     ResultInfo<List<ProjectInfo>> listData(ProjectInfo project, Integer page, Integer limit) {
-        if ("1".equals(project.getDepartment()) || "".equals(project.getDepartment())) {
+
+        UserInfo userInfo = this.getUserInfo();
+        //根据要用户权限查询是包含查询所有项目
+        List<Permission> permissionList = userInfo.getRoleInfo().getPermissions();
+        boolean viewall_flag = false;
+        for (Permission p : permissionList) {
+            if (VIEW_ALL_PROJECT.equals(p.getPermissionCode())) {
+                viewall_flag = true;
+                break;
+            }
+        }
+        //定义返回列表，和返回列表总数
+        List<ProjectInfo> list = new ArrayList<>();
+        Integer count;
+
+        if (TOP_DEPARTMENT_ID.equals(project.getDepartment()) || "".equals(project.getDepartment())) {
             project.setDepartment(null);
         }
-        Project project1 = new Project();
-        EntityWrapper<Project> wrapper = new EntityWrapper<>(project1);
-
-        List<ProjectInfo> list = new ArrayList<>();
-        Integer count = iProjectService.selectCount(wrapper);
-        //代码极致，如果count是0了就没必要下面的查询了。操作数据库肯定比if要的时间多
-        if (count != 0) {
+        project.setViewall(viewall_flag);
+        if (!viewall_flag) {
+            EntityWrapper<Department> wrapper2 = new EntityWrapper<>(new Department());
+            wrapper2.eq("manager", userInfo.getId());
             //老板看所有,部门经理看部门，项目经理看自己
             //根据用户去判断他是否部门主管，如果是则查小于等于他部门的所有
-            User user = (User) SecurityUtils.getSubject().getPrincipal();
-            EntityWrapper<Department> wrapper1 = new EntityWrapper<>(new Department());
-            wrapper1.eq("manager", user.getId());
-            Department department = iDepartmentService.selectOne(wrapper1);
+            Department department = iDepartmentService.selectOne(wrapper2);
             List<Integer> ids;
             if (department != null) {
-                ids = iDepartmentService.getAllChildrenDepartment(user.getGlbm());
+                ids = iDepartmentService.getAllChildrenDepartment(userInfo.getGlbm());
+                //说明有子部门
                 if (!ids.isEmpty()) {
-                    ids.add(user.getGlbm());
+                    ids.add(userInfo.getGlbm());
                     project.setIds(ids);
+                    //项目经理看自己的项目
+                } else {
+                    project.setDepartment(userInfo.getGlbm());
                 }
-                //项目经理看自己的项目
             } else {
                 //录入人加上，不然我添加的比人的项目我自己就看不见了
-                project.setLrr(user.getId());
-                project.setManager(user.getId());
+                project.setLrr(userInfo.getId());
+                project.setManager(userInfo.getId());
             }
-            if (page != null && limit != null) {
-                project.setLimit1(limit * (page - 1));
-                project.setLimit2(limit);
-            }
-            list = iProjectService.findProjectByFuzzySearchVal(project);
         }
+        if (page != null && limit != null) {
+            project.setLimit1(limit * (page - 1));
+            project.setLimit2(limit);
+        }
+        count = iProjectService.getProjectCount(project);
+        list = iProjectService.findProjectByFuzzySearchVal(project);
+
         return new ResultInfo<>(list, count);
     }
 

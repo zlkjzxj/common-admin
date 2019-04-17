@@ -38,4 +38,9 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         return projectMapper.getAddSequence();
     }
 
+    @Override
+    public Integer getProjectCount(ProjectInfo project) {
+        return projectMapper.getProjectCount(project);
+    }
+
 }

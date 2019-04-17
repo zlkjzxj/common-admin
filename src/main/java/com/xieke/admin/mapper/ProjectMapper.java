@@ -23,4 +23,6 @@ public interface ProjectMapper extends BaseMapper<Project> {
     List<ProjectInfo> findProjectByFuzzySearchVal(ProjectInfo project);
 
     String getAddSequence();
+
+    Integer getProjectCount(ProjectInfo project);
 }

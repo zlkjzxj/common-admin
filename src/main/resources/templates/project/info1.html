@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>用户列表--layui后台管理模板 2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="/static/css/public.css" media="all"/>
+    <style>
+        .layui-form-label {
+            width: 120px;
+        }
+
+        .layui-input-block {
+            margin-left: 150px;
+            min-height: 36px
+        }
+    </style>
+</head>
+
+<body class="childrenBody">
+<form class="layui-form layui-row  layui-col-space10">
+    <div class="layui-col-md8 layui-col-xs12">
+        <blockquote class="layui-elem-quote title" style="margin-bottom: 10px;"><i class="seraph icon-caidan"></i>
+            前期准备情况
+        </blockquote>
+        <div class="layui-form-item">
+            <label class="layui-form-label">项目名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" id="name" class="layui-input" lay-verify="name|required"
+                       placeholder="请输入项目名称" autocomplete="off">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">项目编号</label>
+            <div class="layui-input-inline">
+                <input type="text" name="number" id="number" class="layui-input"
+                       lay-verify="required|pNumber"
+                       placeholder="格式：2019RJKF003" onkeyup="this.value=this.value.toUpperCase()">
+            </div>
+            <div class="layui-input-inline">
+                <input type="text" name="number" id="number" class="layui-input"
+                       lay-verify="required|pNumber"
+                       placeholder="格式：2019RJKF003" onkeyup="this.value=this.value.toUpperCase()">
+            </div>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" name="number1" id="number1" readonly>
+            </div>
+            <div class="layui-input-inline">
+                <span type="text" class="layui-input" style="border: 0px;color: red;">*项目编号只需填写前面部分，后面序号自动生成</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">是否立项</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="sflx" value="1" title="是" lay-skin="primary" checked/>
+                    <input type="radio" name="sflx" value="0" title="否" lay-skin="primary"/>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">立项时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="lxsj" class="layui-input" id="lxsj" placeholder="请选择项目时间"
+                           lay-verify="required" autocomplete="off">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">部门</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="dTree" lay-filter="dTree" lay-verify="required" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline ">
+                <label class="layui-form-label">项目经理</label>
+                <div class="layui-input-inline">
+                    <select name="manager" id="manager" lay-filter="manager" lay-verify="required">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">软件开发工作进度</label>
+                <div class="layui-input-inline">
+                    <select name="rjkfjd" id="rjkfjd" lay-filter="rjkfjd">
+                        <option value="0">未开始</option>
+                        <option value="1">工作中</option>
+                        <option value="2">暂停中</option>
+                        <option value="3">测试中</option>
+                        <option value="4">完工</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline ">
+                <label class="layui-form-label">方案完成情况</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="fawcqk" value="0" title="未完成" lay-skin="primary" checked/>
+                    <input type="radio" name="fawcqk" value="1" title="完成" lay-skin="primary"/>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <div class="layui-inline">
+                <label class="layui-form-label">产品选型完成情况</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="cpxxwcqk" value="0" title="未通过" lay-skin="primary" checked/>
+                    <input type="radio" name="cpxxwcqk" value="1" title="通过" lay-skin="primary"/>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">招标组织完成情况</label>
+                <div class="layui-input-inline">
+                    <!--<input type="radio" name="zbzzwcqk" value="0" title="未完成" lay-skin="primary" checked/>-->
+                    <!--<input type="radio" name="zbzzwcqk" value="1" title="完成" lay-skin="primary"/>-->
+                    <select name="zbzzwcqk" id="zbzzwcqk" lay-filter="zbzzwcqk">
+                        <option value="0">未完成</option>
+                        <option value="1">完成</option>
+                        <option value="3">不招标</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">用资计划表确定</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="yzjhbqd" value="0" title="未通过" lay-skin="primary" checked/>
+                    <input type="radio" name="yzjhbqd" value="1" title="通过" lay-skin="primary"/>
+                </div>
+            </div>
+            <div class="layui-inline ">
+                <label class="layui-form-label">合同签订</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="htqd" value="0" title="未完成" lay-skin="primary" checked/>
+                    <input type="radio" name="htqd" value="1" title="完成" lay-skin="primary"/>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12 layui-col-xs12">
+            <blockquote class="layui-elem-quote title" style="margin-bottom: 10px;"><i class="seraph icon-caidan"></i>
+                集成部署情况
+            </blockquote>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">硬件采购工作</label>
+                <div class="layui-input-inline">
+                    <select name="yjcg" id="yjcg" lay-filter="yjcg">
+                        <option value="0">未开始</option>
+                        <option value="1">销售合同签订中</option>
+                        <option value="2">进行中</option>
+                        <option value="3">完成</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">施工队确认</label>
+                <div class="layui-input-inline">
+                    <!--<input type="radio" name="sgqr" value="0" title="未完成" lay-skin="primary" checked/>-->
+                    <!--<input type="radio" name="sgqr" value="1" title="完成" lay-skin="primary"/>-->
+                    <select name="sgqr" id="sgqr" lay-filter="sgqr">
+                        <option value="0">未完成</option>
+                        <option value="1">完成</option>
+                        <option value="2">无</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-form-item">
+                <div class="layui-col-md6 ">
+                    <label class="layui-form-label">集成工作进度</label>
+                    <div class="layui-input-block">
+                        <select name="jcjd" id="jcjd" lay-filter="jcjd">
+                            <option value="0">未开始</option>
+                            <option value="1">到场</option>
+                            <option value="2">实施</option>
+                            <option value="3">完工</option>
+                            <option value="4">验收</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md4 layui-col-xs12">
+        <blockquote class="layui-elem-quote title" style="margin-bottom: 10px;"><i class="layui-icon">&#xe609;</i>
+            财务填写状况
+        </blockquote>
+        <div class="layui-form-item">
+            <label class="layui-form-label">合同金额</label>
+            <div class="layui-input-block">
+                <input type="text" name="htje" id="htje" class="layui-input" placeholder="请输入合同金额">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">回款情况</label>
+            <div class="layui-input-block newsStatus">
+                <input type="text" name="hkqk" id="hkqk" class="layui-input" placeholder="请输入回款情况">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">未回金额</label>
+            <div class="layui-input-block">
+                <input type="text" name="whje" id="whje" class="layui-input" placeholder="请输入未回金额">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">未回时限</label>
+            <div class="layui-input-block">
+                <input type="text" name="whsx" id="whsx" class="layui-input" placeholder="请选择未回时限">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">回款通知</label>
+            <div class="layui-input-block">
+                <input type="text" name="hktz" id="hktz" class="layui-input" placeholder="请输入回款通知">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">毛利</label>
+            <div class="layui-input-block">
+                <input type="text" name="ml" id="ml" class="layui-input" placeholder="请输入毛利">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">质保金</label>
+            <div class="layui-input-block">
+                <input type="text" name="zbj" id="zbj" class="layui-input" placeholder="请输入质保金">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">质保金退还情况</label>
+            <div class="layui-input-block">
+                <input type="text" name="zbjthqk" id="zbjthqk" class="layui-input" placeholder="请输入质保金退还情况">
+            </div>
+        </div>
+        <blockquote class="layui-elem-quote title" style="margin-bottom: 10px;"><i class="layui-icon">&#xe609;</i>
+            项目结项
+        </blockquote>
+        <div class="layui-inline ">
+            <label class="layui-form-label">是否结项</label>
+            <div class="layui-input-inline">
+                <input type="checkbox" name="sfjx" id="sfjx" lay-skin="switch">
+            </div>
+        </div>
+
+    </div>
+    <!--<hr class="layui-bg-gray" style="height: 1px;margin-top: 50px;"/>-->
+    <!--<div class="layui-center">-->
+        <!--<a class="layui-btn layui-btn-lg" lay-filter="addProject" id="addProject" lay-submit><i-->
+                <!--class="layui-icon">&#xe609;</i>保存</a>-->
+        <!--&lt;!&ndash;<a class="layui-btn layui-btn-primary layui-btn-sm" lay-filter="look" lay-submit>预览</a>&ndash;&gt;-->
+    <!--</div>-->
+</form>
+<script type="text/javascript" src="/static/layui/layui.js"></script>
+<script type="text/javascript" src="/static/js/project/info.js"></script>
+</body>
+</html>

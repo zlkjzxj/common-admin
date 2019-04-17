@@ -21,7 +21,7 @@ public class ProjectInfo {
     private Integer sflx;
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date lxsj;
-    private String department;
+    private Integer department;
     private Integer manager;
     private Integer rjkfjd;
     private Integer fawcqk;
@@ -65,5 +65,7 @@ public class ProjectInfo {
     private List<Integer> ids;
     //搜索条件
     private String fuzzySearchVal;
+    //是否查询所有
+    private boolean viewall;
 
 }

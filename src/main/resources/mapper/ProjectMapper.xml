@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xieke.admin.mapper.ProjectMapper">
+    <select id="getProjectCount" resultType="java.lang.Integer"
+            parameterType="com.xieke.admin.dto.ProjectInfo">
+        SELECT count(*) FROM biz_project p
+        <where>
+            <if test="viewall!=null and viewall!=true">
+                <choose>
+                    <when test="department!=null and department!=''">
+                        and department = #{department}
+                    </when>
+                    <otherwise>
+                        <choose>
+                            <when test="ids!=null">
+                                and department in
+                                <foreach collection="ids" item="id" index="index"
+                                         open="(" close=")" separator=",">
+                                    #{id}
+                                </foreach>
+                            </when>
+                            <otherwise>
+                                and (p.lrr =#{lrr} or p.manager = #{manager})
+                            </otherwise>
+                        </choose>
+                    </otherwise>
+                </choose>
+            </if>
+
+        </where>
+
+    </select>
     <select id="findProjectByFuzzySearchVal" resultType="com.xieke.admin.dto.ProjectInfo"
             parameterType="com.xieke.admin.dto.ProjectInfo">
         SELECT p.*,d.bmmc AS bmmc, u.name AS user_name FROM biz_project p LEFT JOIN sys_department d ON
@@ -12,56 +41,59 @@
             <if test="xmjx!=null and xmjx != '' or xmjx==0">
                 and xmjx = #{xmjx}
             </if>
-            <choose>
-                <when test="department!=null and department!=''">
-                    and department = #{department}
-                </when>
-                <otherwise>
-                    <choose>
-                        <when test="ids!=null">
-                            and department in
-                            <foreach collection="ids" item="id" index="index"
-                                     open="(" close=")" separator=",">
-                                #{id}
-                            </foreach>
-                        </when>
-                        <otherwise>
-                            and (p.lrr =#{lrr} or p.manager = #{manager})
-                        </otherwise>
-                    </choose>
-                </otherwise>
-            </choose>
+            <if test="viewall!=null and viewall!=true">
+                <choose>
+                    <when test="department!=null and department!=''">
+                        and department = #{department}
+                    </when>
+                    <otherwise>
+                        <choose>
+                            <when test="ids!=null">
+                                and department in
+                                <foreach collection="ids" item="id" index="index"
+                                         open="(" close=")" separator=",">
+                                    #{id}
+                                </foreach>
+                            </when>
+                            <otherwise>
+                                and (p.lrr =#{lrr} or p.manager = #{manager})
+                            </otherwise>
+                        </choose>
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="rjkfjd!=null and rjkfjd != '' or rjkfjd==0">
+                and rjkfjd = #{rjkfjd}
+            </if>
+            <if test="fawcqk!=null and fawcqk != '' or fawcqk==0">
+                and fawcqk = #{fawcqk}
+            </if>
+            <if test="cpxxwcqk!=null and cpxxwcqk != '' or cpxxwcqk==0">
+                and cpxxwcqk = #{cpxxwcqk}
+            </if>
+            <if test="zbzzwcqk!=null and zbzzwcqk != '' or zbzzwcqk==0">
+                and zbzzwcqk = #{zbzzwcqk}
+            </if>
+            <if test="yzjhbqd!=null and yzjhbqd != '' or yzjhbqd==0">
+                and yzjhbqd = #{yzjhbqd}
+            </if>
+            <if test="htqd!=null and htqd != '' or htqd==0">
+                and htqd = #{htqd}
+            </if>
+            <if test="yjcg!=null and yjcg != '' or yjcg==0">
+                and yjcg = #{yjcg}
+            </if>
+            <if test="sgqr!=null and sgqr != '' or sgqr==0">
+                and sgqr = #{sgqr}
+            </if>
+            <if test="jcjd!=null and jcjd != '' or jcjd==0">
+                and jcjd = #{jcjd}
+            </if>
+            <if test="sflx!=null and sflx != '' or sflx==0">
+                and sflx = #{sflx}
+            </if>
         </where>
-        <if test="rjkfjd!=null and rjkfjd != '' or rjkfjd==0">
-            and rjkfjd = #{rjkfjd}
-        </if>
-        <if test="fawcqk!=null and fawcqk != '' or fawcqk==0">
-            and fawcqk = #{fawcqk}
-        </if>
-        <if test="cpxxwcqk!=null and cpxxwcqk != '' or cpxxwcqk==0">
-            and cpxxwcqk = #{cpxxwcqk}
-        </if>
-        <if test="zbzzwcqk!=null and zbzzwcqk != '' or zbzzwcqk==0">
-            and zbzzwcqk = #{zbzzwcqk}
-        </if>
-        <if test="yzjhbqd!=null and yzjhbqd != '' or yzjhbqd==0">
-            and yzjhbqd = #{yzjhbqd}
-        </if>
-        <if test="htqd!=null and htqd != '' or htqd==0">
-            and htqd = #{htqd}
-        </if>
-        <if test="yjcg!=null and yjcg != '' or yjcg==0">
-            and yjcg = #{yjcg}
-        </if>
-        <if test="sgqr!=null and sgqr != '' or sgqr==0">
-            and sgqr = #{sgqr}
-        </if>
-        <if test="jcjd!=null and jcjd != '' or jcjd==0">
-            and jcjd = #{jcjd}
-        </if>
-        <if test="sflx!=null and sflx != '' or sflx==0">
-            and sflx = #{sflx}
-        </if>
         <choose>
             <when test="field!=null and field !=''">
                 order by ${field} ${order}
@@ -73,6 +105,7 @@
         <if test="limit1!=null and limit2 !=null">
             limit #{limit1},#{limit2}
         </if>
+
 
     </select>
     <select id="findProjectbyId" resultType="com.xieke.admin.dto.ProjectInfo" parameterType="java.lang.Integer">

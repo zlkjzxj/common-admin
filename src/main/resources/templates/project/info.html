@@ -24,7 +24,7 @@
 </head>
 
 <body class="childrenBody">
-<form class="layui-form layui-form-item">
+<form class="layui-form layui-row  layui-col-space10">
     <input type="hidden" value="" id="id" name="id">
     <input type="hidden" id="department" name="department">
     <input type="hidden" id="manager1" name="manager1">
@@ -41,6 +41,11 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">项目编号</label>
+            <div class="layui-input-inline">
+                <input type="text" name="number" id="number" class="layui-input"
+                       lay-verify="required|pNumber"
+                       placeholder="格式：2019RJKF003" onkeyup="this.value=this.value.toUpperCase()">
+            </div>
             <div class="layui-input-inline">
                 <input type="text" name="number" id="number" class="layui-input"
                        lay-verify="required|pNumber"

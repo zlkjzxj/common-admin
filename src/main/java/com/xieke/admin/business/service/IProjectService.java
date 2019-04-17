@@ -21,6 +21,8 @@ public interface IProjectService extends IService<Project> {
 
     String getAddSequence();
 
+    Integer getProjectCount(ProjectInfo project);
+
 //    Project findProject(String name);
 
 }

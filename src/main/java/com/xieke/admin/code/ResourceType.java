@@ -8,16 +8,17 @@ import java.util.List;
 
 public enum ResourceType {
 
-    TOP_DIRECTORY("top_directory","顶级目录"),
-    DIRECTORY("directory","目录"),
-    MENU("menu","菜单"),
-    BUTTON("button","按钮");
+    TOP_DIRECTORY("top_directory", "顶级目录"),
+    DIRECTORY("directory", "目录"),
+    MENU("menu", "菜单"),
+    BUTTON("button", "按钮"),
+    CONTROL("control", "权限控制");
 
     private String code;
 
     private String name;
 
-    private ResourceType(String code, String name){
+    private ResourceType(String code, String name) {
         this.code = code;
         this.name = name;
     }
@@ -32,8 +33,8 @@ public enum ResourceType {
 
     public static List<EnumInfo> getAllEnumInfo() {
         List<EnumInfo> list = new ArrayList<>();
-        for (ResourceType rt : Arrays.asList(ResourceType.values())){
-            list.add(new EnumInfo(rt.getCode(),rt.getName()));
+        for (ResourceType rt : Arrays.asList(ResourceType.values())) {
+            list.add(new EnumInfo(rt.getCode(), rt.getName()));
         }
         return list;
     }
