@@ -196,6 +196,7 @@ layui.config({
                     var index = layui.layer.open({
                         title: "项目详情流程图",
                         type: 2,
+                        area: ["1200px", "750px"],
                         content: "chart.html",
                         success: function (layero, index) {
                             setTimeout(function () {
@@ -281,7 +282,7 @@ layui.config({
         var index = layui.layer.open({
             title: title,
             type: 2,
-            // area: ["1200px", h],
+            area: ["1200px", "750px"],
             content: "info.html",
             success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
@@ -396,11 +397,11 @@ layui.config({
                 }, 500)
             }
         })
-        layui.layer.full(index);
-        //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
-        $(window).on("resize", function () {
-            layui.layer.full(index);
-        })
+        // layui.layer.full(index);
+        // //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+        // $(window).on("resize", function () {
+        //     layui.layer.full(index);
+        // })
     }
 
     $(".add_btn").click(function () {
