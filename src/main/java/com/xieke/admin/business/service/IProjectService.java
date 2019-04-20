@@ -19,6 +19,10 @@ public interface IProjectService extends IService<Project> {
 
     List<ProjectInfo> findProjectByFuzzySearchVal(ProjectInfo project);
 
+    String getAddSequence();
+
+    Integer getProjectCount(ProjectInfo project);
+
 //    Project findProject(String name);
 
 }

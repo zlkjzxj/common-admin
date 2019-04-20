@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Description TODO
@@ -20,8 +21,8 @@ public class ProjectInfo {
     private Integer sflx;
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date lxsj;
-    private String department;
-    private String manager;
+    private Integer department;
+    private Integer manager;
     private Integer rjkfjd;
     private Integer fawcqk;
     private Integer cpxxwcqk;
@@ -56,7 +57,15 @@ public class ProjectInfo {
     //分页的总数
     private Integer count;
 
+    //排序的条件和顺序
+    private String field;
+    private String order;
+
+    //所有子部门的id
+    private List<Integer> ids;
     //搜索条件
     private String fuzzySearchVal;
+    //是否查询所有
+    private boolean viewall;
 
 }

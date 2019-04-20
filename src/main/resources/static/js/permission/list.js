@@ -1,8 +1,8 @@
 layui.config({
-    base : "/static/js/modules/"
+    base: "/static/js/modules/"
 }).extend({
-    "treetable" : "treetable/treetable",
-    "common" : "common"
+    "treetable": "treetable/treetable",
+    "common": "common"
 });
 layui.use(['form', 'table', 'treetable', 'common'], function () {
     var form = layui.form;
@@ -23,20 +23,22 @@ layui.use(['form', 'table', 'treetable', 'common'], function () {
         page: false,
         id: 'permissionListTable',
         cols: [[
-            {type: "checkbox", fixed:"left", width:50},
+            {type: "checkbox", fixed: "left", width: 50},
             {field: 'permissionName', minWidth: 100, title: '权限名称'},
             {field: 'permissionCode', width: 200, title: '权限编码'},
             {field: 'url', minWidth: 100, title: '资源路径'},
             {
                 field: 'resourceType', width: 200, align: 'center', templet: function (d) {
-                    if(d.resourceType === "top_directory"){
+                    if (d.resourceType === "top_directory") {
                         return '<span class="layui-badge layui-bg-blue">顶级目录</span>';
-                    }else if (d.resourceType === "directory") {
+                    } else if (d.resourceType === "directory") {
                         return '<span class="layui-badge layui-bg-blue">目录</span>';
-                    }else if (d.resourceType === "menu") {
+                    } else if (d.resourceType === "menu") {
                         return '<span class="layui-badge layui-badge-rim">菜单</span>';
-                    } else if (d.resourceType === "button")  {
+                    } else if (d.resourceType === "button") {
                         return '<span class="layui-badge layui-bg-gray">按钮</span>';
+                    } else {
+                        return '<span class="layui-badge layui-bg-gray">权限控制</span>';
                     }
                 }, title: '资源类型'
             },
@@ -56,16 +58,16 @@ layui.use(['form', 'table', 'treetable', 'common'], function () {
     });
 
     //添加权限
-    function addPermission(edit){
-        var title = edit===null?"添加权限":"编辑权限";
+    function addPermission(edit) {
+        var title = edit === null ? "添加权限" : "编辑权限";
         layui.layer.open({
-            title : title,
-            type : 2,
-            area : ["500px","450px"],
-            content : "info.html",
-            success : function(layero, index){
+            title: title,
+            type: 2,
+            area: ["500px", "450px"],
+            content: "info.html",
+            success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
-                if(edit){
+                if (edit) {
                     body.find("#id").val(edit.id);
                     body.find(".permissionName").val(edit.permissionName);
                     body.find(".permissionCode").val(edit.permissionCode);
@@ -75,38 +77,38 @@ layui.use(['form', 'table', 'treetable', 'common'], function () {
                     body.find("#parentId").val(edit.parentId);
                     form.render();
                 }
-                setTimeout(function(){
+                setTimeout(function () {
                     layui.layer.tips('点击此处返回权限列表', '.layui-layer-setwin .layui-layer-close', {
                         tips: 3
                     });
-                },500)
+                }, 500)
             }
         })
     }
 
-    $(".add_btn").click(function(){
+    $(".add_btn").click(function () {
         addPermission(null);
     });
 
-    $(".edit_btn").click(function(){
+    $(".edit_btn").click(function () {
         var checkStatus = table.checkStatus('permissionListTable'),
             data = checkStatus.data;
         console.log(data);
-        if(data.length > 0){
+        if (data.length > 0) {
             addPermission(data[0]);
-        }else{
+        } else {
             layer.msg("请选择需要修改的权限");
         }
     });
 
     //批量删除
-    $(".delAll_btn").click(function(){
+    $(".delAll_btn").click(function () {
         var checkStatus = table.checkStatus('permissionListTable'),
             data = checkStatus.data,
             idArr = [];
-        if(data.length > 0) {
+        if (data.length > 0) {
             for (var i in data) {
-                if(data.length>1&&data[i].resourceType!=="button"){
+                if (data.length > 1 && data[i].resourceType !== "button") {
                     layer.msg("抱歉，只支持批量删除按钮！");
                     return;
                 }
@@ -116,10 +118,10 @@ layui.use(['form', 'table', 'treetable', 'common'], function () {
                 $.ajax({
                     url: "/permission/delBatch",
                     type: "post",
-                    data: {idArr : idArr.toString()},
-                    success: function(res){
+                    data: {idArr: idArr.toString()},
+                    success: function (res) {
                         layer.close(index);
-                        if (res.data){
+                        if (res.data) {
                             layer.msg("删除成功！");
                         } else {
                             layer.msg(res.msg);
@@ -130,11 +132,11 @@ layui.use(['form', 'table', 'treetable', 'common'], function () {
                         common.outErrorMsg(xmlHttpRequest);
                     }
                 });
-                setTimeout(function(){
+                setTimeout(function () {
                     location.reload();//刷新页面
-                },1500);
+                }, 1500);
             });
-        }else{
+        } else {
             layer.msg("请选择需要删除的权限");
         }
     });

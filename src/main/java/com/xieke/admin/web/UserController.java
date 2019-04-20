@@ -29,6 +29,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static com.xieke.admin.util.Constant.DEFAULT_AVATAR;
+import static com.xieke.admin.util.Constant.DEFAULT_PASS;
+
 /**
  * <p>
  * 系统用户表 前端控制器
@@ -109,6 +112,7 @@ public class UserController extends BaseController {
         Map<String, String> map = PasswordEncoder.enCodePassWord(user.getUserName(), user.getPassWord());
         user.setSalt(map.get(PasswordEncoder.SALT));
         user.setPassWord(map.get(PasswordEncoder.PASSWORD));
+        user.setAvatar(DEFAULT_AVATAR);
         boolean b = iUserService.insert(user);
         return new ResultInfo<>(b);
     }
@@ -171,6 +175,36 @@ public class UserController extends BaseController {
         return new ResultInfo<>(b);
     }
 
+    @SysLog("本人修改用户密码")
+    @RequestMapping("/userPassEdit")
+    public @ResponseBody
+    ResultInfo<Boolean> userPassEdit(User user) {
+        UserInfo userInfo = this.getUserInfo();
+        User us = iUserService.selectById(userInfo.getId());
+        if (!StringUtils.isEmpty(user.getPassWord())) {
+            Map<String, String> map = PasswordEncoder.enCodePassWord(us.getUserName(), user.getPassWord());
+            us.setSalt(map.get(PasswordEncoder.SALT));
+            us.setPassWord(map.get(PasswordEncoder.PASSWORD));
+        }
+        boolean b = iUserService.updateById(us);
+        return new ResultInfo<>(b);
+    }
+
+    @SysLog("重置密码")
+    @RequestMapping("/resetPass")
+    public @ResponseBody
+    ResultInfo<Boolean> resetPass(User user) {
+        User us = iUserService.selectById(user.getId());
+        if (us != null) {
+            Map<String, String> map = PasswordEncoder.enCodePassWord(us.getUserName(), DEFAULT_PASS);
+            us.setSalt(map.get(PasswordEncoder.SALT));
+            us.setPassWord(map.get(PasswordEncoder.PASSWORD));
+            boolean b = iUserService.updateById(us);
+            return new ResultInfo<>(b);
+        }
+        return new ResultInfo<>("重置密码失败");
+    }
+
     @RequestMapping("/centerDate")
     public @ResponseBody
     ResultInfo<UserInfo> centerDate() {
@@ -179,22 +213,13 @@ public class UserController extends BaseController {
         return new ResultInfo<>(userInfo);
     }
 
+
     /**
      * 查询用户数量
      */
     @RequestMapping("/count")
     public @ResponseBody
     ResultInfo<Integer> count() {
-        return new ResultInfo<>(iUserService.selectCount(new EntityWrapper<>()));
-    }
-
-    /**
-     * 修改头像
-     */
-
-    @RequestMapping("/updateAvatar")
-    public @ResponseBody
-    ResultInfo<Integer> updateAvatar() {
         return new ResultInfo<>(iUserService.selectCount(new EntityWrapper<>()));
     }
 

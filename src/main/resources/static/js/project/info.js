@@ -82,12 +82,12 @@ layui.config({
         elem: '#lxsj',
         theme: 'grid'
         // theme: '#393D49'
-        ,calendar: true
+        , calendar: true
     });
     laydate.render({
         elem: '#whsx',
         theme: 'grid'
-        ,calendar: true
+        , calendar: true
     });
 
 
@@ -103,23 +103,19 @@ layui.config({
          date: [/^(\d{4})[-\/](\d{1}|0\d{1}|1[0-2])([-\/](\d{1}|0\d{1}|[1-2][0-9]|3[0-1]))*$/, "日期格式不正确"],
          identity: [/(^\d{15}$)|(^\d{17}(x|X|\d)$)/, "请输入正确的身份证号"]*/
         //1、编号构成：年度+部门+项目类型+序号+追加
-        pNumber: [/^(\d{4})+(XS|JC|YW|HL|CW|XZ|RJ|XX)+(JC|DR|ZR|JF|KF|CX|KR|KJ|NB|WB|BH)+([0-9][0-9][2-9])+$/, "项目编号格式有误！"],
+        // pNumber: [/^(\d{4})+(XS|JC|YW|HL|CW|XZ|RJ|XX)+(JC|DR|ZR|JF|KF|CX|KR|KJ|NB|WB|BH)+([0-9][0-9][2-9])+$/, "项目编号格式有误！"],
+        pNumber: [/^(\d{4})+(XS|JC|YW|HL|CW|XZ|RJ|XX)+(JC|DR|ZR|JF|KF|CX|KR|KJ|NB|WB|BH)+$/, "项目编号格式有误！"],
     })
-// form.on('submit(*)', function (data) {
-//     console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
-//     console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
-//     console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
-//     return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
-// });
 
     form.on("submit(addProject)", function (data) {
         //弹出loading
         // var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
         if ($("#id").val() === "") {
+            var field = Object.assign(data.field, {'number': data.field.number + data.field.number1});
             $.ajax({
                 url: '/project/add',
                 method: 'POST',
-                data: data.field,
+                data: field,
                 dataType: 'json',
                 success: function (res) {
                     console.log(res)

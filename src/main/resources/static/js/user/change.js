@@ -20,12 +20,15 @@ layui.use(['form','layer'],function(){
     form.on("submit(changePwd)",function(data){
         //弹出loading
         var index = top.layer.msg('修改密码中，请稍候...',{icon: 16,time:false,shade:0.8});
-        $.post("/user/userEdit",data.field,function(res){
+        $.post("/user/userPassEdit",data.field,function(res){
             if (res.data){
                 layer.close(index);
                 layer.msg("修改成功！");
                 //刷新父页面
-                parent.location.reload();
+                setTimeout(function () {
+                    parent.location.reload();
+                },2000)
+
             } else {
                 layer.msg(data.msg);
             }

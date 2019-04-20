@@ -4,6 +4,9 @@ import com.xieke.admin.util.Constant;
 
 import java.io.Serializable;
 
+/**
+ * @author Administrator
+ */
 public class ResultInfo<T> implements Serializable {
 
     private static final long serialVersionUID = -2042618546543630713L;
