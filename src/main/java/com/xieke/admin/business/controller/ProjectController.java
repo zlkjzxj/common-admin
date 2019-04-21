@@ -12,7 +12,6 @@ import com.xieke.admin.entity.Project;
 import com.xieke.admin.entity.User;
 import com.xieke.admin.service.IDepartmentService;
 import com.xieke.admin.web.BaseController;
-import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -24,7 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -125,8 +126,8 @@ public class ProjectController extends BaseController {
     @RequestMapping("/getAddSequence")
     @RequiresPermissions("project:add")
     public @ResponseBody
-    ResultInfo<Integer> getAddSequence() {
-        String sequence = iProjectService.getAddSequence();
+    ResultInfo<Integer> getAddSequence(String year) {
+        String sequence = iProjectService.getAddSequence(year);
         Integer s = Integer.parseInt(sequence) + 1;
         return new ResultInfo<>(s);
     }

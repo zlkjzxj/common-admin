@@ -12,14 +12,19 @@ layui.config({
         $ = layui.jquery,
         treeSelect = layui.treeSelect;
 
-    //number input hover 提示怎么输入
-    // $("#number").hover(function () {
-    //     layer.open({
-    //         title: '在线调试'
-    //         ,content: '可以填写任意的layer代码'
-    //     });
-    //
-    // })
+    //初始化项目编号的日期，放在这吧
+    var date = new Date;
+    var year = date.getFullYear();
+    $("#year").append("<option value='" + year + "'>" + year + "</option>");
+    $("#year").append("<option value='" + (year + 1) + "'>" + (year + 1) + "</option>");
+    form.render('select');//刷新select选择框渲染
+    form.on('select(year)', function(d){
+        console.log(d)
+        $.post("/project/getAddSequence?year=" + year, function (data) {
+            console.log(data.data);
+            $("#number1").val(data.data);
+        });
+    });
     treeSelect.render({
         // 选择器
         elem: '#dTree',
@@ -89,8 +94,6 @@ layui.config({
         theme: 'grid'
         , calendar: true
     });
-
-
     form.verify({
         name: [/^[\u4e00-\u9fa5]{1,40}$/, "项目名只能是长度20内的汉字"],
         /* required: [/[\S]+/, "必填项不能为空"],
@@ -104,14 +107,14 @@ layui.config({
          identity: [/(^\d{15}$)|(^\d{17}(x|X|\d)$)/, "请输入正确的身份证号"]*/
         //1、编号构成：年度+部门+项目类型+序号+追加
         // pNumber: [/^(\d{4})+(XS|JC|YW|HL|CW|XZ|RJ|XX)+(JC|DR|ZR|JF|KF|CX|KR|KJ|NB|WB|BH)+([0-9][0-9][2-9])+$/, "项目编号格式有误！"],
-        pNumber: [/^(\d{4})+(XS|JC|YW|HL|CW|XZ|RJ|XX)+(JC|DR|ZR|JF|KF|CX|KR|KJ|NB|WB|BH)+$/, "项目编号格式有误！"],
+        pNumber: [/^(XS|JC|YW|HL|CW|XZ|RJ|XX)+(JC|DR|ZR|JF|KF|CX|KR|KJ|NB|WB|BH)+$/, "项目编号格式有误！"],
     })
 
     form.on("submit(addProject)", function (data) {
         //弹出loading
         // var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
         if ($("#id").val() === "") {
-            var field = Object.assign(data.field, {'number': data.field.number + data.field.number1});
+            var field = Object.assign(data.field, {'number': data.field.year + data.field.number + data.field.number1});
             $.ajax({
                 url: '/project/add',
                 method: 'POST',

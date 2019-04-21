@@ -34,8 +34,8 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     }
 
     @Override
-    public String getAddSequence() {
-        return projectMapper.getAddSequence();
+    public String getAddSequence(String year) {
+        return projectMapper.getAddSequence(year);
     }
 
     @Override

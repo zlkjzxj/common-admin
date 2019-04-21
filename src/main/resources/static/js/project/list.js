@@ -80,94 +80,94 @@ layui.config({
                 {field: 'number', title: '项目编号', width: 120, sort: true},
                 {
                     field: 'sflx', title: '是否立项', width: 100, align: 'center', templet: function (d) {
-                        if (d.sflx === 0) {
-                            return '<span class="layui-badge layui-bg-red">否</span>';
-                        } else {
-                            return '<span class="layui-badge layui-bg-green">是</span>';
-                        }
+                    if (d.sflx === 0) {
+                        return '<span class="layui-badge layui-bg-red">否</span>';
+                    } else {
+                        return '<span class="layui-badge layui-bg-green">是</span>';
                     }
+                }
                 },
                 {field: 'lxsj', title: '立项时间', align: 'center', width: 120, sort: true},
                 {field: 'bmmc', title: '部门', align: 'center', width: 120},
                 {field: 'userName', title: '项目经理', align: 'center', width: 120},
                 {
                     field: 'rjkfjd', title: '软件开发进度', align: 'center', width: 120, templet: function (d) {
-                        if (d.rjkfjd === 0) {
-                            return '<span class="layui-badge layui-bg-orange">未开始</span>';
-                        } else if (d.rjkfjd === 1) {
-                            return '<span class="layui-badge layui-bg-orange">工作中</span>';
-                        } else if (d.rjkfjd === 2) {
-                            return '<span class="layui-badge layui-bg-black">暂停中</span>';
-                        } else if (d.rjkfjd === 3) {
-                            return '<span class="layui-badge layui-bg-blue">测试中</span>';
-                        } else if (d.rjkfjd === 4) {
-                            return '<span class="layui-badge layui-bg-green">完工</span>';
-                        }
+                    if (d.rjkfjd === 0) {
+                        return '<span class="layui-badge layui-bg-orange">未开始</span>';
+                    } else if (d.rjkfjd === 1) {
+                        return '<span class="layui-badge layui-bg-orange">工作中</span>';
+                    } else if (d.rjkfjd === 2) {
+                        return '<span class="layui-badge layui-bg-black">暂停中</span>';
+                    } else if (d.rjkfjd === 3) {
+                        return '<span class="layui-badge layui-bg-blue">测试中</span>';
+                    } else if (d.rjkfjd === 4) {
+                        return '<span class="layui-badge layui-bg-green">完工</span>';
                     }
+                }
                 },
                 {
                     field: 'fawcqk', title: '方案完成情况', align: 'center', width: 120, templet: function (d) {
-                        return isComplete(d.fawcqk);
-                    }
+                    return isComplete(d.fawcqk);
+                }
                 },
                 {
                     field: 'cpxxwcqk', title: '产品选型情况', align: 'center', width: 120, templet: function (d) {
-                        return isComplete(d.cpxxwcqk)
-                    }
+                    return isComplete(d.cpxxwcqk)
+                }
                 },
                 {
                     field: 'zbzzwcqk', title: '招标组织完成情况', align: 'center', width: 140, templet: function (d) {
-                        if (d.zbzzwcqk === 0) {
-                            return '<span class="layui-badge layui-bg-red">未完成</span>';
-                        } else if (d.zbzzwcqk === 1) {
-                            return '<span class="layui-badge layui-bg-green">完成</span>';
-                        } else {
-                            return '<span class="layui-badge layui-bg-black">不招标</span>';
-                        }
+                    if (d.zbzzwcqk === 0) {
+                        return '<span class="layui-badge layui-bg-red">未完成</span>';
+                    } else if (d.zbzzwcqk === 1) {
+                        return '<span class="layui-badge layui-bg-green">完成</span>';
+                    } else {
+                        return '<span class="layui-badge layui-bg-black">不招标</span>';
                     }
+                }
                 },
                 {
                     field: 'yzjhbqd', title: '用资计划表确定', align: 'center', width: 140, templet: function (d) {
-                        return isPass(d.yzjhbqd)
-                    }
+                    return isPass(d.yzjhbqd)
+                }
                 },
                 {
                     field: 'htqd', title: '合同签订', align: 'center', templet: function (d) {
-                        return isComplete(d.htqd)
-                    }
+                    return isComplete(d.htqd)
+                }
                 },
                 {
                     field: 'yjcg', title: '硬件采购', align: 'center', templet: function (d) {
-                        if (d.yjcg === 0) {
-                            return '<span class="layui-badge layui-bg-red">未开始</span>';
-                        } else if (d.rjkfjd === 1) {
-                            return '<span class="layui-badge layui-bg-blue">销售合同签订中</span>';
-                        } else if (d.rjkfjd === 2) {
-                            return '<span class="layui-badge layui-bg-orange">进行中</span>';
-                        } else if (d.rjkfjd === 3) {
-                            return '<span class="layui-badge layui-bg-green">完成</span>';
-                        }
+                    if (d.yjcg === 0) {
+                        return '<span class="layui-badge layui-bg-red">未开始</span>';
+                    } else if (d.rjkfjd === 1) {
+                        return '<span class="layui-badge layui-bg-blue">销售合同签订中</span>';
+                    } else if (d.rjkfjd === 2) {
+                        return '<span class="layui-badge layui-bg-orange">进行中</span>';
+                    } else if (d.rjkfjd === 3) {
+                        return '<span class="layui-badge layui-bg-green">完成</span>';
                     }
+                }
                 },
                 {
                     field: 'sgqr', title: '施工队确认', align: 'center', width: 120, templet: function (d) {
-                        return isComplete(d.sgqr)
-                    }
+                    return isComplete(d.sgqr)
+                }
                 },
                 {
                     field: 'jcjd', title: '集成工作进度', align: 'center', width: 120, templet: function (d) {
-                        if (d.jcjd === 0) {
-                            return '<span class="layui-badge layui-bg-black">未开始</span>';
-                        } else if (d.rjkfjd === 1) {
-                            return '<span class="layui-badge layui-bg-orange">到场</span>';
-                        } else if (d.rjkfjd === 2) {
-                            return '<span class="layui-badge layui-bg-blue">实施</span>';
-                        } else if (d.rjkfjd === 3) {
-                            return '<span class="layui-badge layui-bg-green">完工</span>';
-                        } else if (d.rjkfjd === 4) {
-                            return '<span class="layui-badge layui-bg-green">验收</span>';
-                        }
+                    if (d.jcjd === 0) {
+                        return '<span class="layui-badge layui-bg-black">未开始</span>';
+                    } else if (d.rjkfjd === 1) {
+                        return '<span class="layui-badge layui-bg-orange">到场</span>';
+                    } else if (d.rjkfjd === 2) {
+                        return '<span class="layui-badge layui-bg-blue">实施</span>';
+                    } else if (d.rjkfjd === 3) {
+                        return '<span class="layui-badge layui-bg-green">完工</span>';
+                    } else if (d.rjkfjd === 4) {
+                        return '<span class="layui-badge layui-bg-green">验收</span>';
                     }
+                }
                 },
                 {field: 'htje', title: '合同金额', align: 'center'},
                 {field: 'hkqk', title: '回款情况', align: 'center'},
@@ -179,12 +179,12 @@ layui.config({
                 {field: 'zbjthqk', title: '质保金退还情况', width: 120, align: 'center'},
                 {
                     field: 'xmjx', title: '项目结项', align: 'center', templet: function (d) {
-                        if (d.xmjx === 0) {
-                            return '<span class="layui-badge layui-bg-red">未结项</span>';
-                        } else {
-                            return '<span class="layui-badge layui-bg-green">已结项</span>';
-                        }
+                    if (d.xmjx === 0) {
+                        return '<span class="layui-badge layui-bg-red">未结项</span>';
+                    } else {
+                        return '<span class="layui-badge layui-bg-green">已结项</span>';
                     }
+                }
                 }
             ]],
 
@@ -405,7 +405,9 @@ layui.config({
     }
 
     $(".add_btn").click(function () {
-        $.post("/project/getAddSequence", function (data) {
+        var date = new Date;
+        var year = date.getFullYear();
+        $.post("/project/getAddSequence?year=" + year, function (data) {
             console.log(data);
             addNews('add', data.data);
         });

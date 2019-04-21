@@ -146,9 +146,9 @@
         FROM biz_project p
         WHERE id = #{id};
     </select>
-    <select id="getAddSequence" resultType="java.lang.String">
+    <select id="getAddSequence" resultType="java.lang.String" parameterType="java.lang.String">
         SELECT MAX(SUBSTR(number, 9, 3)) AS `sequence`
-        FROM biz_project;
+        FROM biz_project WHERE SUBSTR(number,1,4) =#{year} ;
     </select>
 
 
