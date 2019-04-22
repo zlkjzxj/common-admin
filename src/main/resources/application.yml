@@ -3,4 +3,4 @@ spring:
     active: pro
     servlet:
         session:
-          timeout: 3600
+          timeout: 1

@@ -197,6 +197,8 @@
                 kfjd = "测试中";
             } else if (rjkfjd === 3) {
                 kfjd = "完工";
+            } else {
+                kfjd = "无";
             }
             console.log(kfjd)
             var state31 = state(500, 600, "rect", "#f7a07b", "软件工作进度：" + kfjd);
@@ -210,6 +212,8 @@
                 yj = "进行中";
             } else if (yjcg === 2) {
                 yj = "完成";
+            } else {
+                yj = "无";
             }
             var state41 = state(900, 200, "rect", "#f7a07b", "硬件采购：" + yj);
             var jcjd = data.jcjd;
@@ -222,6 +226,8 @@
                 jc = "完工";
             } else if (jcjd === 3) {
                 jc = "验收";
+            } else {
+                jc = "无";
             }
             var state42 = state(900, 300, "rect", "#f7a07b", "集成工作进度:" + jc);
             var state43 = state(900, 400, "rect", data.sgqr === 1 ? completeColor : uncompleteColor, "施工队确认：" + (data.htqd == 1 ? '完成' : '未完成'));

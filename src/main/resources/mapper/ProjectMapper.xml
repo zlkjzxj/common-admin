@@ -99,7 +99,7 @@
                 order by ${field} ${order}
             </when>
             <otherwise>
-                order by p.number
+                order by SUBSTR(p.number,9,11)
             </otherwise>
         </choose>
         <if test="limit1!=null and limit2 !=null">

@@ -16,11 +16,10 @@ layui.config({
     var date = new Date;
     var year = date.getFullYear();
     $("#year").append("<option value='" + year + "'>" + year + "</option>");
-    $("#year").append("<option value='" + (year + 1) + "'>" + (year + 1) + "</option>");
+    $("#year").append("<option value='" + (year - 1) + "'>" + (year - 1) + "</option>");
     form.render('select');//刷新select选择框渲染
-    form.on('select(year)', function(d){
-        console.log(d)
-        $.post("/project/getAddSequence?year=" + year, function (data) {
+    form.on('select(year)', function (d) {
+        $.post("/project/getAddSequence?year=" + d.value, function (data) {
             console.log(data.data);
             $("#number1").val(data.data);
         });
@@ -144,7 +143,6 @@ layui.config({
                 success: function (res) {
                     if (res.data) {
                         layer.msg(res.msg);
-                        // layer.closeAll("iframe");
                         //刷新父页面
                         parent.location.reload();
                     } else {

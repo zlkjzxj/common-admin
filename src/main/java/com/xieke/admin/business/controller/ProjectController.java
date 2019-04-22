@@ -126,10 +126,18 @@ public class ProjectController extends BaseController {
     @RequestMapping("/getAddSequence")
     @RequiresPermissions("project:add")
     public @ResponseBody
-    ResultInfo<Integer> getAddSequence(String year) {
+    ResultInfo<String> getAddSequence(String year) {
         String sequence = iProjectService.getAddSequence(year);
-        Integer s = Integer.parseInt(sequence) + 1;
-        return new ResultInfo<>(s);
+        Integer s;
+        if (sequence == null) {
+            //初始值
+            s = 002;
+        } else {
+            s = Integer.parseInt(sequence) + 1;
+        }
+
+        String s1 = String.format("%03d", s);
+        return new ResultInfo<>("1", "查询序列成功", s1);
     }
 
     @SysLog("添加项目")
