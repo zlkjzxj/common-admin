@@ -76,8 +76,8 @@ layui.config({
             },
             cols: [[
                 {type: "radio", fixed: "left"},
-                {field: 'name', title: '项目名称', align: "center", width: 200},
-                {field: 'number', title: '项目编号', width: 120, sort: true},
+                {field: 'name', title: '项目名称', align: "left", width: 200},
+                {field: 'number', title: '项目编号', width: 125, sort: true},
                 {field: 'bmmc', title: '部门', align: 'center', width: 120},
                 {field: 'userName', title: '项目经理', align: 'center', width: 120},
                 {field: 'lxsj', title: '立项时间', align: 'center', width: 120, sort: true},
@@ -259,7 +259,7 @@ layui.config({
             where: {
                 fuzzySearchVal: $(".searchVal").val(),
                 department: $("#departVal").val(),
-                xmjx: $("#sfjxSelect").val(),
+                xmjx: $("#xmjxSelect").val(),
                 sflx: $("#sflxSelect").val(),
                 rjkfjd: $("#rjkfjdSelect").val(),
                 fawcqk: $("#fawcqkSelect").val(),
@@ -292,11 +292,21 @@ layui.config({
             content: "info.html",
             success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
-                if (type === 'edit') {
+                body.find("#addoredit").val(type);
+                //项目编号年份初始化放到这， 不然在info.js初始化的话，编辑的时候还没初始化完就去赋值，就有问题了
+                var date = new Date;
+                var year = date.getFullYear();
+                body.find("#year").append("<option value=" + year + ">" + year + "</option>");
+                body.find("#year").append("<option value=" + (year - 1) + ">" + (year - 1) + "</option>");
+                //只有项目管理员才能点击项目结项
+                if (type === 'edit') {//编辑项目的人员
                     body.find("#id").val(data.id);
                     body.find("#name").val(data.name);
-                    body.find("#number").val(data.number.substring(0, 8));
+                    body.find("#year").val(data.number.substring(0, 4));
+                    body.find("#year1").val(data.number.substring(0, 4));
+                    body.find("#number").val(data.number.substring(4, 8));
                     body.find("#number1").val(data.number.substring(8, 11));
+                    body.find("#number11").val(data.number.substring(8, 11));
                     body.find("#sflx").val(data.sflx);
                     body.find("#lxsj").val(data.lxsj);
                     body.find("#dTree").val(data.department);
@@ -319,7 +329,8 @@ layui.config({
                     body.find("#zbj").val(data.zbj);
                     body.find("#zbjthqk").val(data.zbjthqk);
 
-
+                    form.render('select');
+                    //判断编辑人是不是录入人，如果是让他编辑项目这部分，且不能结项
                     if (userId == data.lrr) {
                         //录入人的可改
                         //修改人的不可改
@@ -332,10 +343,10 @@ layui.config({
                         body.find("#zbj").prop("disabled", true);
                         body.find("#zbjthqk").prop("disabled", true);
 
-                        body.find(":checkbox[name='sfjx']").prop("disabled", true);
 
-                    } else if (userId == data.xgr || data.xgr == null) {
+                    } else if (userId == data.xgr || data.xgr == null) {//如果不是不让编辑项目这部分
                         body.find("#name").prop("disabled", true);
+                        body.find("#year").prop("disabled", true);
                         body.find("#number").prop("disabled", true);
                         body.find("#sflx").prop("disabled", true);
                         body.find("#lxsj").prop("disabled", true);
@@ -351,7 +362,7 @@ layui.config({
                         body.find("#yjcg").prop("disabled", true);
                         body.find("#sgqr").prop("disabled", true);
                         body.find("#jcjd").prop("disabled", true);
-                    } else {
+                    } else {//其他人员
                         body.find("#htje").prop("disabled", true);
                         body.find("#hkqk").prop("disabled", true);
                         body.find("#whje").prop("disabled", true);
@@ -361,9 +372,9 @@ layui.config({
                         body.find("#zbj").prop("disabled", true);
                         body.find("#zbjthqk").prop("disabled", true);
 
-                        body.find(":checkbox[name='sfjx']").prop("disabled", true);
 
                         body.find("#name").prop("disabled", true);
+                        body.find("#year").prop("disabled", true);
                         body.find("#number").prop("disabled", true);
                         body.find("#sflx").prop("disabled", true);
                         body.find("#lxsj").prop("disabled", true);
@@ -379,11 +390,20 @@ layui.config({
                         body.find("#yjcg").prop("disabled", true);
                         body.find("#sgqr").prop("disabled", true);
                         body.find("#jcjd").prop("disabled", true);
-                        body.find("#addProject").prop("disabled", true).addClass("layui-btn-disabled");
                     }
-
+                    var permissionCodes = sessionStorage.getItem("permissionCodes");
+                    if (permissionCodes.indexOf("project:xmjx") > 0) {
+                        body.find(":checkbox[name='xmjx']").prop("disabled", false);
+                        console.log(data.xmjx)
+                        if (data.xmjx == 1) {
+                            body.find(":checkbox[name='xmjx']").prop("checked", true);
+                        } else {
+                            body.find(":checkbox[name='xmjx']").prop("checked", false);
+                        }
+                    }
                     form.render();
-                } else {
+
+                } else {//添加项目的人员
                     body.find("#number1").val(data);
                     body.find("#htje").prop("disabled", true);
                     body.find("#hkqk").prop("disabled", true);
@@ -393,7 +413,6 @@ layui.config({
                     body.find("#ml").prop("disabled", true);
                     body.find("#zbj").prop("disabled", true);
                     body.find("#zbjthqk").prop("disabled", true);
-                    body.find(":checkbox[name='sfjx']").prop("disabled", true);
                     form.render();
                 }
                 setTimeout(function () {
@@ -414,7 +433,6 @@ layui.config({
         var date = new Date;
         var year = date.getFullYear();
         $.post("/project/getAddSequence?year=" + year, function (data) {
-            console.log(data);
             addNews('add', data.data);
         });
 
@@ -428,23 +446,130 @@ layui.config({
             layer.msg("请选择需要修改的项目");
         }
     });
+
+    function getExplorer() {
+        /*var explorer = window.navigator.userAgent;
+        console.log(explorer);
+        //ie
+        if (explorer.indexOf("MSIE") >= 0) {
+            return 'ie';
+        }
+        //firefox
+        else if (explorer.indexOf("Firefox") >= 0) {
+            return 'Firefox';
+        }
+        //Chrome
+        else if (explorer.indexOf("Chrome") >= 0) {
+            return 'Chrome';
+        }
+        //Opera
+        else if (explorer.indexOf("Opera") >= 0) {
+            return 'Opera';
+        }
+        //Safari
+        else if (explorer.indexOf("Safari") >= 0) {
+            return 'Safari';
+        }*/
+        if (!!window.ActiveXObject || "ActiveXObject" in window)
+            return "ie";
+        else
+            return "other";
+    }
+
+    function exportForIe(curTbl) {//整个表格拷贝到EXCEL中
+        var element = document.getElementById("ieexporttable");
+        element.innerHTML = curTbl;
+        var oXL = new ActiveXObject("Excel.Application");
+
+        //创建AX对象excel
+        var oWB = oXL.Workbooks.Add();
+        //获取workbook对象
+        var xlsheet = oWB.Worksheets(1);
+        //激活当前sheet
+        var sel = document.body.createTextRange();
+        sel.moveToElementText(element); //把表格中的内容移到TextRange中
+        sel.select;
+        //全选TextRange中内容
+        sel.execCommand("Copy");
+        //复制TextRange中内容
+        xlsheet.Paste();
+        //粘贴到活动的EXCEL中
+        oXL.Visible = true;
+        //设置excel可见属性
+
+        try {
+            var fname = oXL.Application.GetSaveAsFilename("Excel.xls", "Excel Spreadsheets (*.xls), *.xls");
+        } catch (e) {
+            print("Nested catch caught " + e);
+        } finally {
+            oWB.SaveAs(fname);
+
+            oWB.Close(savechanges = false);
+            //xls.visible = false;
+            oXL.Quit();
+            oXL = null;
+            //结束excel进程，退出完成
+            //window.setInterval("Cleanup();",1);
+            // idTmr = window.setInterval("Cleanup();", 1);
+        }
+    }
+
+    function exportForOther(vals, btn) {
+        //Worksheet名
+        var worksheet = 'Sheet1'
+        var uri = 'data:application/vnd.ms-excel;base64,';
+
+        //下载的表格模板数据
+        var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office"';
+        template += 'xmlns:x = "urn:schemas-microsoft-com:office:excel"';
+        template += 'xmlns = "http://www.w3.org/TR/REC-html40">';
+        template += '<head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>\'\n';
+        template += '           <x:Name>' + worksheet + '</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets>\'\n';
+        template += '            </x:ExcelWorkbook></xml><![endif]--></head>';
+        template += '<body>' + vals + '</body></html >';
+        //下载模板
+        // window.location.download = "项目汇总表.xls";
+        // window.location.href = uri + window.btoa(unescape(encodeURIComponent(template)))
+        var element = document.getElementsByClassName(btn)[0];
+        console.log(element);
+        element.download = "项目汇总表.xls";
+        element.href = uri + window.btoa(unescape(encodeURIComponent(template)));
+        console.log("xxxx");
+    }
+
+    function Cleanup() {
+        window.clearInterval(idTmr);
+        CollectGarbage();
+    }
+
     $(".export_btn").click(function () {
-        //将上述表格示例导出为 csv 文件
+        var l_index = 111;
         var data = table.clearCacheKey(table.cache['projectList']);
-        // for (var i = 0, len = data.length; i < len; i++) {
-        //     //是否立项
-        //     console.log(data[i]['sflx']);
-        //     data[i]['sflx'] = isornot(data[i]['sflx'])
-        //     console.log(data[i]['sflx']);
-        // }
-        // console.log(data);
-        table.exportFile_project('projectList', data, 'xls'); //data 为该实例中的任意数量的数据
-        //可以不依赖table的实例
-        /* table.exportFile(['名字','性别','年龄'], [
-             ['张三','男','20'],
-             ['李四','女','18'],
-             ['王五','女','19']
-         ], 'xls'); //默认导出 csv，也可以为：xls*/
+        var arry = [];
+        for (var i in data) {
+            arry.push(data[i]);
+        }
+        exportFile_project(arry, "export_btn", l_index); //data 为该实例中的任意数量的数据
+    })
+    $(".exportall_btn").click(function () {
+        var l_index = 111;
+        $.ajax({
+            url: '/project/listData',
+            method: 'POST',
+            dataType: 'json',
+            success: function (res) {
+                if (res.data) {
+                    //开始导出
+                    console.log(res.data);
+                    exportFile_project(res.data, "exportall_btn", l_index); //data 为该实例中的任意数量的数据
+                } else {
+                    layer.msg(res.msg);
+                }
+            },
+            error: function (e) {
+                layer.msg(e.msg);
+            }
+        })
     })
 
     //导出数据所需要的翻译
@@ -493,6 +618,192 @@ layui.config({
             layer.msg("请选择需要删除的项目");
         }
     })
+//表格导出_项目导出专用
+    var exportFile_project = function (data, btn, l_index) {
+        var vals = "<table border='1'>";
+        vals += "<tr><td  colspan='25' style='font-weight: bold;font-size: 15px;border: 0px;' align='center'>项目进度汇总表</td></tr>"
+        //表头
+        vals += "<tr>";
+        vals += "<td rowspan='2'>序号</td>";
+        vals += "<td rowspan='2'>项目名称</td>";
+        vals += "<td rowspan='2'>项目编号</td>";
+        vals += "<td rowspan='2'>部门</td>";
+        vals += "<td rowspan='2'>项目经理</td>";
+        vals += "<td rowspan='2'>项目立项时间</td>";
+        vals += "<td rowspan='2'>是否立项</td>";
+        // vals += "<td>项目审批结果</td>";
+        vals += "<td align='center'>方案完成情况</td>";
+        vals += "<td align='center'>产品选型完成情况</td>";
+        vals += "<td colspan='2' align='center'>招标组织完成情况</td>";
+        vals += "<td align='center'>用资计划表确定</td>";
+        vals += "<td align='center'>合同签订</td>";
+        vals += "<td align='center'>硬件采购工作</td>";
+        vals += "<td align='center'>施工队确认</td>";
+        vals += "<td align='center'>集成工作进度</td>";
+        vals += "<td align='center'>软件开发工作进度</td>";
+        vals += "<td colspan='8' align='center'>回款进度</td>";
+        vals += "<td align='center'>项目结项</td>";
+        vals += "</tr>";
+
+        vals += "<tr>";
+        vals += "<td align='center'>是■  否□</td>";
+        vals += "<td align='center'>完成■ 未完成□</td>";
+        vals += "<td align='center'>有■ 无□</td>";
+        vals += "<td align='center'>完成■ 未完成□</td>";
+        vals += "<td align='center'>完成■ 未完成□</td>";
+        vals += "<td align='center'>完成■ 未完成□</td>";
+        vals += "<td align='center'>开始,进行中,完成</td>";
+        vals += "<td align='center'>完成■ 未完成□</td>";
+        vals += "<td align='center'>到场,实施,完工,验收</td>";
+        vals += "<td align='center'>工作中,暂停中,测试中,完工</td>";
+        vals += "<td align='center'>合同金额</td>";
+        vals += "<td align='center'>回款情况</td>";
+        vals += "<td align='center'>未回金额</td>";
+        vals += "<td align='center'>未回时限</td>";
+        vals += "<td align='center'>回款通知</td>";
+        vals += "<td align='center'>毛利</td>";
+        vals += "<td align='center'>质保金</td>";
+        vals += "<td align='center'>质保金退还情况</td>";
+        vals += "<td align='center'>是■  否□</td>";
+        vals += "</tr>";
+        data.forEach(function (item, index) {
+            vals += ("<tr>");
+            vals += "<td>" + (index + 1) + "</td>";
+            vals += "<td>" + item.name + "</td>";
+            vals += "<td>" + item.number + "</td>";
+            vals += "<td>" + item.bmmc + "</td>";
+            vals += "<td>" + item.userName + "</td>";
+            vals += "<td>" + item.lxsj + "</td>";
+            vals += "<td align='center'>" + (item.sflx == 1 ? '是' : '否') + "</td>";
+            vals += "<td align='center'>" + (item.fawcqk == 1 ? '完成' : '未完成') + "</td>";
+            vals += "<td align='center'>" + (item.cpxxwcqk == 1 ? '完成' : '未完成') + "</td>";
+            vals += "<td align='center'>" + zbzzwcqk(item.zbzzwcqk) + "</td>";
+            vals += "<td align='center'>" + zbzzwcqk(item.zbzzwcqk) + "</td>";
+            vals += "<td align='center'>" + (item.yzjhbqd == 1 ? '通过' : '未通过') + "</td>";
+            vals += "<td align='center'>" + (item.htqd == 1 ? '完成' : '未完成') + "</td>";
+            vals += "<td align='center'>" + yjcg(item.yjcg) + "</td>";
+            vals += "<td align='center'>" + sgqr(item.sgqr) + "</td>";
+            vals += "<td align='center'>" + jcjd(item.jcjd) + "</td>";
+            vals += "<td align='center'>" + rjkfjd(item.rjkfjd) + "</td>";
+            vals += "<td align='center'>" + (item.htje != null ? item.htje : '') + "</td>";
+            vals += "<td align='center'>" + (item.hkqk != null ? item.hkqk : '') + "</td>";
+            vals += "<td align='center'>" + (item.whje != null ? item.whje : '') + "</td>";
+            vals += "<td align='center'>" + (item.whsx != null ? item.whsx.substr(0, 9) : '') + "</td>";
+            vals += "<td align='center'>" + (item.hktz != null ? item.hktz : '') + "</td>";
+            vals += "<td align='center'>" + (item.ml != null ? item.ml : '') + "</td>";
+            vals += "<td align='center'>" + (item.zbj != null ? item.zbj : '') + "</td>";
+            vals += "<td align='center'>" + (item.zbjthqk != null ? item.zbjthqk : '') + "</td>";
+            vals += "<td align='center'>" + (item.xmjx == 1 ? '是' : '否') + "</td>";
+            vals += ("</tr>");
+        })
+        vals += "</table>"
+        console.log("vals", vals);
+        console.log(getExplorer());
+        if (getExplorer() == 'ie') {
+            exportForIe(vals);
+        } else {
+            exportForOther(vals, btn);
+        }
+        // layer.close(l_index);
+
+    }
+
+    //导出翻译
+    function rjkfjd(data) {
+        var value = "";
+        switch (data) {
+            case 0:
+                value = "未开始";
+                break;
+            case 1:
+                value = "工作中";
+                break;
+            case 2:
+                value = "暂停中";
+                break;
+            case 3:
+                value = "测试中";
+                break;
+            case 4:
+                value = "完工";
+                break;
+        }
+        return value;
+    }
+
+    function zbzzwcqk(data) {
+        var value = "";
+        switch (data) {
+            case 0:
+                value = "未完成";
+                break;
+            case 1:
+                value = "完成";
+                break;
+            case 2:
+                value = "不招标";
+                break;
+        }
+        return value;
+    }
+
+    function yjcg(data) {
+        var value = "";
+        switch (data) {
+            case 0:
+                value = "未开始";
+                break;
+            case 1:
+                value = "销售合同签订中";
+                break;
+            case 2:
+                value = "进行中";
+                break;
+            case 3:
+                value = "完成";
+                break;
+        }
+        return value;
+    }
+
+    function sgqr(data) {
+        var value = "";
+        switch (data) {
+            case 0:
+                value = "未完成";
+                break;
+            case 1:
+                value = "完成";
+                break;
+            case 2:
+                value = "无";
+                break;
+        }
+        return value;
+    }
+
+    function jcjd(data) {
+        var value = "";
+        switch (data) {
+            case 0:
+                value = "未开始";
+                break;
+            case 1:
+                value = "工作中";
+                break;
+            case 2:
+                value = "暂停中";
+                break;
+            case 3:
+                value = "测试中";
+                break;
+            case 4:
+                value = "完工";
+                break;
+        }
+        return value;
+
+    }
 
     //列表操作
     table.on('tool(newsList)', function (obj) {
@@ -514,4 +825,5 @@ layui.config({
             layer.alert("此功能需要前台展示，实际开发中传入对应的必要参数进行文章内容页面访问")
         }
     });
+
 })

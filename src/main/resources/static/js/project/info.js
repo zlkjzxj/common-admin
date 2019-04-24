@@ -12,17 +12,36 @@ layui.config({
         $ = layui.jquery,
         treeSelect = layui.treeSelect;
 
-    //初始化项目编号的日期，放在这吧
-    var date = new Date;
-    var year = date.getFullYear();
-    $("#year").append("<option value='" + year + "'>" + year + "</option>");
-    $("#year").append("<option value='" + (year - 1) + "'>" + (year - 1) + "</option>");
     form.render('select');//刷新select选择框渲染
     form.on('select(year)', function (d) {
-        $.post("/project/getAddSequence?year=" + d.value, function (data) {
-            console.log(data.data);
-            $("#number1").val(data.data);
-        });
+        //判断是编辑还是添加
+        console.log(d.value);
+        var addoredit = $("#addoredit").val();
+        console.log(addoredit === 'edit')
+        console.log($("#year1").val(), d.value)
+        if (addoredit === 'edit' && $("#year1").val() === d.value) {
+            $("#number1").val($("#number11").val());
+        } else {
+            $.post("/project/getAddSequence?year=" + d.value, function (data) {
+                $("#number1").val(data.data);
+            });
+        }
+
+    });
+    form.on('switch(sfzj)', function (d) {
+        //判断是编辑还是添加
+        var checked = d.elem.checked;
+        var value = $("#number1").val();
+        if (checked) {
+            if (value.indexOf("-1") < 0) {
+                $("#number1").val(value + "-1")
+            }
+        } else {
+            if (value.indexOf("-1") > 0) {
+                $("#number1").val(value.replace("-1",""));
+            }
+        }
+
     });
     treeSelect.render({
         // 选择器
@@ -39,7 +58,7 @@ layui.config({
         click: function (d) {
             $("#department").val(d.current.id);
             $("#dTree").val(d.current.id);
-            // treeSelect.checkNode('tree', d.current.id);
+            treeSelect.checkNode('dTree', d.current.id);
             //先清空上次的选项，不然重叠了
             $("#manager").empty();
             //为了保证required 起作用加个空的
@@ -94,7 +113,7 @@ layui.config({
         , calendar: true
     });
     form.verify({
-        name: [/^[\u4e00-\u9fa5]{1,40}$/, "项目名只能是长度20内的汉字"],
+        name: [/^[a-zA-Z0-9\u4e00-\u9fa5]{1,40}$/, "项目名只能是长度20内的汉字"],
         /* required: [/[\S]+/, "必填项不能为空"],
          phone: [/^1\d{10}$/, "请输入正确的手机号"],
          email: [/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, "邮箱格式不正确"],
@@ -112,8 +131,12 @@ layui.config({
     form.on("submit(addProject)", function (data) {
         //弹出loading
         // var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
+        console.log(data);
         if ($("#id").val() === "") {
-            var field = Object.assign(data.field, {'number': data.field.year + data.field.number + data.field.number1});
+            var field = Object.assign(data.field, {
+                'number': data.field.year + data.field.number + data.field.number1,
+                'xmjx': data.field.xmjx == "on" ? 1 : 0
+            });
             $.ajax({
                 url: '/project/add',
                 method: 'POST',
@@ -135,10 +158,14 @@ layui.config({
                 }
             })
         } else {
+            var field = Object.assign(data.field, {
+                'number': data.field.year + data.field.number + data.field.number1,
+                'xmjx': data.field.xmjx == "on" ? 1 : 0
+            });
             $.ajax({
                 url: '/project/edit',
                 method: 'POST',
-                data: data.field,
+                data: field,
                 dataType: 'json',
                 success: function (res) {
                     if (res.data) {

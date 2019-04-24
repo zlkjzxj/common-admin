@@ -28,6 +28,9 @@
     <input type="hidden" value="" id="id" name="id">
     <input type="hidden" id="department" name="department">
     <input type="hidden" id="manager1" name="manager1">
+    <input type="hidden" id="addoredit" name="addoredit">
+    <input type="hidden" id="year1" name="year1">
+    <input type="hidden" id="number11" name="number11">
     <div class="layui-col-md8 layui-col-xs12">
         <blockquote class="layui-elem-quote title" style="margin-bottom: 10px;"><i class="seraph icon-caidan"></i>
             前期准备情况
@@ -42,7 +45,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">项目编号</label>
             <div class="layui-input-inline" style="width: 100px">
-                <select name="year" id="year" lay-filter="year" >
+                <select name="year" id="year" lay-filter="year" lay-verify="required">
                 </select>
             </div>
             <div class="layui-input-inline" style="width: 150px">
@@ -56,10 +59,16 @@
             <!--placeholder="格式：2019RJKF003" onkeyup="this.value=this.value.toUpperCase()">-->
             <!--</div>-->
             <div class="layui-input-inline" style="width: 50px">
-                <input  class="layui-input" name="number1" id="number1" readonly>
+                <input class="layui-input" name="number1" id="number1" readonly>
             </div>
-            <div class="layui-input-inline">
-                <span type="text" class="layui-input" style="border: 0px;color: red;">*项目编号只需填写中间部分，后面序号自动生成</span>
+            <!--<div class="layui-input-inline">-->
+                <!--<span type="text" class="layui-input" style="border: 0px;color: red;">*项目编号只需填写中间部分，后面序号自动生成</span>-->
+            <!--</div>-->
+            <div class="layui-input-inline" style="width: 200px;">
+                <label class="layui-form-label" style="width: 80px;">是否追加</label>
+                <div class="layui-input-inline" style="width: 50px;">
+                    <input type="checkbox" name="sfzj" id="sfzj" lay-skin="switch" value="1" lay-text="是|否" lay-filter="sfzj">
+                </div>
             </div>
         </div>
         <div class="layui-form-item">
@@ -82,7 +91,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">部门</label>
                 <div class="layui-input-inline">
-                    <input id="dTree" lay-filter="," lay-verify="required" class="layui-input">
+                    <input id="dTree" lay-filter="dTree" lay-verify="required" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline ">
@@ -201,7 +210,7 @@
                 <div class="layui-inline ">
                     <label class="layui-form-label">是否结项</label>
                     <div class="layui-input-inline">
-                        <input type="checkbox" name="sfjx" id="sfjx" lay-skin="switch">
+                        <input type="checkbox" name="xmjx" id="xmjx" lay-skin="switch" disabled="true" lay-text="是|否">
                     </div>
                 </div>
             </div>

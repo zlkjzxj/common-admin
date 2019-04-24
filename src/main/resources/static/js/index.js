@@ -111,8 +111,11 @@ layui.use(['bodyTab', 'form', 'element', 'layer', 'jquery'], function () {
         window.sessionStorage.removeItem("menu");
         window.sessionStorage.removeItem("curmenu");
     }
+    //把permissionCodes添加到sessionStorage
+    sessionStorage.setItem("permissionCodes", $("#permissionCodes").val());
 });
+
 //打开新窗口
-    function addTab(_this) {
-        tab.tabAdd(_this);
-    }
+function addTab(_this) {
+    tab.tabAdd(_this);
+}

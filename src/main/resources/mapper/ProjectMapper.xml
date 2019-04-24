@@ -41,7 +41,7 @@
             <if test="xmjx!=null and xmjx != '' or xmjx==0">
                 and xmjx = #{xmjx}
             </if>
-            <if test="viewall!=null and viewall!=true">
+            <if test="viewall!=null and viewall != true ">
                 <choose>
                     <when test="department!=null and department!=''">
                         and department = #{department}

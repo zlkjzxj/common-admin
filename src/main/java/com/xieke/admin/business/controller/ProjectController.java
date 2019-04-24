@@ -182,19 +182,9 @@ public class ProjectController extends BaseController {
                 return new ResultInfo<>("0", "修改成功", b);
 
             } else {
-                //判断修改人是否为空
-                if (null != oldProject.getXgr() && !"".equals(oldProject.getXgr())) {
-                    if (userId.equals(oldProject.getXgr())) {
-                        boolean b = iProjectService.updateById(project);
-                        return new ResultInfo<>("0", "修改成功", b);
-                    } else {
-                        return new ResultInfo<>("-1", "修改人与上次修改人不一致！");
-                    }
-                } else {
-                    project.setXgr(userId);
-                    boolean b = iProjectService.updateById(project);
-                    return new ResultInfo<>("0", "修改成功", b);
-                }
+                project.setXgr(userId);
+                boolean b = iProjectService.updateById(project);
+                return new ResultInfo<>("0", "修改成功", b);
             }
 
         }

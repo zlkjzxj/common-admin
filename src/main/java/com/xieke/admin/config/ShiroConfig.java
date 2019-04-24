@@ -118,6 +118,8 @@ public class ShiroConfig {
 	@Bean
 	public DefaultWebSessionManager sessionManager() {
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+		//设置session时长
+//		sessionManager.setGlobalSessionTimeout(60000);
 		//这个使用了redis，我们改为默认的！
 //		sessionManager.setSessionDAO(redisSessionDAO());
 		return sessionManager;

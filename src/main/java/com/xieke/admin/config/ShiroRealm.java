@@ -22,6 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ShiroRealm extends AuthorizingRealm {
 
@@ -80,6 +82,9 @@ public class ShiroRealm extends AuthorizingRealm {
 
         session.setAttribute("avatar", userInfo.getAvatar());
         session.setAttribute("user", userInfo);
+        List<Permission> permissionList = userInfo.getRoleInfo().getPermissions();
+        List<String> list = permissionList.stream().map(Permission::getPermissionCode).collect(Collectors.toList());
+        session.setAttribute("permissionCodes", list);
 
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 userInfo, //用户信息
