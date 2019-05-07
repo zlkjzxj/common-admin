@@ -1,11 +1,13 @@
 server:
   port: 9999
+#  servlet:
+#    context-path: /zl_manager
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/other_fream?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
-    username: root
-    password: root
+    url: jdbc:mysql://127.0.0.1:3306/zl_manager?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
+    username: zlkj
+    password: qwerasdf
     type: com.alibaba.druid.pool.DruidDataSource
   thymeleaf:
     prefix: classpath:/templates/

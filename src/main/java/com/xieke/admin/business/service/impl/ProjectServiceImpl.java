@@ -2,6 +2,7 @@ package com.xieke.admin.business.service.impl;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.xieke.admin.business.service.IProjectService;
+import com.xieke.admin.dto.ProjectCountInfo;
 import com.xieke.admin.dto.ProjectInfo;
 import com.xieke.admin.entity.Project;
 import com.xieke.admin.mapper.ProjectMapper;
@@ -41,6 +42,11 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     @Override
     public Integer getProjectCount(ProjectInfo project) {
         return projectMapper.getProjectCount(project);
+    }
+
+    @Override
+    public List<ProjectCountInfo> getProjectCountByDepartment() {
+        return projectMapper.getProjectCountByDepartment();
     }
 
 }

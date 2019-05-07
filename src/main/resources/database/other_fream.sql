@@ -2,7 +2,8 @@
 SQLyog Ultimate v9.10 
 MySQL - 5.1.73-community : Database - other_fream
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -37,7 +38,7 @@ CREATE TABLE `biz_project` (
   `sgqr` tinyint(1) NOT NULL COMMENT '施工确认',
   `jcjd` tinyint(1) NOT NULL COMMENT '集成进度',
   `htje` decimal(10,0) DEFAULT NULL COMMENT '合同金额',
-  `hkqk` varchar(255) DEFAULT NULL COMMENT '回款情况',
+  `hkqk` varchar(255) DEFAULT NULL COMMENT '回款金额',
   `whje` decimal(10,0) DEFAULT NULL COMMENT '未回金额',
   `whsx` date DEFAULT NULL COMMENT '未回时限',
   `hktz` varchar(255) DEFAULT NULL COMMENT '回款通知',

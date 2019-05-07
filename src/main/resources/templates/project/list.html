@@ -119,10 +119,32 @@
                 </select>
             </div>
             <div class="layui-input-inline">
-                <select class="state" id="sflxSelect">
+                <select class="state" id="sflxSelect" lay-search="">
                     <option value="">是否立项</option>
                     <option value="0">否</option>
                     <option value="1">是</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input htjesearchVal" style="width: 300px;"
+                       placeholder="回款金额：输入单个数字或数字区间"/>
+            </div>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input hkjesearchVal" style="width: 300px;"
+                       placeholder="已回金额：输入单个数字或数字区间"/>
+            </div>
+            <div class="layui-input-inline">
+                <select class="state" id="hktzSelect">
+                    <option value="">回款通知</option>
+                    <option value="0">未下达</option>
+                    <option value="1">已下达</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select class="state" id="zbjthqkSelect">
+                    <option value="">质保金退换情况</option>
+                    <option value="0">未退还</option>
+                    <option value="1">已退还</option>
                 </select>
             </div>
             <div class="layui-inline">

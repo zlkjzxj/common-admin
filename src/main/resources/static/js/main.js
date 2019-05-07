@@ -64,6 +64,12 @@ layui.use(['form', 'element', 'layer', 'jquery', 'layim'], function () {
         $("#zan").text('西安研发部(获赞个数：)' + zanCount);
         layer.msg("你很赞！");
     })
+
+    //生成图表
+    $.get("/project/getProjectCountByDepartment", function (res) {
+        console.log(res.data);
+    })
+
     //外部图标
     // $.get(iconUrl, function (data) {
     //     $(".outIcons span").text(data.split(".icon-").length - 1);
@@ -107,4 +113,4 @@ layui.use(['form', 'element', 'layer', 'jquery', 'layim'], function () {
             , chatLog: layui.cache.dir + 'css/modules/layim/html/chatlog.html' //聊天记录页面地址，若不开启，剔除该项即可
         });
     });*/
-})
+});

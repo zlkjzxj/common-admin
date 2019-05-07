@@ -32,15 +32,19 @@ public class ProjectInfo {
     private Integer yjcg;
     private Integer sgqr;
     private Integer jcjd;
-    private Float htje;
+    private String htje;
     private String hkqk;
-    private Float whje;
+    private String whje;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date whsx;
     private String hktz;
-    private Float ml;
-    private Float zbj;
+    private String ml;
+    private String zbj;
     private String zbjthqk;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private String zbjthsx;
     private Integer xmjx;
+    private Integer sfzj;
     private Integer lrr;
     private Integer xgr;
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")

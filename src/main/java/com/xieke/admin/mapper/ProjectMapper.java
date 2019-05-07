@@ -1,6 +1,7 @@
 package com.xieke.admin.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.xieke.admin.dto.ProjectCountInfo;
 import com.xieke.admin.dto.ProjectInfo;
 import com.xieke.admin.entity.Project;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,4 +26,6 @@ public interface ProjectMapper extends BaseMapper<Project> {
     String getAddSequence(String year);
 
     Integer getProjectCount(ProjectInfo project);
+
+    List<ProjectCountInfo> getProjectCountByDepartment();
 }

@@ -320,7 +320,31 @@ CREATE TABLE sys_department (
   AUTO_INCREMENT = 3
   DEFAULT CHARSET = utf8
   COMMENT ='部门';
-
+-- ----------------------------
+-- Table structure for sys_role
+-- ----------------------------
+DROP TABLE IF EXISTS sys_code;
+CREATE TABLE sys_code (
+  id           INT(10)      NOT NULL       AUTO_INCREMENT
+  COMMENT '主键ID',
+  `code_name`  VARCHAR(100) NOT NULL
+  COMMENT '代码名称',
+  `code`       VARCHAR(10)  NOT NULL
+  COMMENT '代码',
+  `code_value` INT(2)       NOT NULL
+  COMMENT '代码值',
+  available    INT(1)       NOT NULL       DEFAULT 1
+  COMMENT '是否可用',
+  update_time  DATETIME                    DEFAULT CURRENT_TIMESTAMP
+  COMMENT '修改时间',
+  create_time  DATETIME                    DEFAULT CURRENT_TIMESTAMP
+  COMMENT '创建时间',
+  PRIMARY KEY (id)
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 3
+  DEFAULT CHARSET = utf8
+  COMMENT ='代码';
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -329,63 +353,63 @@ DROP TABLE IF EXISTS biz_project;
 CREATE TABLE biz_project (
   id          INT(10)      NOT NULL       AUTO_INCREMENT
   COMMENT '主键ID',
-  `name`        VARCHAR(255) NOT NULL
+  `name`      VARCHAR(255) NOT NULL
   COMMENT 'xian',
-  number      VARCHAR(20)   NOT NULL       DEFAULT 0
+  number      VARCHAR(20)  NOT NULL       DEFAULT 0
   COMMENT '是否显示',
-  lxsj         DATE      NOT NULL
+  lxsj        DATE         NOT NULL
   COMMENT '立项时间',
-  department     INT(10)
+  department  INT(10)
   COMMENT '部门',
-  `manager`        INT(10) NOT NULL
+  `manager`   INT(10)      NOT NULL
   COMMENT '部门经理',
-  `rjkfjd`        INT(10) NOT NULL
+  `rjkfjd`    INT(10)      NOT NULL
   COMMENT '软件开发进度',
-  `fawcqk`        TINYINT(1) NOT NULL
+  `fawcqk`    TINYINT(1)   NOT NULL
   COMMENT '方案完成情况',
-  `cpxxwcqk`        TINYINT(1) NOT NULL
+  `cpxxwcqk`  TINYINT(1)   NOT NULL
   COMMENT '产品选型完成情况',
-  `zbzzwcqk`        TINYINT(1) NOT NULL
+  `zbzzwcqk`  TINYINT(1)   NOT NULL
   COMMENT '招标组织完成情况',
-  `yzjhbqd`        TINYINT(1) NOT NULL
+  `yzjhbqd`   TINYINT(1)   NOT NULL
   COMMENT '用资计划表确定',
-  `htqd`        TINYINT(1) NOT NULL
+  `htqd`      TINYINT(1)   NOT NULL
   COMMENT '合同签订',
-  `yjcg`        TINYINT(1) NOT NULL
+  `yjcg`      TINYINT(1)   NOT NULL
   COMMENT '硬件采购',
-  `sgqr`        TINYINT(1) NOT NULL
+  `sgqr`      TINYINT(1)   NOT NULL
   COMMENT '施工确认',
-  `jcjd`        TINYINT(1) NOT NULL
+  `jcjd`      TINYINT(1)   NOT NULL
   COMMENT '集成进度',
-  `htje`        DECIMAL
+  `htje`      DECIMAL
   COMMENT '合同金额',
-  `hkqk`        VARCHAR(255)
-  COMMENT '回款情况',
-  `whje`        DECIMAL
+  `hkqk`      VARCHAR(255)
+  COMMENT '回款金额',
+  `whje`      DECIMAL
   COMMENT '未回金额',
-  `whsx`        DATE
+  `whsx`      DATE
   COMMENT '未回时限',
-  `hktz`        VARCHAR(255)
+  `hktz`      VARCHAR(255)
   COMMENT '回款通知',
   `ml`        DECIMAL
   COMMENT '毛利',
-  `zbj`        DECIMAL
+  `zbj`       DECIMAL
   COMMENT '质保金',
-  `zbjthqk`    VARCHAR(255)
+  `zbjthqk`   VARCHAR(255)
   COMMENT '质保金退换情况',
-  `xmjx`        TINYINT(1)
+  `xmjx`      TINYINT(1)
   COMMENT '项目结项',
-  `lrr`        INT(10) NOT NULL
+  `lrr`       INT(10)      NOT NULL
   COMMENT '录入人',
   update_time DATETIME
   COMMENT '修改时间',
   create_time DATETIME
   COMMENT '创建时间',
-  `byzd1`        VARCHAR(255)
+  `byzd1`     VARCHAR(255)
   COMMENT '备用字段1',
-  `byzd2`        VARCHAR(255)
+  `byzd2`     VARCHAR(255)
   COMMENT '备用字段2',
-  `byzd3`        VARCHAR(255)
+  `byzd3`     VARCHAR(255)
   COMMENT '备用字段3',
   PRIMARY KEY (id)
 )

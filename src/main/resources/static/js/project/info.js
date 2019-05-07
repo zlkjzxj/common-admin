@@ -1,8 +1,9 @@
 layui.config({
-    base: '/static/layui/'
+    base: '/static/'
 }).extend({
-    treeSelect: 'treeSelect'
-}).use(['form', 'layer', 'layedit', 'laydate', 'upload', 'treeSelect'], function () {
+    treeSelect: 'layui/treeSelect',
+    transcode: "js/transcode"
+}).use(['form', 'layer', 'layedit', 'laydate', 'upload', 'treeSelect', 'transcode'], function () {
     var form = layui.form
     layer = parent.layer === undefined ? layui.layer : top.layer,
         laypage = layui.laypage,
@@ -10,7 +11,9 @@ layui.config({
         layedit = layui.layedit,
         laydate = layui.laydate,
         $ = layui.jquery,
-        treeSelect = layui.treeSelect;
+        treeSelect = layui.treeSelect,
+        transcode = layui.transcode
+    ;
 
     form.render('select');//刷新select选择框渲染
     form.on('select(year)', function (d) {
@@ -28,21 +31,21 @@ layui.config({
         }
 
     });
-    form.on('switch(sfzj)', function (d) {
-        //判断是编辑还是添加
-        var checked = d.elem.checked;
-        var value = $("#number1").val();
-        if (checked) {
-            if (value.indexOf("-1") < 0) {
-                $("#number1").val(value + "-1")
-            }
-        } else {
-            if (value.indexOf("-1") > 0) {
-                $("#number1").val(value.replace("-1",""));
-            }
-        }
-
-    });
+    // form.on('switch(sfzj)', function (d) {
+    //     //判断是编辑还是添加
+    //     var checked = d.elem.checked;
+    //     var value = $("#number1").val();
+    //     if (checked) {
+    //         if (value.indexOf("-1") < 0) {
+    //             $("#number1").val(value + "-1")
+    //         }
+    //     } else {
+    //         if (value.indexOf("-1") > 0) {
+    //             $("#number1").val(value.replace("-1", ""));
+    //         }
+    //     }
+    //
+    // });
     treeSelect.render({
         // 选择器
         elem: '#dTree',
@@ -105,27 +108,35 @@ layui.config({
         elem: '#lxsj',
         theme: 'grid'
         // theme: '#393D49'
-        , calendar: true
+        // , calendar: true
     });
     laydate.render({
         elem: '#whsx',
         theme: 'grid'
-        , calendar: true
     });
+    laydate.render({
+        elem: '#zbjthsx',
+        theme: 'grid'
+    });
+    var project_number_dep = transcode.project_number_dep;
+    var project_number_type = transcode.project_number_type;
+    var reg = new RegExp(',', "g")
+    var dep = project_number_dep.replace(reg, '|');
+    var type = project_number_type.replace(reg, '|');
+    // var xx = [/^(XS|JC|YW|HL|CW|XZ|RJ|XX)+(JC|DR|ZR|JF|KF|CX|KR|KJ|NB|WB|BH)+$/,]
+    var re = new RegExp("^\\+" + (dep) + (type) + "$", "gim");
     form.verify({
-        name: [/^[a-zA-Z0-9\u4e00-\u9fa5]{1,40}$/, "项目名只能是长度20内的汉字"],
-        /* required: [/[\S]+/, "必填项不能为空"],
-         phone: [/^1\d{10}$/, "请输入正确的手机号"],
-         email: [/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, "邮箱格式不正确"],
-         url: [/(^#)|(^http(s*):\/\/[^\s]+\.[^\s]+)/, "链接格式不正确"],
-         number: function(e) {
-             if (!e || isNaN(e)) return "只能填写数字"
-         },
-         date: [/^(\d{4})[-\/](\d{1}|0\d{1}|1[0-2])([-\/](\d{1}|0\d{1}|[1-2][0-9]|3[0-1]))*$/, "日期格式不正确"],
-         identity: [/(^\d{15}$)|(^\d{17}(x|X|\d)$)/, "请输入正确的身份证号"]*/
+        name: [/^[a-zA-Z0-9\u4e00-\u9fa5]{1,40}$/, "项目名只能是长度20内的数字|字母|汉字"],
         //1、编号构成：年度+部门+项目类型+序号+追加
         // pNumber: [/^(\d{4})+(XS|JC|YW|HL|CW|XZ|RJ|XX)+(JC|DR|ZR|JF|KF|CX|KR|KJ|NB|WB|BH)+([0-9][0-9][2-9])+$/, "项目编号格式有误！"],
-        pNumber: [/^(XS|JC|YW|HL|CW|XZ|RJ|XX)+(JC|DR|ZR|JF|KF|CX|KR|KJ|NB|WB|BH)+$/, "项目编号格式有误！"],
+        pNumber: [re, "项目编号格式有误！"],
+        numberOrEmpty: function (value) {
+            if (value != '') {
+                if (!/\d+(,\d+)*(.[0-9]{1,2})?/.test(value)) {
+                    return '请输入正确的数字';
+                }
+            }
+        }
     })
 
     form.on("submit(addProject)", function (data) {
@@ -160,6 +171,12 @@ layui.config({
         } else {
             var field = Object.assign(data.field, {
                 'number': data.field.year + data.field.number + data.field.number1,
+                'htje': data.field.htje === "" ? 0 : parseFloat(data.field.htje.replace(/[^\d\.-]/g, "")),
+                'hkqk': data.field.hkqk === "" ? 0 : parseFloat(data.field.hkqk.replace(/[^\d\.-]/g, "")),
+                'whje': data.field.whje === "" ? 0 : parseFloat(data.field.whje.replace(/[^\d\.-]/g, "")),
+                'ml': data.field.ml === "" ? 0 : parseFloat(data.field.ml.replace(/[^\d\.-]/g, "")),
+                'zbj': data.field.zbj === "" ? 0 : parseFloat(data.field.zbj.replace(/[^\d\.-]/g, "")),
+                'sfzj': data.field.sfzj == "on" ? 1 : 0,
                 'xmjx': data.field.xmjx == "on" ? 1 : 0
             });
             $.ajax({

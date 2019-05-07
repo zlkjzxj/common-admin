@@ -3,6 +3,7 @@ package com.xieke.admin.business.controller;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.xieke.admin.annotation.SysLog;
 import com.xieke.admin.business.service.IProjectService;
+import com.xieke.admin.dto.ProjectCountInfo;
 import com.xieke.admin.dto.ProjectInfo;
 import com.xieke.admin.dto.ResultInfo;
 import com.xieke.admin.dto.UserInfo;
@@ -23,9 +24,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.xieke.admin.util.Constant.ZJBJ;
 
 /**
  * <p>
@@ -50,6 +52,7 @@ public class ProjectController extends BaseController {
     public void toHtml() {
     }
 
+    @Override
     protected UserInfo getUserInfo() {
         return (UserInfo) SecurityUtils.getSubject().getPrincipal();
     }
@@ -62,22 +65,22 @@ public class ProjectController extends BaseController {
         UserInfo userInfo = this.getUserInfo();
         //根据要用户权限查询是包含查询所有项目
         List<Permission> permissionList = userInfo.getRoleInfo().getPermissions();
-        boolean viewall_flag = false;
+        boolean viewAllFlag = false;
         for (Permission p : permissionList) {
             if (VIEW_ALL_PROJECT.equals(p.getPermissionCode())) {
-                viewall_flag = true;
+                viewAllFlag = true;
                 break;
             }
         }
         //定义返回列表，和返回列表总数
-        List<ProjectInfo> list = new ArrayList<>();
+        List<ProjectInfo> list;
         Integer count;
 
         if (TOP_DEPARTMENT_ID.equals(project.getDepartment()) || "".equals(project.getDepartment())) {
             project.setDepartment(null);
         }
-        project.setViewall(viewall_flag);
-        if (!viewall_flag) {
+        project.setViewall(viewAllFlag);
+        if (!viewAllFlag) {
             EntityWrapper<Department> wrapper2 = new EntityWrapper<>(new Department());
             wrapper2.eq("manager", userInfo.getId());
             //老板看所有,部门经理看部门，项目经理看自己
@@ -154,7 +157,7 @@ public class ProjectController extends BaseController {
         //判断此项目编号是否存在
         Project oldProject = iProjectService.selectOne(wrapper);
         if (oldProject == null) {
-            User user = (User) SecurityUtils.getSubject().getPrincipal();
+            UserInfo user = this.getUserInfo();
             project.setLrr(user.getId());
             boolean b = iProjectService.insert(project);
             return new ResultInfo<>("0", "添加成功", b);
@@ -173,8 +176,31 @@ public class ProjectController extends BaseController {
         //判断修改人是否一致
         if (oldProject != null) {
             //获取当前登录用户id
-            User user = (User) SecurityUtils.getSubject().getPrincipal();
+            UserInfo user = this.getUserInfo();
             Integer userId = user.getId();
+            //判断是否追加，如果追加则新生成一个项目
+            if (ZJBJ.equals(project.getSfzj())) {
+                Project zjProject = new Project();
+                zjProject.setName(project.getName());
+                zjProject.setNumber(project.getNumber() + "-1");
+                zjProject.setSfzj(project.getSfzj());
+                zjProject.setSflx(project.getSflx());
+                zjProject.setLxsj(project.getLxsj());
+                zjProject.setDepartment(project.getDepartment());
+                zjProject.setManager(project.getManager());
+                zjProject.setRjkfjd(project.getRjkfjd());
+                zjProject.setFawcqk(project.getFawcqk());
+                zjProject.setCpxxwcqk(project.getCpxxwcqk());
+                zjProject.setZbzzwcqk(project.getZbzzwcqk());
+                zjProject.setYzjhbqd(project.getYzjhbqd());
+                zjProject.setHtqd(project.getHtqd());
+                zjProject.setYjcg(project.getYjcg());
+                zjProject.setSgqr(project.getSgqr());
+                zjProject.setJcjd(project.getJcjd());
+                zjProject.setLrr(user.getId());
+                boolean b = iProjectService.insert(zjProject);
+                return new ResultInfo<>("0", "追加成功", b);
+            }
 
             //判断录入人是否一致
             if (userId.equals(oldProject.getLrr())) {
@@ -198,6 +224,13 @@ public class ProjectController extends BaseController {
     ResultInfo<Boolean> delBatch(Integer id) {
         boolean b = iProjectService.deleteById(id);
         return new ResultInfo<>(b);
+    }
+
+    @RequestMapping("/getProjectCountByDepartment")
+    public @ResponseBody
+    ResultInfo<List<ProjectCountInfo>> getProjectCountByDepartment() {
+        List<ProjectCountInfo> projectCountInfoList = iProjectService.getProjectCountByDepartment();
+        return new ResultInfo<>(projectCountInfoList);
     }
 
     @InitBinder

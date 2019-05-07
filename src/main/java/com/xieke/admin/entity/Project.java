@@ -103,17 +103,16 @@ public class Project {
     @TableField("jcjd")
     private Integer jcjd;
 
-
     /**
      * 合同金额
      */
     @TableField("htje")
     private Float htje;
     /**
-     * 回款情况
+     * 回款金额
      */
     @TableField("hkqk")
-    private String hkqk;
+    private Float hkqk;
     /**
      * 未回金额
      */
@@ -147,12 +146,23 @@ public class Project {
      */
     @TableField("zbjthqk")
     private String zbjthqk;
+    /**
+     * 质保金退还情况
+     */
+    @TableField(value = "zbjthsx", fill = FieldFill.INSERT_UPDATE)
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date zbjthsx;
 
     /**
      * 项目结项
      */
     @TableField("xmjx")
     private Integer xmjx;
+    /**
+     * 是否追加
+     */
+    @TableField("sfzj")
+    private Integer sfzj;
     /**
      * 录入人
      */

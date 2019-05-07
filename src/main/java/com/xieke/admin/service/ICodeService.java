@@ -1,6 +1,9 @@
 package com.xieke.admin.service;
 
 
+import com.xieke.admin.entity.Param;
+import com.xieke.admin.entity.Role;
+
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +17,5 @@ import java.util.Map;
  */
 public interface ICodeService {
 
-    List<Map<String, Object>> queryList(Map<String, Object> map);
-
-    int queryTotal(Map<String, Object> map);
-
-    byte[] generatorCode(String[] tableNames);
 
 }

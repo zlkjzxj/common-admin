@@ -1,6 +1,7 @@
 package com.xieke.admin.business.service;
 
 import com.baomidou.mybatisplus.service.IService;
+import com.xieke.admin.dto.ProjectCountInfo;
 import com.xieke.admin.dto.ProjectInfo;
 import com.xieke.admin.entity.Project;
 
@@ -22,6 +23,8 @@ public interface IProjectService extends IService<Project> {
     String getAddSequence(String year);
 
     Integer getProjectCount(ProjectInfo project);
+
+    List<ProjectCountInfo> getProjectCountByDepartment();
 
 //    Project findProject(String name);
 

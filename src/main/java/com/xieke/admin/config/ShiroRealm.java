@@ -7,13 +7,10 @@ import com.xieke.admin.service.ILoginLogService;
 import com.xieke.admin.service.IUserService;
 import com.xieke.admin.util.AddressUtils;
 import com.xieke.admin.util.Constant;
-import io.netty.handler.codec.base64.Base64Decoder;
-import io.netty.handler.codec.base64.Base64Encoder;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.codec.Base64;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -53,7 +50,9 @@ public class ShiroRealm extends AuthorizingRealm {
         return authorizationInfo;
     }
 
-    /*主要是用来进行身份认证的，也就是说验证用户输入的账号和密码是否正确*/
+    /**
+     * 主要是用来进行身份认证的，也就是说验证用户输入的账号和密码是否正确
+     */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 
