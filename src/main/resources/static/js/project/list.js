@@ -78,8 +78,8 @@ layui.config({
                 },
                 cols: [[
                     {type: "radio", fixed: "left"},
-                    {field: 'name', title: '项目名称', align: "left", width: 200},
-                    {field: 'number', title: '项目编号', width: 125, sort: true},
+                    {field: 'name', title: '项目名称', align: "left", width: 250},
+                    {field: 'number', title: '项目编号', width: 150, sort: true},
                     {field: 'bmmc', title: '部门', align: 'center', width: 120},
                     {field: 'userName', title: '项目经理', align: 'center', width: 120},
                     {field: 'lxsj', title: '立项时间', align: 'center', width: 120, sort: true},
@@ -177,30 +177,52 @@ layui.config({
                             }
                         }
                     },
-                    {field: 'htje', title: '合同金额', align: 'center'},
-                    {field: 'hkqk', title: '回款金额', align: 'center'},
-                    {field: 'whje', title: '未回金额', align: 'center'},
+                    {
+                        field: 'htje', title: '合同金额', align: 'right', width: 150, templet: function (d) {
+                            return formatNumber(d.htje);
+                        }
+                    },
+                    {
+                        field: 'hkqk', title: '回款金额', align: 'right', width: 150, templet: function (d) {
+                            return formatNumber(d.hkqk);
+                        }
+                    },
+                    {
+                        field: 'whje', title: '未回金额', align: 'right', width: 150, templet: function (d) {
+                            return formatNumber(d.whje);
+                        }
+                    },
                     {field: 'whsx', title: '未回时限', align: 'center', width: 120,},
                     {
                         field: 'hktz', title: '回款通知', align: 'center', templet: function (d) {
-                            if (d.hktz === 0) {
-                                return '<span class="layui-badge layui-bg-red">未下达</span>';
-                            } else {
+                            if (d.hktz === 1) {
                                 return '<span class="layui-badge layui-bg-green">已下达</span>';
+                            } else {
+                                return '<span class="layui-badge layui-bg-red">未下达</span>';
                             }
                         }
                     },
-                    {field: 'ml', title: '毛利', align: 'center'},
-                    {field: 'zbj', title: '质保金', align: 'center'},
-                    {field: 'zbjthqk', title: '质保金退还情况', width: 120, align: 'center'},
                     {
-                        field: 'zbjthsx', title: '质保金退换时限', width: 120, align: 'center', templet: function (d) {
-                            if (d.zbjthqk === 0) {
-                                return '<span class="layui-badge layui-bg-red">未退还</span>';
-                            } else {
+                        field: 'ml', title: '毛利', align: 'right', width: 150, templet: function (d) {
+                            return formatNumber(d.ml);
+                        }
+                    },
+                    {
+                        field: 'zbj', title: '质保金', align: 'right', width: 150, templet: function (d) {
+                            return formatNumber(d.zbj);
+                        }
+                    },
+                    {
+                        field: 'zbjthqk', title: '质保金退还情况', width: 150, align: 'center', templet: function (d) {
+                            if (d.zbjthqk === 1) {
                                 return '<span class="layui-badge layui-bg-green">已退还</span>';
+                            } else {
+                                return '<span class="layui-badge layui-bg-red">未退还</span>';
                             }
                         }
+                    },
+                    {
+                        field: 'zbjthsx', title: '质保金退换时限', width: 150, align: 'center'
                     },
                     {
                         field: 'xmjx', title: '项目结项', align: 'center', templet: function (d) {
@@ -274,7 +296,45 @@ layui.config({
 
         //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
         $(".search_btn").on("click", function () {
-            console.log($("#departVal").val(), $("#departmentSelect").val())
+            var htje = $("#htjeSearch").val();
+            var hkqk = $("#yhjeSearch").val();
+            console.log(htje)
+            if (htje !== '') {
+                if (htje.indexOf("-") > 0) {
+                    var a = htje.split("-")[0];
+                    var b = htje.split("-")[1];
+                    if (isNaN(a) || isNaN(b)) {
+                        console.log("xxx")
+                        layer.msg("合同金额输入有误")
+                        return;
+                    }
+                } else {
+                    if (isNaN(htje)) {
+                        console.log("vvv")
+                        layer.msg("合同金额输入有误")
+                        return;
+                    }
+
+                }
+
+            }
+            if (hkqk !== '') {
+                if (hkqk.indexOf("-") > 0) {
+                    var a = hkqk.split("-")[0];
+                    var b = hkqk.split("-")[1];
+                    if (isNaN(a) || isNaN(b)) {
+                        layer.msg("已回金额输入有误")
+                        return;
+                    }
+                } else {
+                    if (isNaN(hkqk)) {
+                        layer.msg("已回金额输入有误")
+                        return;
+                    }
+
+                }
+
+            }
             table.reload("projectList", {
                 page: {
                     curr: 1 //重新从第 1 页开始
@@ -292,7 +352,11 @@ layui.config({
                     htqd: $("#htqdSelect").val(),
                     yjcg: $("#yjcgSelect").val(),
                     sgqr: $("#sgqrSelect").val(),
-                    jcjd: $("#jcjdSelect").val()
+                    jcjd: $("#jcjdSelect").val(),
+                    hktz: $("#hktzSelect").val(),
+                    zbjthqk: $("#zbjthqkSelect").val(),
+                    htje: htje,
+                    hkqk: hkqk
                 }
             })
         });
@@ -354,10 +418,13 @@ layui.config({
                             body.find("#ml").val(data.ml === '0' ? '' : formatNumber(data.ml));
                             body.find("#zbj").val(data.zbj === '0' ? '' : formatNumber(data.zbj));
                             data.zbjthqk === 1 ? body.find(":radio[name='zbjthqk'][value=1]").prop("checked", true) : body.find(":radio[name='zbjthqk'][value=0]").prop("checked", true);
-
+                            body.find("#zbjthsx").val(data.zbjthsx);
+                            console.log(data.sfzj, data.sfzj === 1);
+                            console.log(data.xmjx, data.xmjx === 1);
                             data.sfzj === 1 ? body.find(":checkbox[name='sfzj']").prop("checked", true) : body.find(":checkbox[name='sfzj']").prop("checked", false);
+                            // data.sfzj === 1 ? body.find(":checkbox[name='sfzj']").prop("disabled", true) : body.find(":checkbox[name='sfzj']").prop("disabled", false);
                             data.xmjx === 1 ? body.find(":checkbox[name='xmjx']").prop("checked", true) : body.find(":checkbox[name='xmjx']").prop("checked", false);
-                            form.render('select');
+                            // data.xmjx === 1 ? body.find(":checkbox[name='xmjx']").prop("disabled", true) : body.find(":checkbox[name='xmjx']").prop("disabled", false);
                             //判断编辑人是不是录入人，如果是让他编辑项目这部分，且不能结项
                             if (userId == data.lrr) {
                                 console.log("我是录入人来修改了")
@@ -371,18 +438,24 @@ layui.config({
                                 body.find(":radio[name='zbjthqk']").prop("disabled", true);
                                 body.find("#zbjthsx").prop("disabled", true);
                                 if (permissionCodes.indexOf("project:xmgl") > 0) {//判断是否有项目管理权限
-                                    body.find(":checkbox[name='xmjx']").prop("disabled", false);
-                                    body.find(":checkbox[name='sfzj']").prop("disabled", false);
-                                    /* if (data.xmjx == 1) {
-                                         body.find(":checkbox[name='xmjx']").prop("checked", true);
-                                         body.find(":checkbox[name='sfzj']").prop("checked", true);
-                                     } else {
-                                         body.find(":checkbox[name='xmjx']").prop("checked", false);
-                                         body.find(":checkbox[name='sfzj']").prop("checked", false);
-                                     }*/
+
+                                    if (data.xmjx == 1) {//如果已经结项，那么结项按钮就不能点了
+                                        body.find(":checkbox[name='xmjx']").prop("disabled", true);
+                                    } else {
+                                        body.find(":checkbox[name='xmjx']").prop("disabled", false);
+                                    }
+                                    if (data.sfzj == 1) {//如果已经追加，那么追加按钮也就不能点了
+                                        body.find(":checkbox[name='sfzj']").prop("disabled", true);
+                                    } else {
+                                        body.find(":checkbox[name='sfzj']").prop("disabled", false);
+                                    }
+                                } else {
+                                    body.find(":checkbox[name='xmjx']").prop("disabled", true);
+                                    body.find(":checkbox[name='sfzj']").prop("disabled", true);
                                 }
 
                             } else {//不是录入人
+                                console.log("我不是录入人来修改")
                                 //判断是否有财务权限
                                 if (permissionCodes.indexOf("project:cw") > 0) {//判断是否有项目管理权限
                                     console.log("我是财务人员来修改")
@@ -402,7 +475,10 @@ layui.config({
                                     body.find("#yjcg").prop("disabled", true);
                                     body.find("#sgqr").prop("disabled", true);
                                     body.find("#jcjd").prop("disabled", true);
-                                } else {//其他人员啥都干不了
+                                    body.find(":checkbox[name='xmjx']").prop("disabled", true);
+                                    body.find(":checkbox[name='sfzj']").prop("disabled", true);
+
+                                } else {//是否项目管理员
                                     console.log("我是其他人员")
                                     body.find("#htje").prop("disabled", true);
                                     body.find("#hkqk").prop("disabled", true);
@@ -419,7 +495,7 @@ layui.config({
                                     body.find("#number").prop("disabled", true);
                                     body.find(":radio[name='sflx']").prop("disabled", true);
                                     body.find("#lxsj").prop("disabled", true);
-                                    body.find("#dTree").nextElementSibling.children.prop("disabled", true);
+                                    // body.find("#dTree").nextElementSibling.children.prop("disabled", true);
                                     body.find("#manager").prop("disabled", true);
                                     body.find("#rjkfjd").prop("disabled", true);
                                     body.find("#fawcqk").prop("disabled", true);
@@ -430,11 +506,29 @@ layui.config({
                                     body.find("#yjcg").prop("disabled", true);
                                     body.find("#sgqr").prop("disabled", true);
                                     body.find("#jcjd").prop("disabled", true);
+                                    body.find(":checkbox[name='xmjx']").prop("disabled", true);
+                                    body.find(":checkbox[name='sfzj']").prop("disabled", true);
 
+                                    if (permissionCodes.indexOf("project:xmgl") > 0) {//判断是否有项目管理权限
+                                        console.log("我不是录入人，我是管理员来修改")
+                                        if (data.xmjx == 1) {//如果已经结项，那么结项按钮就不能点了
+                                            body.find(":checkbox[name='xmjx']").prop("disabled", true);
+                                        } else {
+                                            body.find(":checkbox[name='xmjx']").prop("disabled", false);
+                                        }
+                                        if (data.sfzj == 1) {//如果已经追加，那么追加按钮也就不能点了
+                                            body.find(":checkbox[name='sfzj']").prop("disabled", true);
+                                        } else {
+                                            body.find(":checkbox[name='sfzj']").prop("disabled", false);
+                                        }
+                                    }
                                 }
                             }
+                            form.render('select');
+                            form.render('checkbox');
                             form.render();
-                        } else {//添加项目的人员
+                        }
+                        else {//添加项目的人员
                             console.log("我过来添加了")
                             body.find("#number1").val(data);
                             body.find("#htje").prop("disabled", true);
@@ -465,9 +559,13 @@ layui.config({
         }
 
         function formatNumber(value) {
-            if (/^[0-9]+(\.[0-9]{2})?$/.test(value) && value.indexOf(",") < 0) {
-                value = parseFloat(value).toFixed(2);
-                value = value.replace(/\d{1,3}(?=(\d{3})+(\.\d*)?$)/g, '$&,');
+            if (value != null) {
+                if (/^[0-9]+(\.[0-9]{2})?$/.test(value) && value.indexOf(",") < 0) {
+                    value = parseFloat(value).toFixed(2);
+                    value = value.replace(/\d{1,3}(?=(\d{3})+(\.\d*)?$)/g, '$&,');
+                }
+            } else {
+                return '';
             }
             return value;
         }
@@ -690,7 +788,7 @@ layui.config({
             vals += "<td align='center'>施工队确认</td>";
             vals += "<td align='center'>集成工作进度</td>";
             vals += "<td align='center'>软件开发工作进度</td>";
-            vals += "<td colspan='8' align='center'>回款进度</td>";
+            vals += "<td colspan='9' align='center'>回款进度</td>";
             vals += "<td align='center'>项目结项</td>";
             vals += "</tr>";
 
@@ -713,6 +811,7 @@ layui.config({
             vals += "<td align='center'>毛利</td>";
             vals += "<td align='center'>质保金</td>";
             vals += "<td align='center'>质保金退还情况</td>";
+            vals += "<td align='center'>质保金退还时限</td>";
             vals += "<td align='center'>是■  否□</td>";
             vals += "</tr>";
             data.forEach(function (item, index) {
@@ -738,16 +837,15 @@ layui.config({
                 vals += "<td align='center'>" + (item.hkqk != null ? item.hkqk : '') + "</td>";
                 vals += "<td align='center'>" + (item.whje != null ? item.whje : '') + "</td>";
                 vals += "<td align='center'>" + (item.whsx != null ? item.whsx.substr(0, 9) : '') + "</td>";
-                vals += "<td align='center'>" + (item.hktz != null ? item.hktz : '') + "</td>";
+                vals += "<td align='center'>" + (item.hktz == 1 ? '已下达' : '未下达') + "</td>";
                 vals += "<td align='center'>" + (item.ml != null ? item.ml : '') + "</td>";
                 vals += "<td align='center'>" + (item.zbj != null ? item.zbj : '') + "</td>";
-                vals += "<td align='center'>" + (item.zbjthqk != null ? item.zbjthqk : '') + "</td>";
+                vals += "<td align='center'>" + (item.zbjthqk == 1 ? '已退还' : '未退还') + "</td>";
+                vals += "<td align='center'>" + (item.zbjthsx != null ? item.zbjthsx : '') + "</td>";
                 vals += "<td align='center'>" + (item.xmjx == 1 ? '是' : '否') + "</td>";
                 vals += ("</tr>");
             })
             vals += "</table>"
-            console.log("vals", vals);
-            console.log(getExplorer());
             if (getExplorer() == 'ie') {
                 exportForIe(vals);
             } else {

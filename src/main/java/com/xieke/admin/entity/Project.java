@@ -128,7 +128,7 @@ public class Project {
      * 回款通知
      */
     @TableField("hktz")
-    private String hktz;
+    private Integer hktz;
 
     /**
      * 毛利
@@ -145,7 +145,7 @@ public class Project {
      * 质保金退还情况
      */
     @TableField("zbjthqk")
-    private String zbjthqk;
+    private Integer zbjthqk;
     /**
      * 质保金退还情况
      */

@@ -26,7 +26,62 @@
                     </otherwise>
                 </choose>
             </if>
-
+            <if test="rjkfjd!=null and rjkfjd != '' or rjkfjd==0">
+                and rjkfjd = #{rjkfjd}
+            </if>
+            <if test="fawcqk!=null and fawcqk != '' or fawcqk==0">
+                and fawcqk = #{fawcqk}
+            </if>
+            <if test="cpxxwcqk!=null and cpxxwcqk != '' or cpxxwcqk==0">
+                and cpxxwcqk = #{cpxxwcqk}
+            </if>
+            <if test="zbzzwcqk!=null and zbzzwcqk != '' or zbzzwcqk==0">
+                and zbzzwcqk = #{zbzzwcqk}
+            </if>
+            <if test="yzjhbqd!=null and yzjhbqd != '' or yzjhbqd==0">
+                and yzjhbqd = #{yzjhbqd}
+            </if>
+            <if test="htqd!=null and htqd != '' or htqd==0">
+                and htqd = #{htqd}
+            </if>
+            <if test="yjcg!=null and yjcg != '' or yjcg==0">
+                and yjcg = #{yjcg}
+            </if>
+            <if test="sgqr!=null and sgqr != '' or sgqr==0">
+                and sgqr = #{sgqr}
+            </if>
+            <if test="jcjd!=null and jcjd != '' or jcjd==0">
+                and jcjd = #{jcjd}
+            </if>
+            <if test="sflx!=null and sflx != '' or sflx==0">
+                and sflx = #{sflx}
+            </if>
+            <if test="hktz!=null and hktz != '' or hktz==0">
+                and hktz = #{hktz}
+            </if>
+            <if test="zbjthqk!=null and zbjthqk != '' or zbjthqk==0">
+                and zbjthqk = #{zbjthqk}
+            </if>
+            <if test="htje1!=null and htje1!=''">
+                <choose>
+                    <when test="htje2!=null and htje2!=''">
+                        and (htje BETWEEN #{htje1} AND #{htje2})
+                    </when>
+                    <otherwise>
+                        and htje = #{htje1}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="yhje1!=null and yhje1!=''">
+                <choose>
+                    <when test="yhje2!=null and yhje2!=''">
+                        and (hkqk BETWEEN #{yhje1} AND #{yhje2})
+                    </when>
+                    <otherwise>
+                        and hkqk = #{yhje1}
+                    </otherwise>
+                </choose>
+            </if>
         </where>
 
     </select>
@@ -99,9 +154,26 @@
             <if test="zbjthqk!=null and zbjthqk != '' or zbjthqk==0">
                 and zbjthqk = #{zbjthqk}
             </if>
-            <!--<if test="hkjeSearchVal !=null and hkjeSearchVal!='' ">-->
-                <!--and htje = 100000 OR (htje BETWEEN 700000 AND 1000000)-->
-            <!--</if>-->
+            <if test="htje1!=null and htje1!=''">
+                <choose>
+                    <when test="htje2!=null and htje2!=''">
+                        and (htje BETWEEN #{htje1} AND #{htje2})
+                    </when>
+                    <otherwise>
+                        and htje = #{htje1}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="yhje1!=null and yhje1!=''">
+                <choose>
+                    <when test="yhje2!=null and yhje2!=''">
+                        and (hkqk BETWEEN #{yhje1} AND #{yhje2})
+                    </when>
+                    <otherwise>
+                        and hkqk = #{yhje1}
+                    </otherwise>
+                </choose>
+            </if>
         </where>
         <choose>
             <when test="field!=null and field !=''">
@@ -140,6 +212,7 @@
             p.ml,
             p.zbj,
             p.zbjthqk,
+            p.zbjthsx,
             p.xmjx,
             p.lrr,
             p.xgr,

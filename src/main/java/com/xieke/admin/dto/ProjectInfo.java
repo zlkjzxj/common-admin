@@ -37,12 +37,12 @@ public class ProjectInfo {
     private String whje;
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date whsx;
-    private String hktz;
+    private Integer hktz;
     private String ml;
     private String zbj;
-    private String zbjthqk;
+    private Integer zbjthqk;
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private String zbjthsx;
+    private Date zbjthsx;
     private Integer xmjx;
     private Integer sfzj;
     private Integer lrr;
@@ -71,5 +71,10 @@ public class ProjectInfo {
     private String fuzzySearchVal;
     //是否查询所有
     private boolean viewall;
+
+    private Double htje1;
+    private Double htje2;
+    private Double yhje1;
+    private Double yhje2;
 
 }

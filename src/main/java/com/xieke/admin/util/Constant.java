@@ -47,7 +47,7 @@ public class Constant {
      * 追加标记
      */
 
-    public static String ZJBJ = "1";
+    public static Integer ZJBJ = 1;
 
     /**
      * base64图片开头

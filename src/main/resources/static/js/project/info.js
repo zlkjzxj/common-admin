@@ -142,7 +142,6 @@ layui.config({
     form.on("submit(addProject)", function (data) {
         //弹出loading
         // var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
-        console.log(data);
         if ($("#id").val() === "") {
             var field = Object.assign(data.field, {
                 'number': data.field.year + data.field.number + data.field.number1,

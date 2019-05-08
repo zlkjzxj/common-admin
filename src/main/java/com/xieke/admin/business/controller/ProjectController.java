@@ -12,11 +12,14 @@ import com.xieke.admin.entity.Permission;
 import com.xieke.admin.entity.Project;
 import com.xieke.admin.entity.User;
 import com.xieke.admin.service.IDepartmentService;
+import com.xieke.admin.util.StringUtils;
 import com.xieke.admin.web.BaseController;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,6 +64,26 @@ public class ProjectController extends BaseController {
 //    @RequiresPermissions("project:view")
     public @ResponseBody
     ResultInfo<List<ProjectInfo>> listData(ProjectInfo project, Integer page, Integer limit) {
+        //先转义合同金额和回款金额
+        String splitChar = "-";
+        String htje = project.getHtje();
+        if (!StringUtils.isEmpty(htje)) {
+            if (project.getHtje().indexOf(splitChar) > 0) {
+                project.setHtje1(Double.parseDouble(htje.split("-")[0]));
+                project.setHtje2(Double.parseDouble(htje.split("-")[1]));
+            } else {
+                project.setHtje1(Double.parseDouble(htje));
+            }
+        }
+        String htqk = project.getHkqk();
+        if (!StringUtils.isEmpty(htqk)) {
+            if (project.getHkqk().indexOf(splitChar) > 0) {
+                project.setYhje1(Double.parseDouble(htqk.split("-")[0]));
+                project.setYhje2(Double.parseDouble(htqk.split("-")[1]));
+            } else {
+                project.setYhje1(Double.parseDouble(htqk));
+            }
+        }
 
         UserInfo userInfo = this.getUserInfo();
         //根据要用户权限查询是包含查询所有项目
@@ -168,6 +191,7 @@ public class ProjectController extends BaseController {
     @SysLog("修改项目")
     @RequestMapping("/edit")
     @RequiresPermissions("project:edit")
+    @Transactional
     public @ResponseBody
     ResultInfo<Boolean> update(Project project) {
 
@@ -180,26 +204,32 @@ public class ProjectController extends BaseController {
             Integer userId = user.getId();
             //判断是否追加，如果追加则新生成一个项目
             if (ZJBJ.equals(project.getSfzj())) {
-                Project zjProject = new Project();
-                zjProject.setName(project.getName());
-                zjProject.setNumber(project.getNumber() + "-1");
-                zjProject.setSfzj(project.getSfzj());
-                zjProject.setSflx(project.getSflx());
-                zjProject.setLxsj(project.getLxsj());
-                zjProject.setDepartment(project.getDepartment());
-                zjProject.setManager(project.getManager());
-                zjProject.setRjkfjd(project.getRjkfjd());
-                zjProject.setFawcqk(project.getFawcqk());
-                zjProject.setCpxxwcqk(project.getCpxxwcqk());
-                zjProject.setZbzzwcqk(project.getZbzzwcqk());
-                zjProject.setYzjhbqd(project.getYzjhbqd());
-                zjProject.setHtqd(project.getHtqd());
-                zjProject.setYjcg(project.getYjcg());
-                zjProject.setSgqr(project.getSgqr());
-                zjProject.setJcjd(project.getJcjd());
-                zjProject.setLrr(user.getId());
-                boolean b = iProjectService.insert(zjProject);
-                return new ResultInfo<>("0", "追加成功", b);
+                EntityWrapper<Project> wrapper = new EntityWrapper<>();
+                wrapper.eq("number", project.getNumber() + "-1");
+                Project oldZjProject = iProjectService.selectOne(wrapper);
+                if (oldZjProject == null) {
+                    Project zjProject = new Project();
+                    zjProject.setName(project.getName());
+                    zjProject.setNumber(project.getNumber() + "-1");
+                    zjProject.setSfzj(project.getSfzj());
+                    zjProject.setSflx(project.getSflx());
+                    zjProject.setLxsj(project.getLxsj());
+                    zjProject.setDepartment(project.getDepartment());
+                    zjProject.setManager(project.getManager());
+                    zjProject.setRjkfjd(project.getRjkfjd());
+                    zjProject.setFawcqk(project.getFawcqk());
+                    zjProject.setCpxxwcqk(project.getCpxxwcqk());
+                    zjProject.setZbzzwcqk(project.getZbzzwcqk());
+                    zjProject.setYzjhbqd(project.getYzjhbqd());
+                    zjProject.setHtqd(project.getHtqd());
+                    zjProject.setYjcg(project.getYjcg());
+                    zjProject.setSgqr(project.getSgqr());
+                    zjProject.setJcjd(project.getJcjd());
+                    zjProject.setLrr(user.getId());
+                    iProjectService.updateById(project);
+                    boolean b = iProjectService.insert(zjProject);
+                    return new ResultInfo<>("0", "追加成功", b);
+                }
             }
 
             //判断录入人是否一致

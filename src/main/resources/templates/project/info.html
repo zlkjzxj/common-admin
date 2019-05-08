@@ -326,8 +326,12 @@
         console.log(htje)
         if (htje != '') {
             htje = parseFloat(htje.replace(/[^\d\.-]/g, ""));
+            console.log(htje)
+            value = parseFloat(value.replace(/[^\d\.-]/g, ""));
             var whje = parseFloat(htje - value).toFixed(2);
+            console.log(whje)
             whje = whje.replace(/\d{1,3}(?=(\d{3})+(\.\d*)?$)/g, '$&,');
+            console.log(whje)
             document.getElementById("whje").value = whje;
         }
 

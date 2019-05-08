@@ -46,6 +46,13 @@
                 </select>
             </div>
             <div class="layui-input-inline">
+                <select class="state" id="sflxSelect" lay-search="" lay-filter="sflx">
+                    <option value="">是否立项</option>
+                    <option value="0">否</option>
+                    <option value="1">是</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
                 <select class="state" id="rjkfjdSelect">
                     <option value="">软件开发进度</option>
                     <option value="0">未开始</option>
@@ -119,19 +126,12 @@
                 </select>
             </div>
             <div class="layui-input-inline">
-                <select class="state" id="sflxSelect" lay-search="">
-                    <option value="">是否立项</option>
-                    <option value="0">否</option>
-                    <option value="1">是</option>
-                </select>
+                <input type="text" name="htjeSearch" id="htjeSearch" class="layui-input htjesearchVal" style="width: 300px;"
+                       placeholder="合同金额：100000|100000-200000"/>
             </div>
             <div class="layui-input-inline">
-                <input type="text" class="layui-input htjesearchVal" style="width: 300px;"
-                       placeholder="回款金额：输入单个数字或数字区间"/>
-            </div>
-            <div class="layui-input-inline">
-                <input type="text" class="layui-input hkjesearchVal" style="width: 300px;"
-                       placeholder="已回金额：输入单个数字或数字区间"/>
+                <input type="text" name="yhjeSearch" id="yhjeSearch" class="layui-input hkjesearchVal" style="width: 300px;"
+                       placeholder="已回金额：100000|100000-200000"/>
             </div>
             <div class="layui-input-inline">
                 <select class="state" id="hktzSelect">
