@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,9 +66,7 @@ public class ApplicationRunner implements CommandLineRunner {
         }
         //把需要翻译的参数打成js文件
         String path = ClassUtils.getDefaultClassLoader().getResource("").getPath();
-        String codePath = path + "static/js/";
-        System.out.println(codePath);
-        TranslateUtils.putCodeFile(codePath, CODE_JS_NAME, codeMap, paramMap);
+        TranslateUtils.putCodeFile(path, CODE_JS_NAME, codeMap, paramMap);
     }
 
 }

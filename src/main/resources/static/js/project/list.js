@@ -419,8 +419,6 @@ layui.config({
                             body.find("#zbj").val(data.zbj === '0' ? '' : formatNumber(data.zbj));
                             data.zbjthqk === 1 ? body.find(":radio[name='zbjthqk'][value=1]").prop("checked", true) : body.find(":radio[name='zbjthqk'][value=0]").prop("checked", true);
                             body.find("#zbjthsx").val(data.zbjthsx);
-                            console.log(data.sfzj, data.sfzj === 1);
-                            console.log(data.xmjx, data.xmjx === 1);
                             data.sfzj === 1 ? body.find(":checkbox[name='sfzj']").prop("checked", true) : body.find(":checkbox[name='sfzj']").prop("checked", false);
                             // data.sfzj === 1 ? body.find(":checkbox[name='sfzj']").prop("disabled", true) : body.find(":checkbox[name='sfzj']").prop("disabled", false);
                             data.xmjx === 1 ? body.find(":checkbox[name='xmjx']").prop("checked", true) : body.find(":checkbox[name='xmjx']").prop("checked", false);
