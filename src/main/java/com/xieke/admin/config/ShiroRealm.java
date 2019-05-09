@@ -22,6 +22,9 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author Administrator
+ */
 public class ShiroRealm extends AuthorizingRealm {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -86,10 +89,12 @@ public class ShiroRealm extends AuthorizingRealm {
         session.setAttribute("permissionCodes", list);
 
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                userInfo, //用户信息
-                userInfo.getPassWord(), //密码
-                ByteSource.Util.bytes(userInfo.getCredentialsSalt()),//salt=username+salt
-                getName()  //realm name
+                userInfo,
+                userInfo.getPassWord(),
+                //salt=username+salt
+                ByteSource.Util.bytes(userInfo.getCredentialsSalt()),
+                //realm name
+                getName()
         );
 
         return authenticationInfo;

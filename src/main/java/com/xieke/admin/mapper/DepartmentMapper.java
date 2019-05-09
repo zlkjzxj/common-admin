@@ -5,6 +5,8 @@ import com.xieke.admin.dto.UserInfo;
 import com.xieke.admin.entity.Department;
 import com.xieke.admin.entity.User;
 
+import java.util.List;
+
 /**
  * <p>
  * 系统用户表 Mapper 接口
@@ -15,5 +17,5 @@ import com.xieke.admin.entity.User;
  */
 public interface DepartmentMapper extends BaseMapper<Department> {
 
-
+    List<Department> findDepartmentHasNOChildren();
 }

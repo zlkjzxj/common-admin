@@ -28,7 +28,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.xieke.admin.util.Constant.ZJBJ;
 
@@ -256,11 +258,20 @@ public class ProjectController extends BaseController {
         return new ResultInfo<>(b);
     }
 
+    /**
+     * 前台图表统计
+     *
+     * @return
+     */
     @RequestMapping("/getProjectCountByDepartment")
     public @ResponseBody
-    ResultInfo<List<ProjectCountInfo>> getProjectCountByDepartment() {
+    ResultInfo<Map<String, List>> getProjectCountByDepartment() {
+        List<Department> departmentList = iDepartmentService.findDepartmentHasNOChildren();
         List<ProjectCountInfo> projectCountInfoList = iProjectService.getProjectCountByDepartment();
-        return new ResultInfo<>(projectCountInfoList);
+        Map<String, List> map = new HashMap<>(2);
+        map.put("departments", departmentList);
+        map.put("projects", projectCountInfoList);
+        return new ResultInfo<>(map);
     }
 
     @InitBinder

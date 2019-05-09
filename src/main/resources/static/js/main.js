@@ -65,11 +65,6 @@ layui.use(['form', 'element', 'layer', 'jquery', 'layim'], function () {
         layer.msg("你很赞！");
     })
 
-    //生成图表
-    $.get("/project/getProjectCountByDepartment", function (res) {
-        console.log(res.data);
-    })
-
     //外部图标
     // $.get(iconUrl, function (data) {
     //     $(".outIcons span").text(data.split(".icon-").length - 1);

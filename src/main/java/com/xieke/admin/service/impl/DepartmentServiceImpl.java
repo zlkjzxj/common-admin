@@ -40,6 +40,11 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         return ids;
     }
 
+    @Override
+    public List<Department> findDepartmentHasNOChildren() {
+        return departmentMapper.findDepartmentHasNOChildren();
+    }
+
     public void getChilds(List<Department> list, List<Integer> ids) {
         if (!list.isEmpty()) {
             for (Department d : list) {

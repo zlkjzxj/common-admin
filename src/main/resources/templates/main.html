@@ -38,7 +38,7 @@
     </div>
     <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">
         <!--<a href="javascript:;" data-url="/dept/list.html">-->
-        <a href="javascript:;" >
+        <a href="javascript:;">
             <div class="panel_icon layui-bg-red">
                 <i class="layui-anim layui-icon">&#xe613;</i>
             </div>
@@ -51,7 +51,7 @@
     </div>
     <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">
         <!--<a href="javascript:;" data-url="/user/list.html">-->
-        <a href="javascript:;" >
+        <a href="javascript:;">
             <div class="panel_icon layui-bg-orange">
                 <i class="layui-anim layui-icon">&#xe66f;</i>
             </div>
@@ -80,55 +80,193 @@
         <div id="main" style="width: 600px;height:400px;"></div>
     </div>
     <div class="panel  layui-col-sm6  ">
-        <div id="main1" style="width: 600px;height:400px;"></div>
+        <div id="main1" style="width: 700px;height:400px;"></div>
     </div>
 </div>
 <script type="text/javascript" src="/static/layui/layui.js"></script>
 <script type="text/javascript" src="/static/js/main.js"></script>
 <script type="text/javascript" src="/static/chart/echarts.min.js"></script>
+<script type="text/javascript" src="/static/jointjs/jquery-3.3.1.js"></script>
+
 <script>
     var myChart = echarts.init(document.getElementById('main'));
     var myChart1 = echarts.init(document.getElementById('main1'));
-    option = {
-        title: {
-            text: '部门项目分布图',
-            // subtext: '纯属虚构',
-            x: 'center'
-        },
-        tooltip: {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        legend: {
-            // orient: 'vertical',
-            // left: 'left',
-            top: 40,
-            data: ['软件部', '系统集成部', '客服部', '总经办', '大宽物联', "产品行销部"]
-        },
-        series: [
-            {
-                name: '部门项目占比',
-                type: 'pie',
-                radius: '55%',
-                center: ['50%', '60%'],
-                data: [
-                    {value: 5, name: '软件部'},
-                    {value: 2, name: '系统集成部'},
-                    {value: 3, name: '客服部'},
-                    {value: 4, name: '总经办'},
-                    {value: 0, name: '大宽物联'},
-                    {value: 1, name: '产品行销部'}
-                ],
-                itemStyle: {
-                    emphasis: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+    $.ajax({
+        url: 'project/getProjectCountByDepartment',
+        method: 'get',
+        success: function (data) {
+            var option = makeOption(data.data);
+            myChart.setOption(option.option);
+            myChart1.setOption(option.option2);
+        }
+    })
+
+    function makeOption(data) {
+        var bmmcs = [], values = [];
+        var departments = data.departments;
+        var projects = data.projects;
+        if (departments) {
+            departments.forEach(function (ele) {
+                bmmcs.push(ele['bmmc']);
+            })
+        }
+        if (projects) {
+            projects.forEach(function (ele) {
+                values.push({name: ele.bmmc, value: ele.count});
+            })
+        }
+
+        var option = {
+            title: {
+                text: '部门项目分布图',
+                // subtext: '纯属虚构',
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                // orient: 'vertical',
+                // left: 'left',
+                top: 40,
+                data: bmmcs
+            },
+            series: [
+                {
+                    name: '部门项目占比',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: values,
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
                     }
                 }
-            }
-        ]
-    };
+            ]
+        };
+        var option2 = {
+            // backgroundColor: "#eee",
+            title: {
+                text: '部门项目完成比例',
+                subtext: '此图数据为虚构数据',
+                x: 'center'
+            },
+            tooltip: {},
+            grid: {
+                top: '15%',
+                left: '1%',
+                right: '1%',
+                bottom: '8%',
+                containLabel: true,
+            },
+            xAxis: [{
+                type: 'category',
+                boundaryGap: true,
+                axisLine: { //坐标轴轴线相关设置。数学上的x轴
+                    show: true,
+                    // lineStyle: {
+                    //     color: '#f9f9f9'
+                    // },
+                },
+                axisLabel: { //坐标轴刻度标签的相关设置
+                    rotate: 20,
+                    // textStyle: {
+                    //     margin: 15
+                    // },
+                },
+                axisTick: {
+                    show: false,
+                },
+                data: bmmcs,
+            }],
+            yAxis: [{
+                type: 'value',
+                min: 0,
+                // max: 140,
+                splitNumber: 7,
+                splitLine: {
+                    show: true,
+                    lineStyle: {
+                        color: '#59c7ff',
+                        type: 'dashed'
+                    }
+                },
+                axisLine: {
+                    show: true,
+                },
+                axisLabel: {
+                    margin: 20,
+                    // textStyle: {
+                    //     color: '#d1e6eb',
+                    //
+                    // },
+                },
+                axisTick: {
+                    show: false,
+                },
+            }],
+            series: [{
+                name: '总数量',
+                type: 'line',
+                // smooth: true, //是否平滑曲线显示
+                // 			symbol:'circle',  // 默认是空心圆（中间是白色的），改成实心圆
+                showAllSymbol: true,
+                symbol: 'emptyCircle',
+                symbolSize: 6,
+                lineStyle: {
+                    normal: {
+                        color: "#28ffb3", // 线条颜色
+                    },
+                    borderColor: '#f0f'
+                },
+                label: {
+                    show: true,
+                    position: 'top',
+                    textStyle: {
+                        color: '#fff',
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: "#28ffb3",
+
+                    }
+                },
+                data: [10, 9, 8, 7, 6, 5, 4, 2, 2]
+            }, {
+                name: '已完成',
+                type: 'bar',
+                barWidth: 20,
+                tooltip: {
+                    show: true
+                },
+                label: {
+                    show: true,
+                    position: 'top',
+                    textStyle: {
+                        color: '#fff',
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: '#0ec1ff'
+                        /*color: function (params) {
+                            var colorList = ['#0ec1ff', '#10cdff', '#12daff', '#15ebff', '#17f8ff', '#1cfffb'];
+                            return colorList[params.dataIndex];
+                        }*/
+                    }
+                },
+                data: [1, 2, 3, 5, 3, 2, 1, 0, 1]
+            }]
+        };
+        return {option: option, option2: option2};
+    }
+
 
     option1 = {
         tooltip: {
@@ -171,151 +309,7 @@
 
         ]
     };
-    option2 = {
-        // backgroundColor: "#eee",
-        title: {
-            text: '部门项目完成比例',
-            // subtext: '纯属虚构',
-            x: 'center'
-        },
-        tooltip: {},
-        grid: {
-            top: '8%',
-            left: '1%',
-            right: '1%',
-            bottom: '8%',
-            containLabel: true,
-        },
-        legend: {
-            itemGap: 50,
-            data: ['注册总量', '最新注册量'],
-            textStyle: {
-                color: '#f9f9f9',
-                borderColor: '#fff'
-            },
-        },
-        xAxis: [{
-            type: 'category',
-            boundaryGap: true,
-            axisLine: { //坐标轴轴线相关设置。数学上的x轴
-                show: true,
-                // lineStyle: {
-                //     color: '#f9f9f9'
-                // },
-            },
-            axisLabel: { //坐标轴刻度标签的相关设置
-                textStyle: {
-                    // color: '#d1e6eb',
-                    margin: 15,
-                },
-            },
-            axisTick: {
-                show: false,
-            },
-            data: ['软件部', '系统集成部', '客服部', '总经办', '大宽物联', "产品行销部"],
-        }],
-        yAxis: [{
-            type: 'value',
-            min: 0,
-            // max: 140,
-            splitNumber: 7,
-            splitLine: {
-                show: true,
-                lineStyle: {
-                    color: '#59c7ff',
-                    type: 'dashed'
-                }
-            },
-            axisLine: {
-                show: true,
-            },
-            axisLabel: {
-                margin: 20,
-                // textStyle: {
-                //     color: '#d1e6eb',
-                //
-                // },
-            },
-            axisTick: {
-                show: false,
-            },
-        }],
-        series: [{
-            name: '总数量',
-            type: 'line',
-            // smooth: true, //是否平滑曲线显示
-            // 			symbol:'circle',  // 默认是空心圆（中间是白色的），改成实心圆
-            showAllSymbol: true,
-            symbol: 'emptyCircle',
-            symbolSize: 6,
-            lineStyle: {
-                normal: {
-                    color: "#28ffb3", // 线条颜色
-                },
-                borderColor: '#f0f'
-            },
-            label: {
-                show: true,
-                position: 'top',
-                textStyle: {
-                    color: '#fff',
-                }
-            },
-            itemStyle: {
-                normal: {
-                    color: "#28ffb3",
 
-                }
-            },
-            // tooltip: {
-            //     show: false
-            // },
-            // areaStyle: { //区域填充样式
-            //     normal: {
-            //         //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
-            //         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-            //             offset: 0,
-            //             color: 'rgba(0,154,120,1)'
-            //         },
-            //             {
-            //                 offset: 1,
-            //                 color: 'rgba(0,0,0, 0)'
-            //             }
-            //         ], false),
-            //         shadowColor: 'rgba(53,142,215, 0.9)', //阴影颜色
-            //         shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
-            //     }
-            // },
-            data: [10, 5, 6, 7, 4, 2]
-        }, {
-            name: '已完成',
-            type: 'bar',
-            barWidth: 20,
-            tooltip: {
-                show: true
-            },
-            label: {
-                show: true,
-                position: 'top',
-                textStyle: {
-                    color: '#fff',
-                }
-            },
-            itemStyle: {
-                normal: {
-                    color: '#0ec1ff'
-                    /*color: function (params) {
-                        var colorList = ['#0ec1ff', '#10cdff', '#12daff', '#15ebff', '#17f8ff', '#1cfffb'];
-                        return colorList[params.dataIndex];
-                    }*/
-                }
-            },
-            data: [1, 2, 3, 5, 3, 2, 1]
-        }]
-    };
-
-    myChart.setOption(option);
-    myChart1.setOption(option2);
 </script>
 </body>
 </html>

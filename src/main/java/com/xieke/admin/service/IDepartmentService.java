@@ -18,4 +18,6 @@ import java.util.List;
 public interface IDepartmentService extends IService<Department> {
 
     List<Integer> getAllChildrenDepartment(int id);
+
+    List<Department> findDepartmentHasNOChildren();
 }
