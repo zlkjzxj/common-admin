@@ -27,7 +27,7 @@ import static com.xieke.admin.util.Constant.CODE_JS_NAME;
  * @Author sunny
  * @Date 2019-04-29 14:48
  */
-@Component
+//@Component
 public class ApplicationRunner implements CommandLineRunner {
     @Resource
     private ParamMapper paramMapper;
@@ -37,7 +37,7 @@ public class ApplicationRunner implements CommandLineRunner {
     @Override
 
     public void run(String... args) {
-        //加载翻译参数
+        /*//加载翻译参数
         Param param = new Param();
         param.setCode("init_code");
         Param param1 = paramMapper.selectOne(param);
@@ -66,7 +66,8 @@ public class ApplicationRunner implements CommandLineRunner {
         }
         //把需要翻译的参数打成js文件
         String path = ClassUtils.getDefaultClassLoader().getResource("").getPath();
-        TranslateUtils.putCodeFile(path, CODE_JS_NAME, codeMap, paramMap);
+        TranslateUtils.putCodeFile(path, CODE_JS_NAME, codeMap, paramMap);*/
     }
+
 
 }

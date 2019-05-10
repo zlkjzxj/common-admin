@@ -48,7 +48,10 @@ layui.use(['form', 'element', 'layer', 'jquery', 'layim'], function () {
     $(".panel a").click(function () {
         parent.addTab($(this));
     })
-
+    //记载翻译code，param
+    $.get("/param/getInitParam", function (res) {
+        sessionStorage.setItem("initParam", JSON.stringify(res.data));
+    })
     //部门数量
     $.get("/dept/count", function (res) {
         $("#totalDep").text(res.data);

@@ -16,17 +16,6 @@ import java.util.Map;
 public class TranslateUtils {
     public static void putCodeFile(String filePath, String fileName, Map<String, List<Code>> codeMap, Map<String, String> paramMap) {
         try {
-            System.out.println("filePath" + filePath);
-            System.out.println(filePath.indexOf("!"));
-            filePath = filePath.replace("!", "");
-            System.out.println("filePath" + filePath);
-            File file1 = new File(filePath);
-            File[] files = file1.listFiles();
-            System.out.println(files.length);
-            for (File f : files) {
-                System.out.println(f.getName());
-            }
-
             String url = filePath + "static/js/" + fileName;
             System.out.println("url:" + url);
             File file = new File(url);
